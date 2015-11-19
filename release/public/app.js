@@ -15,21 +15,6 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -212,6 +197,21 @@ app.factory('State', function ($rootScope) {
         getTitle: getTitle
     };
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 'use strict';
 
 app.directive('alert', function (Alert) {
@@ -379,7 +379,7 @@ app.directive('latestPreviewItem', function (State) {
     };
 });
 
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {
@@ -390,7 +390,7 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
     init();
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {

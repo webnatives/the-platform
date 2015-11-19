@@ -28,6 +28,16 @@ input, select, textarea {
 * {
   outline: none; }
 
+a {
+  color: #be3234; }
+
+hr {
+  margin: 10px 0;
+  padding: 0;
+  height: 3px;
+  background: #f7f7f7;
+  border: none; }
+
 .box {
   background: white;
   padding: 20px;
@@ -107,17 +117,17 @@ p {
   line-height: 1.4;
   font-size: 12px;
   line-height: 1.6; }
-  .article-content p {
+  .article-content p, p.article-content {
     font-size: 16px;
     line-height: 2;
     margin-bottom: 30px;
     color: black;
     font-weight: 400; }
-    .article-content p em, .article-content p strong, .article-content p a {
+    .article-content p em, .article-content p strong, .article-content p a, p.article-content em, p.article-content strong, p.article-content a {
       letter-spacing: 0.5px;
       font-weight: bold;
       color: #999; }
-    .article-content p a {
+    .article-content p a, p.article-content a {
       color: #be3234; }
 
 .fa {
