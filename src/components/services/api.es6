@@ -1,0 +1,45 @@
+'use strict';
+
+app.factory('API', function ($rootScope, $http) {
+
+    var API_URL = "/api/";
+
+    var login = (object) => {
+        return $http.get(API_URL + "login/", {
+            params: object,
+            headers: {'Cache-Control': 'no-cache'}
+        }).then((response) => response.data);
+    };
+
+    var getCollections = () => {
+        return $http.get(`${API_URL}`, {headers: {'Cache-Control': 'no-cache'}}).then((response) => _.drop(response.data));
+    };
+
+    var getCollection = (collection) => {
+        return $http.get(`${API_URL}${collection}`, {headers: { 'Cache-Control' : 'no-cache' } }).then((response) => response.data);
+    };
+
+    var getDocument = (collection, data) => {
+        return $http.get(`${API_URL}${collection}`, {params: data, headers: { 'Cache-Control' : 'no-cache' } }).then((response) => {
+            console.log(response.data[0]);
+            return response.data[0];
+        });
+    };
+
+    var insertDocument = (collection, data) => {
+        return $http.post(`${API_URL}${collection}`, data).then((response) => response.data);
+    };
+
+    var updateDocument = (collection, id, data) => {
+        return $http.put(`${API_URL}${collection}/_id/${id}`, data).then((response) => response.data);
+    };
+
+    return {
+        login: login,
+        getCollections: getCollections,
+        getCollection: getCollection,
+        getDocument: getDocument,
+        insertDocument: insertDocument,
+        updateDocument: updateDocument
+    }
+});
