@@ -1,0 +1,25 @@
+[template=foot] {
+  .foot {
+    background: #222;
+    color: white;
+    padding: 40px;
+    //border-top: 3px solid black;
+
+    h2 {
+      color: white;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 2;
+    }
+
+    .foot-bottom {
+      border-top:#555 1px solid;
+      padding-top:20px;
+      margin-top:20px;
+    }
+  }
+}

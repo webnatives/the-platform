@@ -28,7 +28,6 @@ body {
   font-size: 14px;
   font-weight: 300;
   line-height: 1.7;
-  overflow: hidden;
   max-width: 100%;
 
   font-size: 14px;
@@ -243,7 +242,6 @@ textarea {
 }
 
 [screen] {
-  height: 100vh;
   padding: 20px 0;
   padding-top: 133px;
   opacity: 0;
@@ -251,7 +249,6 @@ textarea {
   display: block;
   will-change: opacity;
   overflow-x: hidden;
-  overflow-y: auto;
   max-width: 100%;
   //background: #eee;
 
