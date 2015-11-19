@@ -43,6 +43,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 'use strict';
 
 app.factory('Alert', function ($timeout, $rootScope) {
@@ -197,21 +212,6 @@ app.factory('State', function ($rootScope) {
         getTitle: getTitle
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 'use strict';
 
 app.directive('alert', function (Alert) {
@@ -283,11 +283,17 @@ app.directive('footItem', function (State) {
 
 'use strict';
 
-app.directive('headerItem', function (State) {
+app.directive('heroItem', function (State) {
     return {
-        templateUrl: 'header.html',
-        scope: {},
-
+        templateUrl: 'hero.html',
+        scope: {
+            heading: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
         link: function link(scope, element, attrs) {
 
             var init = function init() {};
@@ -305,17 +311,11 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (State) {
+app.directive('headerItem', function (State) {
     return {
-        templateUrl: 'hero.html',
-        scope: {
-            heading: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
+        templateUrl: 'header.html',
+        scope: {},
+
         link: function link(scope, element, attrs) {
 
             var init = function init() {};
@@ -379,7 +379,7 @@ app.directive('latestPreviewItem', function (State) {
     };
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {
@@ -390,7 +390,7 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
     init();
 });
 
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {

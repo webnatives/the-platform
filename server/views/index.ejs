@@ -108,6 +108,19 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="box red" ui-sref="article">
+            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
+                <div class="tag">{{tag}}</div>
+            </div>
+
+            <h2>{{heading}}</h2>
+            <p>{{summary}}</p>
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header active">
@@ -138,19 +151,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-    </div>
-</script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="box red" ui-sref="article">
-            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
-                <div class="tag">{{tag}}</div>
-            </div>
-
-            <h2>{{heading}}</h2>
-            <p>{{summary}}</p>
 
         </div>
     </div>
@@ -188,93 +188,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="home-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <hero-item
-                            heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
-                            summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
-                            image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
-                            tag="'Culture'"
-                            height="350"
-                            link=""
-                    ></hero-item>
-                </div>
-                <div class="col-sm-8">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <article-preview-item
-                                    heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
-                                    summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
-                                    image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
-                                    tag="'Culture'"
-                                    link=""
-                            ></article-preview-item>
-                            <article-preview-item></article-preview-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <hero-item
-                                    heading="'Wet Hot White Supremacist American Summer: The Donald Trump Campaign'"
-                                    summary="'A summery summary of the Donald Trump election campaign and where the billionaire presidential candidate stands in US politics'"
-                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/09/Trump_featured.jpg&w=520&h=250&zc=1'"
-                                    tag="'Politics'"
-                                    link=""
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-12">
-                            <hero-item
-                                    heading="'The “Routine” of Gun-Control Discourse in America'"
-                                    summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/Gun-Law-Featured2.jpg&w=520&h=250&zc=1'"
-                                    tag="'Politics'"
-                                    link=""
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <latest-item
-                            heading="'Latest Articles'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Culture'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Politics'"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen>
         <div class="container">
@@ -288,6 +201,10 @@
                     <div style="height: 20px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
+                            <span class="pull-right" style="margin-left: 40px">
+                                Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
+                            </span>
+
                             <a href="#">#BFI</a>
                             <a href="#">#Chile</a>
                             <a href="#">#cinema</a>
@@ -297,10 +214,6 @@
                             <a href="#">#London</a>
                             <a href="#">#review</a>
                             <a href="#">#worldcinema</a>
-
-                            <span class="pull-right" style="margin-left: 40px">
-                                Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
-                            </span>
                         </small>
                     </p>
                     <div class="hero-image" style="background-image: url('http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/trumbo-02.jpg&w=520&h=250&zc=1');height:500px">
@@ -460,6 +373,93 @@
                             height="150"
                             link=""
                     ></article-preview-item>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <hero-item
+                            heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
+                            summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
+                            image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
+                            tag="'Culture'"
+                            height="350"
+                            link=""
+                    ></hero-item>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <article-preview-item
+                                    heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
+                                    summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
+                                    image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
+                                    tag="'Culture'"
+                                    link=""
+                            ></article-preview-item>
+                            <article-preview-item></article-preview-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <hero-item
+                                    heading="'Wet Hot White Supremacist American Summer: The Donald Trump Campaign'"
+                                    summary="'A summery summary of the Donald Trump election campaign and where the billionaire presidential candidate stands in US politics'"
+                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/09/Trump_featured.jpg&w=520&h=250&zc=1'"
+                                    tag="'Politics'"
+                                    link=""
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-12">
+                            <hero-item
+                                    heading="'The “Routine” of Gun-Control Discourse in America'"
+                                    summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
+                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/Gun-Law-Featured2.jpg&w=520&h=250&zc=1'"
+                                    tag="'Politics'"
+                                    link=""
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <!--<article-preview-item></article-preview-item>-->
+                        </div>
+                        <div class="col-sm-6">
+                            <!--<article-preview-item></article-preview-item>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <latest-item
+                            heading="'Latest Articles'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-12"></div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Culture'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Politics'"
+                    ></latest-item>
                 </div>
             </div>
 
