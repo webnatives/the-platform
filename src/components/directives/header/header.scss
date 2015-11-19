@@ -85,6 +85,8 @@
       //border: 1px solid darken($red, 0%);
       border-top: none;
       border-bottom: none;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
 
       @media (max-width: 767px) {
         display: block;

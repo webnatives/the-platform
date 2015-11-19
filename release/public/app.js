@@ -258,15 +258,12 @@ app.directive('footItem', function (State) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State) {
+app.directive('headerItem', function (State) {
     return {
-        templateUrl: 'article-preview.html',
+        templateUrl: 'header.html',
         scope: {},
-        link: function link(scope, element, attrs) {
 
-            scope.getRandom = function () {
-                return _.random(100);
-            };
+        link: function link(scope, element, attrs) {
 
             var init = function init() {};
 
@@ -283,12 +280,15 @@ app.directive('articlePreviewItem', function (State) {
 
 'use strict';
 
-app.directive('headerItem', function (State) {
+app.directive('articlePreviewItem', function (State) {
     return {
-        templateUrl: 'header.html',
+        templateUrl: 'article-preview.html',
         scope: {},
-
         link: function link(scope, element, attrs) {
+
+            scope.getRandom = function () {
+                return _.random(100);
+            };
 
             var init = function init() {};
 
@@ -379,7 +379,7 @@ app.directive('latestPreviewItem', function (State) {
     };
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {
@@ -390,7 +390,7 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
     init();
 });
 
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         $timeout(function () {
