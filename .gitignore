@@ -1,7 +1,3 @@
 node_modules
 .idea
 src/bower-components
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
