@@ -45,7 +45,7 @@
 </script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview">
-        <div class="box">
+        <div class="box" ui-sref="article">
             <div class="row">
                 <div class="col-xs-6">
                     <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
@@ -67,23 +67,41 @@
 </script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>The Platform is a groundbreaking blog that provides current affairs and cultural commentary. Our pieces offer challenging opinions from a range of spectrums; that’s why we love hosting a platform for them.</p>
+            </div>
+        </div>
+
         <div class="foot">
             <div class="container">
+
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h2>Writers</h2>
                         <p>Writer's Guidelines</p>
                         <p>User Guidelines</p>
                         <p>Join</p>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <h2>About</h2>
                         <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
                     </div>
                 </div>
 
                 <div class="foot-bottom">
-                    Copyright &copy; 2015 The Platform
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
                 </div>
             </div>
 
@@ -111,7 +129,7 @@
             <div class="bottom-bar">
                 <div class="container">
                     <div class="menu-items">
-                        <div class="item active"><i class="fa fa-home"></i></div>
+                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
                         <div class="item">Features</div>
                         <div class="item">Politics</div>
                         <div class="item">Religion</div>
@@ -172,11 +190,10 @@
 </script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen>
-
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <div style="height: 30px"></div>
+                    <div style="height: 10px"></div>
 
                     <!--<div class="tag">Culture</div>-->
                     <h1>Subversive Cinema: Showcasing Political Activism and Savage Complicity</h1>
@@ -220,7 +237,9 @@
 
                 </div>
                 <div class="col-sm-4">
+                    <div class="section-title start">Featured Post</div>
                     <hero-item
+                            class="clearfix"
                             heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
                             summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
                             image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
@@ -228,13 +247,15 @@
                             height="150"
                             link=""
                     ></hero-item>
+
+                    <div class="section-title">Related Posts</div>
                     <article-preview-item></article-preview-item>
                     <article-preview-item></article-preview-item>
                     <article-preview-item></article-preview-item>
                 </div>
 
                 <div class="col-sm-12">
-                    <h1>Related Posts</h1>
+                    <div class="section-title">Related Posts</div>
                 </div>
                 <div class="col-sm-4">
                     <hero-item

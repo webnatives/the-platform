@@ -170,7 +170,7 @@ h3 {
 
 p {
   //  color: $body;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
   font-size: 12px;
@@ -243,7 +243,7 @@ textarea {
 
 [screen] {
   padding: 20px 0;
-  padding-top: 133px;
+  padding-top: 153px;
   opacity: 0;
   transition: .3s;
   display: block;
@@ -270,6 +270,21 @@ textarea {
   margin-left: -10px;
 }
 
+.section-title {
+  border-top: #eee 3px solid;
+  padding: 20px 0 20px;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+
+  &.start {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
 .hero-image {
   height: 300px;
   background-position: center;
@@ -280,7 +295,7 @@ textarea {
   .tag {
     height: 30px;
     background: white;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.9);
     position: absolute;
     line-height: 30px;
     bottom: 0;

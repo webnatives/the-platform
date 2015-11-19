@@ -1,8 +1,19 @@
 [template=foot] {
+
+  .foot-top {
+    background: #333;
+    color: white;
+    padding:20px 0;
+    text-align: center;
+    p {
+
+    }
+  }
+
   .foot {
     background: #222;
     color: white;
-    padding: 40px;
+    padding: 40px 0 20px;
     //border-top: 3px solid black;
 
     h2 {
@@ -17,9 +28,16 @@
     }
 
     .foot-bottom {
-      border-top:#555 1px solid;
+      border-top:#333 3px solid;
       padding-top:20px;
       margin-top:20px;
+
+      .social {
+        i.fa {
+          padding: 0 10px;
+          font-size: 20px;
+        }
+      }
     }
   }
 }

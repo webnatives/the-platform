@@ -102,7 +102,7 @@ h3 {
     font-size: 22px; } }
 
 p {
-  font-weight: 200;
+  font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
   font-size: 12px;
@@ -157,7 +157,7 @@ textarea {
 
 [screen] {
   padding: 20px 0;
-  padding-top: 133px;
+  padding-top: 153px;
   opacity: 0;
   transition: .3s;
   display: block;
@@ -176,6 +176,18 @@ textarea {
 .row {
   margin-right: -10px;
   margin-left: -10px; }
+
+.section-title {
+  border-top: #eee 3px solid;
+  padding: 20px 0 20px;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: black; }
+  .section-title.start {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0; }
 
 .hero-image {
   height: 300px;
@@ -246,10 +258,16 @@ textarea {
 [template=article-preview] h3 {
   padding-bottom: 0; }
 
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
 [template=foot] .foot {
   background: #222;
   color: white;
-  padding: 40px; }
+  padding: 40px 0 20px; }
   [template=foot] .foot h2 {
     color: white;
     margin-bottom: 20px;
@@ -258,9 +276,12 @@ textarea {
     font-size: 15px;
     line-height: 2; }
   [template=foot] .foot .foot-bottom {
-    border-top: #555 1px solid;
+    border-top: #333 3px solid;
     padding-top: 20px;
     margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
 
 [template=header] .header {
   top: 0;
