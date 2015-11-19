@@ -320,7 +320,7 @@ textarea {
     font-weight: 600;
     border-top: none;
     border-bottom: none;
-    padding: 8px 10px 7px; }
+    padding: 8px 0px 7px; }
     @media (max-width: 767px) {
       [template=header] .header .item {
         font-size: 8px; } }

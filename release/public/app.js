@@ -261,6 +261,29 @@ app.directive('articlePreviewItem', function (State) {
 
 'use strict';
 
+app.directive('latestItem', function (State) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('headerItem', function (State) {
     return {
         templateUrl: 'header.html',
@@ -309,27 +332,26 @@ app.directive('heroItem', function (State) {
     };
 });
 
-'use strict';
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
-app.directive('latestItem', function (State) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
     };
+
+    init();
+});
+
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    init();
 });
 
 'use strict';
@@ -355,26 +377,4 @@ app.directive('latestPreviewItem', function (State) {
             });
         }
     };
-});
-
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    init();
-});
-
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    init();
 });
