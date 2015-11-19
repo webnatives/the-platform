@@ -46,15 +46,24 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="box red" ui-sref="article">
-            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
-                <div class="tag">{{tag}}</div>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview">
+        <div class="box">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div>
+                        <div class="tag">Culture</div>
+                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
+                    </div>
+                </div>
             </div>
 
-            <h2>{{heading}}</h2>
-            <p>{{summary}}</p>
+
+
+            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
 
         </div>
     </div>
@@ -93,24 +102,31 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview">
-        <div class="box">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
-                </div>
-                <div class="col-xs-6">
-                    <div>
-                        <div class="tag">Culture</div>
-                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
-                    </div>
-                </div>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="box red" ui-sref="article">
+            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
+                <div class="tag">{{tag}}</div>
             </div>
 
+            <h2>{{heading}}</h2>
+            <p>{{summary}}</p>
 
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="latest.html">
+    <div template="latest">
+        <div class="box large">
 
-            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+            <h2 class="box-header">{{heading}}</h2>
+
+            <latest-preview-item></latest-preview-item>
+            <latest-preview-item></latest-preview-item>
+            <latest-preview-item></latest-preview-item>
+            <latest-preview-item></latest-preview-item>
+            <latest-preview-item></latest-preview-item>
+            <!--<latest-preview-item></latest-preview-item>-->
 
         </div>
     </div>
@@ -129,22 +145,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</script>
-<script type="text/ng-template" id="latest.html">
-    <div template="latest">
-        <div class="box large">
-
-            <h2 class="box-header">{{heading}}</h2>
-
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <!--<latest-preview-item></latest-preview-item>-->
-
         </div>
     </div>
 </script>

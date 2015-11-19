@@ -15,6 +15,34 @@ app.directive('ngEnter', function () {
         });
     };
 });
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    var resolve = {
+        timeout: function timeout($timeout) {
+            $('[screen]').removeClass('active');
+            //$('.loading-logo').addClass('active');
+            return $timeout(300);
+        }
+    };
+
+    // For any unmatched url, redirect to /
+    $urlRouterProvider.otherwise("/");
+
+    // Now set up the states
+    $stateProvider.state('home', {
+        url: "/",
+        templateUrl: "home-screen.html",
+        controller: "HomeScreen",
+        resolve: resolve
+    }).state('article', {
+        url: "/article",
+        templateUrl: "article-screen.html",
+        controller: "ArticleScreen",
+        resolve: resolve
+    });
+
+    $locationProvider.html5Mode(true);
+});
 app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
 
     var init = function init() {
@@ -184,34 +212,6 @@ app.factory('State', function ($rootScope) {
         getTitle: getTitle
     };
 });
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    var resolve = {
-        timeout: function timeout($timeout) {
-            $('[screen]').removeClass('active');
-            //$('.loading-logo').addClass('active');
-            return $timeout(300);
-        }
-    };
-
-    // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
-
-    // Now set up the states
-    $stateProvider.state('home', {
-        url: "/",
-        templateUrl: "home-screen.html",
-        controller: "HomeScreen",
-        resolve: resolve
-    }).state('article', {
-        url: "/article/",
-        templateUrl: "article-screen.html",
-        controller: "ArticleScreen",
-        resolve: resolve
-    });
-
-    $locationProvider.html5Mode(true);
-});
 'use strict';
 
 app.directive('alert', function (Alert) {
@@ -236,18 +236,15 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('heroItem', function (State) {
+app.directive('articlePreviewItem', function (State) {
     return {
-        templateUrl: 'hero.html',
-        scope: {
-            heading: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
+        templateUrl: 'article-preview.html',
+        scope: {},
         link: function link(scope, element, attrs) {
+
+            scope.getRandom = function () {
+                return _.random(100);
+            };
 
             var init = function init() {};
 
@@ -286,15 +283,41 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State) {
+app.directive('heroItem', function (State) {
     return {
-        templateUrl: 'article-preview.html',
-        scope: {},
+        templateUrl: 'hero.html',
+        scope: {
+            heading: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
         link: function link(scope, element, attrs) {
 
-            scope.getRandom = function () {
-                return _.random(100);
-            };
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '='
+        },
+        link: function link(scope, element, attrs) {
 
             var init = function init() {};
 
@@ -320,29 +343,6 @@ app.directive('latestPreviewItem', function (State) {
             scope.getRandom = function () {
                 return _.random(100);
             };
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '='
-        },
-        link: function link(scope, element, attrs) {
 
             var init = function init() {};
 

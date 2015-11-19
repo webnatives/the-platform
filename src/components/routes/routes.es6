@@ -20,7 +20,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             resolve: resolve
         })
         .state('article', {
-            url: "/article/",
+            url: "/article",
             templateUrl: "article-screen.html",
             controller: "ArticleScreen",
             resolve: resolve
