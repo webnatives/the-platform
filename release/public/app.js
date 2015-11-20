@@ -237,9 +237,33 @@ app.directive('articlePreviewItem', function (State) {
         scope: {},
         link: function link(scope, element, attrs) {
 
+            var random = _.random(100);
+
             scope.getRandom = function () {
-                return _.random(100);
+                return random;
             };
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
 
             var init = function init() {};
 
@@ -288,28 +312,6 @@ app.directive('headerItem', function (State) {
 
             scope = _.assign(scope, {
                 isMenuVisible: isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -376,8 +378,10 @@ app.directive('latestPreviewItem', function (State) {
         scope: {},
         link: function link(scope, element, attrs) {
 
+            var random = _.random(100);
+
             scope.getRandom = function () {
-                return _.random(100);
+                return random;
             };
 
             var init = function init() {};

@@ -11,7 +11,7 @@
     //background: $primary;
     //    background: linear-gradient(-90deg, lighten($primary, 20%) 10%, darken($primary, 10%) 90%);
 
-    box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
+    //box-shadow: 0 0 15px 0 rgba(0,0,0,0.2);
     transition: .3s;
 
     &.active, &:hover {
@@ -20,7 +20,7 @@
 
 
       .bottom-bar {
-        margin-top: 0;
+        transform: translateY(0px);
       }
     }
 
@@ -65,12 +65,12 @@
       height: 40px;
       //background: $red;
       background: darken($red, 2%);
-      margin-top: -40px;
+      transform: translateY(-40px);
       transition: .3s;
 
       @media (max-width: 767px) {
         height: 40px;
-        margin-top: -40px;
+        transform: translateY(-40px);
       }
     }
 

@@ -6,7 +6,9 @@ app.directive('latestPreviewItem', (State) => {
         scope: {},
         link(scope, element, attrs) {
 
-           scope.getRandom = () => _.random(100);
+            var random = _.random(100);
+
+            scope.getRandom = () => random;
 
             var init = () => {
 
