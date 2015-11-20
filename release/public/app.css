@@ -391,6 +391,13 @@ textarea {
         [template=header] .header .menu-items .item {
           padding: 0 10px;
           padding: 8px 10px 7px;
+          -webkit-flex-basis: auto;
+              -ms-flex-preferred-size: auto;
+                  flex-basis: auto;
+          /* default value */
+          min-width: -webkit-min-content;
+          min-width: -moz-min-content;
+          min-width: min-content;
           -webkit-flex: 0 1 auto;
               -ms-flex: 0 1 auto;
                   flex: 0 1 auto;
