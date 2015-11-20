@@ -33,14 +33,34 @@
 </head>
 <body data-ng-app="app">
 
-<alert></alert>
-
 <div ui-view></div>
 
 <header-item></header-item>
 <script type="text/ng-template" id="alert.html">
     <div template="alert">
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
+    </div>
+</script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview">
+        <div class="box" ui-sref="article">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div>
+                        <div class="tag">Culture</div>
+                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -88,7 +108,7 @@
 </script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
-        <div class="header active">
+        <div class="header" ng-class="{active:isMenuVisible()}">
             <div class="helper-bar">
                 <div class="container"></div>
             </div>
@@ -97,7 +117,7 @@
                 <div class="logo"></div>
                 <div class="logo-text">The Platform</div>
 
-                <div class="social">
+                <div class="social hidden-xs">
                     <i class="fa fa-twitter"></i>
                     <i class="fa fa-facebook"></i>
                     <i class="fa fa-envelope"></i>
@@ -116,28 +136,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-    </div>
-</script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview">
-        <div class="box" ui-sref="article">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
-                </div>
-                <div class="col-xs-6">
-                    <div>
-                        <div class="tag">Culture</div>
-                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
 
         </div>
     </div>
@@ -193,12 +191,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <div style="height: 10px"></div>
+                    <!--<div style="height: 10px"></div>-->
 
                     <!--<div class="tag">Culture</div>-->
                     <h1>Subversive Cinema: Showcasing Political Activism and Savage Complicity</h1>
 
-                    <div style="height: 20px"></div>
+                    <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
                             <span class="pull-right" style="margin-left: 40px">

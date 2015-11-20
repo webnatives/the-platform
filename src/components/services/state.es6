@@ -2,20 +2,19 @@
 
 app.factory('State', function ($rootScope) {
 
-    var menuVisible = false,
-        title = 'Content Types';
-
-    var isMenuVisible = () => menuVisible;
-
-    var toggleMenu = () => menuVisible = !menuVisible;
+    var title = 'Content Types';
 
     var setTitle = text => title = text;
 
     var getTitle = () => title;
 
+    $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
+        $(document).scrollTop(0);
+    });
+
     return {
-        isMenuVisible: isMenuVisible,
-        toggleMenu: toggleMenu,
+        isMenuVisible: '',
+        toggleMenu: '',
         setTitle: setTitle,
         getTitle: getTitle
     };

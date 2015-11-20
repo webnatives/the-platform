@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="header.html">
     <div template="header">
-        <div class="header active">
+        <div class="header" ng-class="{active:isMenuVisible()}">
             <div class="helper-bar">
                 <div class="container"></div>
             </div>
@@ -9,7 +9,7 @@
                 <div class="logo"></div>
                 <div class="logo-text">The Platform</div>
 
-                <div class="social">
+                <div class="social hidden-xs">
                     <i class="fa fa-twitter"></i>
                     <i class="fa fa-facebook"></i>
                     <i class="fa fa-envelope"></i>
