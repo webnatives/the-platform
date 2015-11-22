@@ -85,10 +85,15 @@
       height: 60px;
       width: 60px;
       transition: .3s;
+      cursor: pointer;
 
       @media (max-width: 767px) {
         height: 40px;
         width: 40px;
+      }
+
+      &:hover {
+        transform: rotate(720deg);
       }
     }
 
@@ -102,6 +107,7 @@
       position: absolute;
       left: 95px;
       transition: .3s;
+      cursor: pointer;
 
       @media (max-width: 767px) {
         left: 65px;

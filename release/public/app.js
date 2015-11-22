@@ -252,69 +252,6 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State, API) {
-    return {
-        templateUrl: 'article-preview.html',
-        scope: {
-            heading: '=',
-            id: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var getContent = function getContent() {
-                return content;
-            };
-
-            var init = function init() {
-                console.log('scope.id (article-preview)', scope.id);
-                if (scope.id == undefined) return;
-                API.getPost(scope.id).then(function (response) {
-                    content = response;
-                    console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('headerItem', function (State) {
     return {
         templateUrl: 'header.html',
@@ -349,6 +286,69 @@ app.directive('headerItem', function (State) {
                 isMenuVisible: isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articlePreviewItem', function (State, API) {
+    return {
+        templateUrl: 'article-preview.html',
+        scope: {
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var content;
+
+            var getContent = function getContent() {
+                return content;
+            };
+
+            var init = function init() {
+                console.log('scope.id (article-preview)', scope.id);
+                if (scope.id == undefined) return;
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                getContent: getContent
             });
         }
     };
@@ -408,7 +408,7 @@ app.directive('latestItem', function (State, API) {
             var articles;
 
             var getArticles = function getArticles() {
-                return articles;
+                return _.take(articles, 5);
             };
 
             var init = function init() {

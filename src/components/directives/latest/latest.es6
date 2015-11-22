@@ -10,7 +10,7 @@ app.directive('latestItem', (State, API) => {
 
             var articles;
 
-            var getArticles = () => articles;
+            var getArticles = () => _.take(articles, 5);
 
             var init = () => {
                 API.getPosts().then((response) => {
