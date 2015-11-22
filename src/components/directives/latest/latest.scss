@@ -1,6 +1,39 @@
 [template=latest] {
 
   .latest {
+    .latest-preview {
+      margin-bottom: 20px;
+      border-bottom:1px solid #eee;
+      padding-bottom: 20px;
+      cursor: pointer;
+      transform:translateX(0px);
+      transition: .2s;
+      cursor: pointer;
 
+      &:hover {
+        transform:translateX(5px)
+      }
+
+      &:last-child {
+        margin-bottom: 0px;
+        border-bottom:none;
+        padding-bottom: 0px;
+
+      }
+
+      h3 {
+        padding: 0;
+        margin: 0;
+      }
+
+      .preview-image {
+        height: 80px;
+        background-position: center;
+        background-size: cover;
+        //margin-bottom: 10px;
+        position: relative;
+      }
+
+    }
   }
 }

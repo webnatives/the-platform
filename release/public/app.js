@@ -35,7 +35,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: "HomeScreen",
         resolve: resolve
     }).state('article', {
-        url: "/article",
+        url: "/article/:id/:slug",
         templateUrl: "article-screen.html",
         controller: "ArticleScreen",
         resolve: resolve
@@ -142,6 +142,24 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getHome = function getHome() {
+        return $http.get(API_URL + 'home').then(function (response) {
+            return response.data;
+        });
+    };
+
+    var getPost = function getPost(id) {
+        return $http.get(API_URL + 'post/' + id).then(function (response) {
+            return response.data;
+        });
+    };
+
+    var getPosts = function getPosts() {
+        return $http.get(API_URL + 'posts/').then(function (response) {
+            return response.data;
+        });
+    };
+
     var getCollections = function getCollections() {
         return $http.get('' + API_URL, { headers: { 'Cache-Control': 'no-cache' } }).then(function (response) {
             return _.drop(response.data);
@@ -175,6 +193,9 @@ app.factory('API', function ($rootScope, $http) {
 
     return {
         login: login,
+        getHome: getHome,
+        getPost: getPost,
+        getPosts: getPosts,
         getCollections: getCollections,
         getCollection: getCollection,
         getDocument: getDocument,
@@ -231,26 +252,40 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State) {
+app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
-        scope: {},
+        scope: {
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
         link: function link(scope, element, attrs) {
 
-            var random = _.random(100);
+            var content;
 
-            scope.getRandom = function () {
-                return random;
+            var getContent = function getContent() {
+                return content;
             };
 
-            var init = function init() {};
+            var init = function init() {
+                console.log('scope.id (article-preview)', scope.id);
+                if (scope.id == undefined) return;
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+            scope = _.extend(scope, {
+                getContent: getContent
             });
         }
     };
@@ -321,11 +356,12 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (State) {
+app.directive('heroItem', function (API, State) {
     return {
         templateUrl: 'hero.html',
         scope: {
             heading: '=',
+            id: '=',
             image: '=',
             link: '=',
             summary: '=',
@@ -334,14 +370,26 @@ app.directive('heroItem', function (State) {
         },
         link: function link(scope, element, attrs) {
 
-            var init = function init() {};
+            var content;
+
+            var getContent = function getContent() {
+                return content;
+            };
+
+            var init = function init() {
+                console.log('post', scope.id);
+                if (scope.id == undefined) return;
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+            scope = _.extend(scope, {
+                getContent: getContent
             });
         }
     };
@@ -349,7 +397,7 @@ app.directive('heroItem', function (State) {
 
 'use strict';
 
-app.directive('latestItem', function (State) {
+app.directive('latestItem', function (State, API) {
     return {
         templateUrl: 'latest.html',
         scope: {
@@ -357,64 +405,82 @@ app.directive('latestItem', function (State) {
         },
         link: function link(scope, element, attrs) {
 
-            var init = function init() {};
+            var articles;
 
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestPreviewItem', function (State) {
-    return {
-        templateUrl: 'latest-preview.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var random = _.random(100);
-
-            scope.getRandom = function () {
-                return random;
+            var getArticles = function getArticles() {
+                return articles;
             };
 
-            var init = function init() {};
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
 
             init();
 
             scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+                getArticles: getArticles
             });
         }
     };
 });
 
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope) {
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce) {
+
+    var content;
+
+    var getContent = function getContent() {
+        return content;
+    };
 
     var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
+        API.getPost($stateParams.id).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
     };
 
     init();
+
+    _.extend($scope, {
+        getContent: getContent,
+        trustAsHtml: $sce.trustAsHtml
+    });
 });
 
 app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
+    var content;
+
+    var getContent = function getContent() {
+        return content;
+    };
+
+    var getFeaturedArticles = function getFeaturedArticles() {
+        return content.acf.featuredArticles;
+    };
+
+    var getArticle = function getArticle(index) {
+        return content.acf.featuredArticles[index].article;
+    };
+
     var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
     };
 
     init();
+
+    _.extend($scope, {
+        getContent: getContent,
+        getFeaturedArticles: getFeaturedArticles,
+        getArticle: getArticle
+    });
 });

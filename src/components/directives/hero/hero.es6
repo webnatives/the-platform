@@ -1,10 +1,11 @@
 'use strict';
 
-app.directive('heroItem', (State) => {
+app.directive('heroItem', (API, State) => {
     return {
         templateUrl: 'hero.html',
         scope: {
             heading:'=',
+            id:'=',
             image:'=',
             link:'=',
             summary:'=',
@@ -13,16 +14,24 @@ app.directive('heroItem', (State) => {
         },
         link(scope, element, attrs) {
 
-            var init = () => {
+            var content;
 
+            var getContent = () => content;
+
+            var init = () => {
+                console.log('post', scope.id);
+                if (scope.id ==undefined) return;
+                API.getPost(scope.id).then((response) => {
+                    content = response;
+                    console.log('post', response);
+                    element.find('.fi').addClass('active');
+                });
             };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+            scope = _.extend(scope, {
+                getContent: getContent
             });
         }
     }

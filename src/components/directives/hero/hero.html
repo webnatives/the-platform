@@ -1,13 +1,16 @@
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
-        <div class="box red" ui-sref="article">
-            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
-                <div class="tag">{{tag}}</div>
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
+                    <div class="tag">{{getContent().terms.category[0].name}}</div>
+                </div>
+
+                <h2>{{getContent().title}}</h2>
+                <p>{{getContent().acf.summary}}</p>
+
             </div>
-
-            <h2>{{heading}}</h2>
-            <p>{{summary}}</p>
-
         </div>
+
     </div>
 </script>

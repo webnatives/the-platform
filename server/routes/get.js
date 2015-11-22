@@ -3,6 +3,7 @@
 var fs = require('fs');
 var _ = require('underscore');
 var MongoService = require('./../services/mongo-service');
+var request = require('request');
 
 var standardData = {
     title: "Nathan-Jamahiel Nelson - Powerful Code and Efficient Living with Nathan Jamahiel Nelson",
@@ -30,7 +31,29 @@ module.exports = {
     },
 
     index(req, res) {
+        //res.send('hello')
         res.render('index', standardData);
+    },
+
+    home(req, res) {
+        request.get({url: "http://52.18.144.118/wp-json/pages/home", json: true}, function (e, r, body) {
+            //standardData.content = body;
+            res.send(body);
+        })
+    },
+
+    post(req, res) {
+        request.get({url: `http://52.18.144.118/wp-json/posts/${req.params.id}`, json: true}, function (e, r, body) {
+            //standardData.content = body
+            res.send(body);
+        })
+    },
+
+    posts(req, res) {
+        request.get({url: `http://52.18.144.118/wp-json/posts/`, json: true}, function (e, r, body) {
+            //standardData.content = body
+            res.send(body);
+        })
     }
 };
 

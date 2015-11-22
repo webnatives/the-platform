@@ -1,22 +1,23 @@
 <script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview">
-        <div class="box" ui-sref="article">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
-                </div>
-                <div class="col-xs-6">
-                    <div>
-                        <div class="tag">Culture</div>
-                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <div class="tag">{{getContent().terms.category[0].name}}</div>
+                            <h3>{{getContent().title}}</h3>
+                        </div>
                     </div>
                 </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
             </div>
-
-
-
-            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
         </div>
+
     </div>
 </script>

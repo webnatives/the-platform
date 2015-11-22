@@ -1,25 +1,37 @@
 'use strict';
 
-app.directive('articlePreviewItem', (State) => {
+app.directive('articlePreviewItem', (State, API) => {
     return {
         templateUrl: 'article-preview.html',
-        scope: {},
+        scope: {
+            heading:'=',
+            id:'=',
+            image:'=',
+            link:'=',
+            summary:'=',
+            height:'=',
+            tag:'='
+        },
         link(scope, element, attrs) {
 
-            var random = _.random(100)
+            var content;
 
-            scope.getRandom = () => random;
+            var getContent = () => content;
 
             var init = () => {
-
+                console.log('scope.id (article-preview)', scope.id);
+                if (scope.id ==undefined) return;
+                API.getPost(scope.id).then((response) => {
+                    content = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
             };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+            scope = _.extend(scope, {
+                getContent: getContent
             });
         }
     }

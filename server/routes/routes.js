@@ -6,13 +6,9 @@ var Put = require('./put');
 
 module.exports = {
     init (app) {
-        app.get('/api/', Get.collections);
-        app.get('/api/:collection/:key/:value', Get.documentByKeyValue);
-        app.get('/api/:collection/', Get.documents);
+        app.get('/api/home', Get.home);
+        app.get('/api/post/:id', Get.post);
+        app.get('/api/posts', Get.posts);
         app.get('*', Get.index);
-
-        app.post('/api/:collection/', Post.document);
-
-        app.put('/api/:collection/:key/:value', Put.document);
     }
 };

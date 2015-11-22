@@ -2,4 +2,4 @@
 
 cd server
 forever stopall
-forever start -c nodemon server.js
+forever start -w server.js

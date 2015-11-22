@@ -11,6 +11,12 @@ app.factory('API', function ($rootScope, $http) {
         }).then((response) => response.data);
     };
 
+    var getHome = () => $http.get(`${API_URL}home`).then(response => response.data);
+
+    var getPost = (id) => $http.get(`${API_URL}post/${id}`).then(response => response.data);
+
+    var getPosts = () => $http.get(`${API_URL}posts/`).then(response => response.data);
+
     var getCollections = () => {
         return $http.get(`${API_URL}`, {headers: {'Cache-Control': 'no-cache'}}).then((response) => _.drop(response.data));
     };
@@ -36,6 +42,9 @@ app.factory('API', function ($rootScope, $http) {
 
     return {
         login: login,
+        getHome: getHome,
+        getPost: getPost,
+        getPosts: getPosts,
         getCollections: getCollections,
         getCollection: getCollection,
         getDocument: getDocument,

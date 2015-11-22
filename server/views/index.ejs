@@ -33,6 +33,11 @@
 </head>
 <body data-ng-app="app">
 
+<!--<script>-->
+    <!--var content = <--%- JSON.stringify(content) %>;-->
+<!--</script>-->
+
+
 <div ui-view></div>
 
 <header-item></header-item>
@@ -42,25 +47,26 @@
     </div>
 </script>
 <script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview">
-        <div class="box" ui-sref="article">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="article-preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
-                </div>
-                <div class="col-xs-6">
-                    <div>
-                        <div class="tag">Culture</div>
-                        <h3>The "Routine" of Gun-Control Discourse in America</h3>
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <div class="tag">{{getContent().terms.category[0].name}}</div>
+                            <h3>{{getContent().title}}</h3>
+                        </div>
                     </div>
                 </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
             </div>
-
-
-
-            <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
         </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -133,6 +139,8 @@
                         <div class="item">Religion</div>
                         <div class="item">International</div>
                         <div class="item">Culture</div>
+                        <div class="item">Writers' Guidelines</div>
+                        <div class="item">About</div>
                     </div>
                 </div>
             </div>
@@ -142,48 +150,47 @@
 </script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
-        <div class="box red" ui-sref="article">
-            <div class="hero-image" style="background-image: url('{{image}}');height:{{height}}px">
-                <div class="tag">{{tag}}</div>
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
+                    <div class="tag">{{getContent().terms.category[0].name}}</div>
+                </div>
+
+                <h2>{{getContent().title}}</h2>
+                <p>{{getContent().acf.summary}}</p>
+
             </div>
-
-            <h2>{{heading}}</h2>
-            <p>{{summary}}</p>
-
         </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="latest.html">
     <div template="latest">
-        <div class="box large">
+        <div class="latest fi">
+            <div class="box large">
 
-            <h2 class="box-header">{{heading}}</h2>
+                <h2 class="box-header">{{heading}}</h2>
 
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <latest-preview-item></latest-preview-item>
-            <!--<latest-preview-item></latest-preview-item>-->
-
-        </div>
-    </div>
-</script>
-<script type="text/ng-template" id="latest-preview.html">
-    <div template="latest-preview">
-        <div class="latest-preview">
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="preview-image" style="background-image: url('https://unsplash.it/500/500/?random&{{getRandom()}}')"></div>
-                </div>
-                <div class="col-xs-8">
-                    <div>
-                        <div class="tag">Politics</div>
-                        <h3>Subversive Cinema: Showcasing Political Activism and Savage Complicity</h3>
+                <div>
+                    <div class="latest-preview" ng-repeat="article in getArticles()">
+                        <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{article.title}}</h3>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -194,7 +201,7 @@
                     <!--<div style="height: 10px"></div>-->
 
                     <!--<div class="tag">Culture</div>-->
-                    <h1>Subversive Cinema: Showcasing Political Activism and Savage Complicity</h1>
+                    <h1>{{getContent().title}}</h1>
 
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
@@ -214,7 +221,7 @@
                             <a href="#">#worldcinema</a>
                         </small>
                     </p>
-                    <div class="hero-image" style="background-image: url('http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/trumbo-02.jpg&w=520&h=250&zc=1');height:500px">
+                    <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
                         <div class="tag">Culture</div>
                     </div>
                     <div style="height: 10px"></div>
@@ -224,38 +231,9 @@
                     <div class="article-content">
 
 
-                        <p><strong>
-                            This year’s festival headliners used the big screen as a platform to showcase society’s persistent tribulations of human injustice
-                        </strong></p>
+                        <p><strong ng-bind-html="trustAsHtml(getContent().acf.summary)"></strong></p>
 
-                        <p>Now that the&nbsp;<a href="http://www.the-platform.org.uk/2015/10/04/the-enthusiasts-guide-to-the-2015-bfi-london-film-festival/">59th BFI London Film Festival</a>&nbsp;is over, we take a look at some of the headlining films that are set for general release at a cinema (or on DVD) near you soon. If this year&rsquo;s festival did not quite reap a harvest like last year&rsquo;s&nbsp;<em>Leviathan</em>,&nbsp;<em>Wild Tales</em>,&nbsp;<em>Whiplash</em>&nbsp;and&nbsp;<em>Foxcatcher</em>, one of the recurring themes was how films show us our current state of society through history &ndash; or even fantasy.
-                        </p>
-
-                        <p>So the historical drama&nbsp;<em><a href="http://www.the-platform.org.uk/2015/10/16/suffragette-its-time-to-inspire-rage-in-the-women-of-britain/">Suffragette</a></em>&nbsp;was greeted on the opening night by<a href="http://www.theguardian.com/lifeandstyle/2015/oct/09/domestic-violence-campaigners-suffragette-movie-kanye-west">Sisters Uncut protesters</a>&nbsp;angry at the disproportionate effects of austerity cuts on women. Although the petticoats and flowers of the film&rsquo;s cross-class female activists couldn&rsquo;t have looked more different to the feel-good gays-and-miners hit of the summer&nbsp;<em>Pride</em>, they served to dramatise that the normal of one era can be the dangerous radicalism of another, and how change ensues when the only option for thousands of apparently ordinary people is to take up activism.
-                        </p>
-
-                        <p>The German Marxist Walter Benjamin pointed out that history is not simply an account of finished events; it is the interaction of the past with the present. Like&nbsp;<em>Suffragette</em>, the film&nbsp;<em>Trumbo</em>&nbsp;elicits a modern disbelief at injustices that were what &ldquo;normal&rdquo; was thought to be &ndash; a feeling of &ldquo;how could people ever have thought like&nbsp;<em>that</em>?&rdquo; The film is a big-screen triumph for Bryan Cranston (<em>Breaking Bad, Malcolm in the Middle</em>) which recounts the true story of the Hollywood screenwriter blacklisted for alleged, yet perfectly legal,&nbsp;<a href="http://www.the-platform.org.uk/2015/08/30/we-need-to-talk-about-claudia-jones/">Communist sympathies</a>&nbsp;(only the most prominent of thousands of Americans to suffer such a fate). In a period of right-wing hysteria buttressed by blind patriotism and covert racism, the film&rsquo;s implicit parallels are with the era of an anti-Islam War on Terror. Trumbo fights first by legal opposition and political activism, but when that sees him imprisoned alongside nine of his Hollywood comrades, then ostracised, attacked and ruined, he takes to selling un-credited scripts by the carload until there is enough clandestine work for him and all his associates. The film is sincere in its hatred for political persecution in the land of the free, although some may find it odd that its feel-good reconciliation occurs through the wonders of small business.
-                        </p>
-
-                        <p>Going a millennium further back was Chinese director Hou Hsiao-Hsien&rsquo;s<em>The Assassin</em>, a glacially slow vision of revenge in 9th-century Tang China. In comparison to the languorous pace of this film,&nbsp;<em>Crouching Tiger, Hidden Dragon</em>&nbsp;begins to look like the Hollywoodised action of Jackie Chan, but as the action is generally held back, the moments of attack are allowed to achieve a greater deftness and ferocity for the film&rsquo;s otherwise dreamy lapses. But the festival travelled even further back in Patricio Guzm&aacute;n&rsquo;s documentary&nbsp;<em>The Pearl Button</em>, which takes us to the origin of life as it interweaves the history of colonial genocide on the maritime people of the coast of Patagonia with the arrival of the first drops of water on earth, and up to the victims of Augusto Pinochet&rsquo;s military coup in 1973. Many were dropped by helicopter off those same coasts, but the waves, the film claims, have a memory. Remnants of these &ldquo;disappeared&rdquo; are preserved in remarkable ways, as Guzm&aacute;n&rsquo;s memorial condemns this one particular historical injustice within the frame of the universal forces of nature.
-                        </p>
-
-                        <p>
-                            <em>The Assassin</em>, like the Samurai of pre-Restoration Japan or the chivalric knights in the waning Middle Ages &ndash; or the military regalia of the Chilean dictatorship &ndash; shows how across history, we romanticise codes of honour that are the vestiges of an inequality upheld by violence. In an age of hi-tech capitalism, heroic status is accorded instead to self-made CEOs, garlanded as both seers and gurus, sages and prophets, rather than acquisitive monopolists whose fortunes are made on Chinese slavery. Or at least the secular canonisation of Apple founder Steve Jobs would seem to suggest. The film that closed the festival,&nbsp;<em>Steve Jobs</em>, was nevertheless a dependably kinetic and inventive history of triumph against the odds by Olympian Mancunian Danny Boyle.
-                        </p>
-
-                        <p>Ben Wheatley&rsquo;s new film&nbsp;<em>High</em>&nbsp;<em>Rise</em>&nbsp;adapts the story by dystopic novelist J.G. Ballard about class conflict in one block of suburban London flats, a self-contained cosmos of British society. The setting now provides a rather retro 1970s vision of a future yet to come, a society of post-industrial self-interest, in which a power shortage soon reduces civilisation to the essentials of hedonistic aggression. The film&rsquo;s often bravura display unfortunately ends up, much like the high rise in which it sets its scene, as something of a mess.
-                        </p>
-
-                        <p>
-                            <em>The Lobster</em>&nbsp;presents a different vision of the future, in which our intimate lives are governed by a cruel, arbitrary system of enforced romantic monogamy. Whoever ends up alone after a certain period is turned into an animal of their own choosing, hence the lobster of the title, Colin Farrell&rsquo;s preferred reincarnation. It&rsquo;s a future only in certain ways embellished from our own present, and perhaps not much more absurd than the premises of many a dating website.
-                        </p>
-
-                        <p>And lastly, the festival winner, the Greek film&nbsp;<em>Chevalier</em>, shows that our fantasies are not only of futures unrealised and pasts remembered, but also in how we see ourselves, a vision often ridiculously divergent from how others see us. A group of men return to Athens on a luxury boat. They argue over cards and see who can hold their breath for longest. A suggestion is made that they judge each other not for who is best at any one particular thing, but instead, who is the best in general &ndash; who sleeps the straightest, has the healthiest blood test, the most satisfied wife, and so on. Less Homeric heroes of maritime honour and more emblems of the very petty bourgeoisie, they serve as comic exemplars of just how small our delusions of grandeur can be. When I say &ldquo;our&rdquo; delusions, I mean men, for this aggression and fragility is a combination that belongs only to the Y chromosome.
-                        </p>
-
-                        <p>From women suffragettes to men suffering on a jetty, the best of the BFI London Film Festival plunges us, as cinema should, into the reality of the social imagination.</p>
-
+                        <div ng-bind-html="trustAsHtml(getContent().content)"></div>
                     </div>
 
 
@@ -384,43 +362,35 @@
             <div class="row">
                 <div class="col-sm-12">
                     <hero-item
-                            heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
-                            summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
-                            image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
-                            tag="'Culture'"
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
                             height="350"
-                            link=""
                     ></hero-item>
                 </div>
-                <div class="col-sm-8">
+                <div class="col-md-8">
                     <div class="row">
                         <div class="col-sm-6">
                             <article-preview-item
-                                    heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
-                                    summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
-                                    image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
-                                    tag="'Culture'"
-                                    link=""
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
                             ></article-preview-item>
-                            <article-preview-item></article-preview-item>
+
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
                         </div>
                         <div class="col-sm-6">
                             <hero-item
-                                    heading="'Wet Hot White Supremacist American Summer: The Donald Trump Campaign'"
-                                    summary="'A summery summary of the Donald Trump election campaign and where the billionaire presidential candidate stands in US politics'"
-                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/09/Trump_featured.jpg&w=520&h=250&zc=1'"
-                                    tag="'Politics'"
-                                    link=""
+                                    ng-if="getContent()"
+                                    id="getArticle(3).ID"
                                     height="132"
                             ></hero-item>
                         </div>
                         <div class="col-sm-12">
                             <hero-item
-                                    heading="'The “Routine” of Gun-Control Discourse in America'"
-                                    summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                                    image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/Gun-Law-Featured2.jpg&w=520&h=250&zc=1'"
-                                    tag="'Politics'"
-                                    link=""
+                                    ng-if="getContent()"
+                                    id="getArticle(4).ID"
                             ></hero-item>
                         </div>
                         <div class="col-sm-6">
@@ -431,7 +401,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-md-4">
                     <latest-item
                             heading="'Latest Articles'"
                     ></latest-item>
@@ -462,9 +432,11 @@
             </div>
 
         </div>
+
+        <foot-item></foot-item>
     </div>
 </script>
-<foot-item></foot-item>
+
 
 <script src="/public/lib.js"></script>
 <script src="/public/app.js"></script>

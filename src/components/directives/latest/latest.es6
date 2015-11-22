@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('latestItem', (State) => {
+app.directive('latestItem', (State, API) => {
     return {
         templateUrl: 'latest.html',
         scope: {
@@ -8,16 +8,22 @@ app.directive('latestItem', (State) => {
         },
         link(scope, element, attrs) {
 
-            var init = () => {
+            var articles;
 
+            var getArticles = () => articles;
+
+            var init = () => {
+                API.getPosts().then((response) => {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
             };
 
             init();
 
             scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+                getArticles: getArticles
             });
         }
     }
