@@ -19,7 +19,7 @@ app.directive('headerItem', (State) => {
 
             var events = () => {
 
-                $('body').on('touchmove', checkScroll);
+                //$('body').on('touchmove', checkScroll);
                 $(window).on('scroll', checkScroll);
             };
 

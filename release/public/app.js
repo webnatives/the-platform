@@ -293,49 +293,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
-app.directive('headerItem', function (State) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var isMenuVisible = function isMenuVisible() {
-                return menuVisible;
-            };
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-
-                $('body').on('touchmove', checkScroll);
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -358,32 +315,42 @@ app.directive('footItem', function (State) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API) {
+app.directive('headerItem', function (State) {
     return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '='
-        },
+        templateUrl: 'header.html',
+        scope: {},
+
         link: function link(scope, element, attrs) {
 
-            var articles;
+            var menuVisible = true,
+                currentscroll = 0;
 
-            var getArticles = function getArticles() {
-                return _.take(articles, 5);
+            var isMenuVisible = function isMenuVisible() {
+                return menuVisible;
+            };
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+
+                //$('body').on('touchmove', checkScroll);
+                $(window).on('scroll', checkScroll);
             };
 
             var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
+                events();
             };
 
             init();
 
             scope = _.assign(scope, {
-                getArticles: getArticles
+                isMenuVisible: isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -425,6 +392,39 @@ app.directive('heroItem', function (API, State) {
 
             scope = _.extend(scope, {
                 getContent: getContent
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, 5);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles
             });
         }
     };
