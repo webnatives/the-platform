@@ -1,0 +1,29 @@
+<script type="text/ng-template" id="group.html">
+    <div template="group">
+        <div class="group fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading}}</h2>
+
+                <div>
+                    <div class="group-preview" ng-repeat="article in getArticles()">
+                        <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{article.title}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>

@@ -15,6 +15,9 @@ var standardData = {
     ogType: "website"
 };
 
+var API = "http://52.18.144.118";
+//var API = "http://www.the-platform.org.uk";
+
 module.exports = {
     collections(req, res) {
         MongoService.getCollections(docs => res.send(docs));
@@ -36,28 +39,35 @@ module.exports = {
     },
 
     home(req, res) {
-        request.get({url: "http://52.18.144.118/wp-json/pages/home", json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/pages/home`, json: true}, function (e, r, body) {
             //standardData.content = body;
             res.send(body);
         })
     },
 
     post(req, res) {
-        request.get({url: `http://52.18.144.118/wp-json/posts/${req.params.id}`, json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/posts/${req.params.id}`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
     },
 
     posts(req, res) {
-        request.get({url: `http://52.18.144.118/wp-json/posts/`, json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/posts/`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
     },
 
     postsByCat(req, res) {
-        request.get({url: `http://52.18.144.118/wp-json/posts?filter[category_name]=${req.params.cat}`, json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/posts?filter[category_name]=${req.params.cat}`, json: true}, function (e, r, body) {
+            //standardData.content = body
+            res.send(body);
+        })
+    },
+
+    postsByTag(req, res) {
+        request.get({url: `${API}/wp-json/posts?filter[tag]=${req.params.tag}`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })

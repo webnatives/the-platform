@@ -15,21 +15,6 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -54,6 +39,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: "topic-screen.html",
         controller: "TopicScreen",
         resolve: resolve
+    }).state('tag', {
+        url: "/tag/:tag",
+        templateUrl: "tag-screen.html",
+        controller: "TagScreen",
+        resolve: resolve
+    }).state('tagList', {
+        url: "/tag-list",
+        templateUrl: "tag-list-screen.html",
+        controller: "TagListScreen",
+        resolve: resolve
     }).state('article', {
         url: "/article/:id/:slug",
         templateUrl: "article-screen.html",
@@ -63,6 +58,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 'use strict';
 
 app.factory('Alert', function ($timeout, $rootScope) {
@@ -171,6 +181,12 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getPostsByTag = function getPostsByTag(tag) {
+        return $http.get(API_URL + 'posts/tag/' + tag).then(function (response) {
+            return response.data;
+        });
+    };
+
     var getCollections = function getCollections() {
         return $http.get('' + API_URL, { headers: { 'Cache-Control': 'no-cache' } }).then(function (response) {
             return _.drop(response.data);
@@ -208,6 +224,7 @@ app.factory('API', function ($rootScope, $http) {
         getPost: getPost,
         getPosts: getPosts,
         getPostsByCat: getPostsByCat,
+        getPostsByTag: getPostsByTag,
         getCollections: getCollections,
         getCollection: getCollection,
         getDocument: getDocument,
@@ -305,6 +322,63 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('groupItem', function (State, API) {
+    return {
+        templateUrl: 'group.html',
+        scope: {
+            heading: '=',
+            amount: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount || 6;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('headerItem', function (State) {
     return {
         templateUrl: 'header.html',
@@ -339,28 +413,6 @@ app.directive('headerItem', function (State) {
 
             scope = _.assign(scope, {
                 isMenuVisible: isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -498,6 +550,59 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
         getContent: getContent,
         getFeaturedArticles: getFeaturedArticles,
         getArticle: getArticle
+    });
+});
+
+app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByTag($stateParams.tag).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTag: function getTag() {
+            return $stateParams.tag;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getArticle: function getArticle(index) {
+            return content[index];
+        }
+    });
+});
+
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
     });
 });
 

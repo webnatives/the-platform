@@ -15,15 +15,7 @@
                                 Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
                             </span>
 
-                            <a href="#">#BFI</a>
-                            <a href="#">#Chile</a>
-                            <a href="#">#cinema</a>
-                            <a href="#">#Festival</a>
-                            <a href="#">#film</a>
-                            <a href="#">#LFF</a>
-                            <a href="#">#London</a>
-                            <a href="#">#review</a>
-                            <a href="#">#worldcinema</a>
+                            <a ng-href="/tag/{{tag.name}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.name}} </a>
                         </small>
                     </p>
                     <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:500px">

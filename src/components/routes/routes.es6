@@ -25,6 +25,18 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             controller: "TopicScreen",
             resolve: resolve
         })
+        .state('tag', {
+            url: "/tag/:tag",
+            templateUrl: "tag-screen.html",
+            controller: "TagScreen",
+            resolve: resolve
+        })
+        .state('tagList', {
+            url: "/tag-list",
+            templateUrl: "tag-list-screen.html",
+            controller: "TagListScreen",
+            resolve: resolve
+        })
         .state('article', {
             url: "/article/:id/:slug",
             templateUrl: "article-screen.html",

@@ -1,0 +1,50 @@
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="article.ID"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="article.ID"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="5"
+                    ></latest-item>
+                </div>
+                <div class="col-md-4">
+                    <latest-item
+                            heading="'Culture'"
+                            amount="5"
+                    ></latest-item>
+                </div>
+                <div class="col-md-4">
+                    <latest-item
+                            heading="'Politics'"
+                            amount="5"
+                    ></latest-item>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
