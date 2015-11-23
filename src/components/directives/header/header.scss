@@ -68,10 +68,10 @@
       //background: $red;
       background: darken($red, 2%);
       transform: translateY(-40px);
-      transition: 0.6s;
+      transition: 0.3s;
       overflow: hidden;
       will-change:transform;
-      transition-delay: 1s;
+      //transition-delay: 1s;
 
       @media (max-width: 767px) {
         height: 40px;

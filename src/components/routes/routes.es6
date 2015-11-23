@@ -19,6 +19,12 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             controller: "HomeScreen",
             resolve: resolve
         })
+        .state('topic', {
+            url: "/topic/:cat",
+            templateUrl: "topic-screen.html",
+            controller: "TopicScreen",
+            resolve: resolve
+        })
         .state('article', {
             url: "/article/:id/:slug",
             templateUrl: "article-screen.html",

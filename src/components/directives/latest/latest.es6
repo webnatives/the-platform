@@ -4,13 +4,14 @@ app.directive('latestItem', (State, API) => {
     return {
         templateUrl: 'latest.html',
         scope: {
-            heading:'='
+            heading:'=',
+            amount:'='
         },
         link(scope, element, attrs) {
 
-            var articles;
+            var articles, amount = scope.amount || 6;
 
-            var getArticles = () => _.take(articles, 5);
+            var getArticles = () => _.take(articles, amount);
 
             var init = () => {
                 API.getPosts().then((response) => {

@@ -54,6 +54,13 @@ module.exports = {
             //standardData.content = body
             res.send(body);
         })
+    },
+
+    postsByCat(req, res) {
+        request.get({url: `http://52.18.144.118/wp-json/posts?filter[category_name]=${req.params.cat}`, json: true}, function (e, r, body) {
+            //standardData.content = body
+            res.send(body);
+        })
     }
 };
 

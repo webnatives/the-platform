@@ -34,6 +34,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: "home-screen.html",
         controller: "HomeScreen",
         resolve: resolve
+    }).state('topic', {
+        url: "/topic/:cat",
+        templateUrl: "topic-screen.html",
+        controller: "TopicScreen",
+        resolve: resolve
     }).state('article', {
         url: "/article/:id/:slug",
         templateUrl: "article-screen.html",
@@ -160,6 +165,12 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getPostsByCat = function getPostsByCat(cat) {
+        return $http.get(API_URL + 'posts/cat/' + cat).then(function (response) {
+            return response.data;
+        });
+    };
+
     var getCollections = function getCollections() {
         return $http.get('' + API_URL, { headers: { 'Cache-Control': 'no-cache' } }).then(function (response) {
             return _.drop(response.data);
@@ -196,6 +207,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getPosts: getPosts,
+        getPostsByCat: getPostsByCat,
         getCollections: getCollections,
         getCollection: getCollection,
         getDocument: getDocument,
@@ -315,6 +327,47 @@ app.directive('footItem', function (State) {
 
 'use strict';
 
+app.directive('heroItem', function (API, State) {
+    return {
+        templateUrl: 'hero.html',
+        scope: {
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var content;
+
+            var getContent = function getContent() {
+                return content;
+            };
+
+            var init = function init() {
+                console.log('post', scope.id);
+                if (scope.id == undefined) return;
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                getContent: getContent
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('headerItem', function (State) {
     return {
         templateUrl: 'header.html',
@@ -358,59 +411,20 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (API, State) {
-    return {
-        templateUrl: 'hero.html',
-        scope: {
-            heading: '=',
-            id: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var getContent = function getContent() {
-                return content;
-            };
-
-            var init = function init() {
-                console.log('post', scope.id);
-                if (scope.id == undefined) return;
-                API.getPost(scope.id).then(function (response) {
-                    content = response;
-                    console.log('post', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('latestItem', function (State, API) {
     return {
         templateUrl: 'latest.html',
         scope: {
-            heading: '='
+            heading: '=',
+            amount: '='
         },
         link: function link(scope, element, attrs) {
 
-            var articles;
+            var articles,
+                amount = scope.amount || 6;
 
             var getArticles = function getArticles() {
-                return _.take(articles, 5);
+                return _.take(articles, amount);
             };
 
             var init = function init() {
@@ -472,6 +486,39 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
     var init = function init() {
         API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getContent: getContent,
+        getFeaturedArticles: getFeaturedArticles,
+        getArticle: getArticle
+    });
+});
+
+app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var getContent = function getContent() {
+        return content;
+    };
+
+    var getFeaturedArticles = function getFeaturedArticles() {
+        return content;
+    };
+
+    var getArticle = function getArticle(index) {
+        return content[index];
+    };
+
+    var init = function init() {
+        API.getPostsByCat($stateParams.cat).then(function (response) {
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');

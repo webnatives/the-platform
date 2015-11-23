@@ -71,10 +71,14 @@ hr {
 .fi {
   opacity: 0;
   will-change: opcaity;
-  transition: 0.6s;
+  transition: 0.9s;
   transition-delay: 0.3s;
-  visibility: hidden; }
+  visibility: hidden;
+  -webkit-transform: translateY(100px);
+          transform: translateY(100px); }
   .fi.active {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
     opacity: 1;
     visibility: visible; }
 
@@ -298,6 +302,9 @@ textarea {
       padding: 0 10px;
       font-size: 20px; }
 
+[template=hero] {
+  cursor: pointer; }
+
 [template=header] .header {
   top: 0;
   left: 0;
@@ -343,10 +350,9 @@ textarea {
     background: #b63032;
     -webkit-transform: translateY(-40px);
             transform: translateY(-40px);
-    transition: 0.6s;
+    transition: 0.3s;
     overflow: hidden;
-    will-change: transform;
-    transition-delay: 1s; }
+    will-change: transform; }
     @media (max-width: 767px) {
       [template=header] .header .bottom-bar {
         height: 40px;
@@ -435,9 +441,6 @@ textarea {
       color: white;
       background: white;
       color: #be3234; }
-
-[template=hero] {
-  cursor: pointer; }
 
 [template=latest] .latest .latest-preview {
   margin-bottom: 20px;

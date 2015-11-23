@@ -1,4 +1,4 @@
-<script type="text/ng-template" id="home-screen.html">
+<script type="text/ng-template" id="topic-screen.html">
     <div screen style="background: #f7f7f7">
 
         <div class="container">
@@ -12,42 +12,18 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
-
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" ng-repeat="article in getContent() track by $index" ng-hide="$index == 0">
                             <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(3).ID"
+                                    id="article.ID"
                                     height="132"
                             ></hero-item>
-                        </div>
-                        <div class="col-sm-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(4).ID"
-                                    height="361"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <latest-item
                             heading="'Latest Articles'"
+                            amount="5"
                     ></latest-item>
                 </div>
                 <div class="col-sm-12"></div>
