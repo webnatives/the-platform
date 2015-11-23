@@ -230,6 +230,28 @@ app.factory('State', function ($rootScope) {
 });
 'use strict';
 
+app.directive('alert', function (Alert) {
+    return {
+        templateUrl: 'alert.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope.getColour = Alert.getColour;
+            scope.getMessage = Alert.getMessage;
+            scope.getActive = Alert.getActive;
+            scope.setActive = Alert.setActive;
+            scope.switchActive = Alert.switchActive;
+        }
+    };
+});
+
+'use strict';
+
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -271,28 +293,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
-app.directive('alert', function (Alert) {
-    return {
-        templateUrl: 'alert.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope.getColour = Alert.getColour;
-            scope.getMessage = Alert.getMessage;
-            scope.getActive = Alert.getActive;
-            scope.setActive = Alert.setActive;
-            scope.switchActive = Alert.switchActive;
-        }
-    };
-});
-
-'use strict';
-
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -306,6 +306,49 @@ app.directive('footItem', function (State) {
 
             scope = _.assign(scope, {
                 isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('headerItem', function (State) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var isMenuVisible = function isMenuVisible() {
+                return menuVisible;
+            };
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+
+                $('body').on('touchmove', checkScroll);
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -349,48 +392,6 @@ app.directive('heroItem', function (API, State) {
 
             scope = _.extend(scope, {
                 getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('headerItem', function (State) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var isMenuVisible = function isMenuVisible() {
-                return menuVisible;
-            };
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() < currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $('body').on('touchmove', checkScroll);
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };

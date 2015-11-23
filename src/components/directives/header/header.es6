@@ -12,12 +12,13 @@ app.directive('headerItem', (State) => {
             var isMenuVisible = () => menuVisible;
 
             var checkScroll= () => {
-                menuVisible = $(window).scrollTop() < currentscroll;
+                menuVisible = $(window).scrollTop() <= currentscroll;
                 currentscroll = $(window).scrollTop();
                 scope.$digest();
             };
 
             var events = () => {
+
                 $('body').on('touchmove', checkScroll);
                 $(window).on('scroll', checkScroll);
             };

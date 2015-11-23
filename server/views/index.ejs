@@ -30,6 +30,8 @@
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,700,400italic,300italic,700italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/public/lib.css"/>
     <link rel="stylesheet" href="/public/app.css"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
 <body data-ng-app="app">
 
@@ -41,6 +43,11 @@
 <div ui-view></div>
 
 <header-item></header-item>
+<script type="text/ng-template" id="alert.html">
+    <div template="alert">
+        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id}}">
         <div class="article-preview fi">
@@ -62,11 +69,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -112,22 +114,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
-                    <div class="tag">{{getContent().terms.category[0].name}}</div>
-                </div>
-
-                <h2>{{getContent().title}}</h2>
-                <p>{{getContent().acf.summary}}</p>
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -162,6 +148,22 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
+                    <div class="tag">{{getContent().terms.category[0].name}}</div>
+                </div>
+
+                <h2>{{getContent().title}}</h2>
+                <p>{{getContent().acf.summary}}</p>
+
+            </div>
+        </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="latest.html">
