@@ -305,12 +305,7 @@ textarea {
   position: fixed;
   z-index: 100;
   overflow: hidden;
-  -webkit-transform: translateY(0px);
-          transform: translateY(0px);
   transition: .3s; }
-  [template=header] .header.active .bottom-bar, [template=header] .header:hover .bottom-bar {
-    -webkit-transform: translateY(0px);
-            transform: translateY(0px); }
   [template=header] .header .helper-bar {
     background: #b22f31;
     height: 3px;
@@ -324,8 +319,7 @@ textarea {
     position: relative;
     z-index: 100;
     transition: .3s;
-    -webkit-transform: translateY(0px);
-            transform: translateY(0px); }
+    margin-top: 0px; }
     @media (max-width: 767px) {
       [template=header] .header .top-bar {
         height: 50px; } }
@@ -341,16 +335,14 @@ textarea {
     background: white;
     height: 40px;
     background: #b63032;
-    -webkit-transform: translateY(-40px);
-            transform: translateY(-40px);
     transition: .3s;
     overflow: hidden;
-    will-change: transform; }
+    will-change: margin;
+    margin-top: -40px; }
     @media (max-width: 767px) {
       [template=header] .header .bottom-bar {
         height: 40px;
-        -webkit-transform: translateY(-40px);
-                transform: translateY(-40px); } }
+        margin-top: -40px; } }
   [template=header] .header .logo {
     position: absolute;
     background: url("http://www.the-platform.org.uk/wp-content/themes/Nuke/images/logo_white.png");
