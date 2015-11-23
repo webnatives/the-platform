@@ -12,7 +12,7 @@ app.directive('headerItem', (State) => {
             var isMenuVisible = () => menuVisible;
 
             var events = () => {
-                $(window).scroll(() => {
+                $('body').bind('touchmove', (e) => {
                     //console.log('$(window).scrollTop()', $(window).scrollTop());
                     //console.log('menuVisible', menuVisible);
                     menuVisible = $(window).scrollTop() < currentscroll;
