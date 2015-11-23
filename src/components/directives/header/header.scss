@@ -8,7 +8,7 @@
     //height: 100px;
     z-index: 100;
     overflow: hidden;
-    //transform: translateY(0px);
+    transform: translateY(0px);
     //background: $primary;
     //    background: linear-gradient(-90deg, lighten($primary, 20%) 10%, darken($primary, 10%) 90%);
 
@@ -21,8 +21,7 @@
 
 
       .bottom-bar {
-        //transform: translateY(0px);
-        margin-top: 0;
+        transform: translateY(0px);
       }
     }
 
@@ -44,7 +43,7 @@
       position: relative;
       z-index: 100;
       transition: .3s;
-      //transform: translateY(0px);
+      transform: translateY(0px);
 
       @media (max-width: 767px) {
         height: 50px;
@@ -68,16 +67,15 @@
       height: 40px;
       //background: $red;
       background: darken($red, 2%);
-      //transform: translateY(-40px);
-      transition: .3s;
+      transform: translateY(-40px);
+      transition: 0.6s;
       overflow: hidden;
-      will-change:margin;
-      margin-top: -40px;
+      will-change:transform;
+      transition-delay: 1s;
 
       @media (max-width: 767px) {
         height: 40px;
-        margin-top: -40px;
-        //transform: translateY(-40px);
+        transform: translateY(-40px);
       }
     }
 

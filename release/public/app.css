@@ -250,31 +250,6 @@ textarea {
             transform: translateY(0);
     opacity: 1; }
 
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }
-
 [template=article-preview] {
   cursor: pointer; }
   [template=article-preview] .article-preview-image {
@@ -305,9 +280,12 @@ textarea {
   position: fixed;
   z-index: 100;
   overflow: hidden;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
   transition: .3s; }
   [template=header] .header.active .bottom-bar, [template=header] .header:hover .bottom-bar {
-    margin-top: 0; }
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px); }
   [template=header] .header .helper-bar {
     background: #b22f31;
     height: 3px;
@@ -320,7 +298,9 @@ textarea {
     height: 70px;
     position: relative;
     z-index: 100;
-    transition: .3s; }
+    transition: .3s;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px); }
     @media (max-width: 767px) {
       [template=header] .header .top-bar {
         height: 50px; } }
@@ -336,14 +316,17 @@ textarea {
     background: white;
     height: 40px;
     background: #b63032;
-    transition: .3s;
+    -webkit-transform: translateY(-40px);
+            transform: translateY(-40px);
+    transition: 0.6s;
     overflow: hidden;
-    will-change: margin;
-    margin-top: -40px; }
+    will-change: transform;
+    transition-delay: 1s; }
     @media (max-width: 767px) {
       [template=header] .header .bottom-bar {
         height: 40px;
-        margin-top: -40px; } }
+        -webkit-transform: translateY(-40px);
+                transform: translateY(-40px); } }
   [template=header] .header .logo {
     position: absolute;
     background: url("http://www.the-platform.org.uk/wp-content/themes/Nuke/images/logo_white.png");
@@ -428,8 +411,30 @@ textarea {
       background: white;
       color: #be3234; }
 
-[template=hero] {
-  cursor: pointer; }
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
 
 [template=latest] .latest .latest-preview {
   margin-bottom: 20px;
@@ -455,3 +460,6 @@ textarea {
     background-position: center;
     background-size: cover;
     position: relative; }
+
+[template=hero] {
+  cursor: pointer; }

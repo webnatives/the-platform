@@ -15,21 +15,6 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -58,6 +43,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 'use strict';
 
 app.factory('Alert', function ($timeout, $rootScope) {
@@ -252,28 +252,6 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -358,6 +336,61 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, 5);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('heroItem', function (API, State) {
     return {
         templateUrl: 'hero.html',
@@ -392,39 +425,6 @@ app.directive('heroItem', function (API, State) {
 
             scope = _.extend(scope, {
                 getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State, API) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, 5);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles
             });
         }
     };
