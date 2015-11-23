@@ -41,6 +41,29 @@
 <div ui-view></div>
 
 <header-item></header-item>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <div class="tag">{{getContent().terms.category[0].name}}</div>
+                            <h3>{{getContent().title}}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="alert.html">
     <div template="alert">
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
@@ -89,23 +112,16 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id}}">
-        <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div>
-                            <div class="tag">{{getContent().terms.category[0].name}}</div>
-                            <h3>{{getContent().title}}</h3>
-                        </div>
-                    </div>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
+                    <div class="tag">{{getContent().terms.category[0].name}}</div>
                 </div>
 
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+                <h2>{{getContent().title}}</h2>
+                <p>{{getContent().acf.summary}}</p>
 
             </div>
         </div>
@@ -175,87 +191,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="home-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
-
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(3).ID"
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(4).ID"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <latest-item
-                            heading="'Latest Articles'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Culture'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Politics'"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -420,20 +355,85 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
-                    <div class="tag">{{getContent().terms.category[0].name}}</div>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
                 </div>
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
+                            ></article-preview-item>
 
-                <h2>{{getContent().title}}</h2>
-                <p>{{getContent().acf.summary}}</p>
-
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(3).ID"
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(4).ID"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <!--<article-preview-item></article-preview-item>-->
+                        </div>
+                        <div class="col-sm-6">
+                            <!--<article-preview-item></article-preview-item>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <latest-item
+                            heading="'Latest Articles'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-12"></div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Culture'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Politics'"
+                    ></latest-item>
+                </div>
             </div>
+
         </div>
 
+        <foot-item></foot-item>
     </div>
 </script>
 
