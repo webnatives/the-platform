@@ -204,6 +204,7 @@ textarea {
 
 .hero-image {
   height: 300px;
+  background: #f7f7f7;
   background-position: center;
   background-size: cover;
   margin-bottom: 15px;
@@ -249,6 +250,54 @@ textarea {
             transform: translateY(0);
     opacity: 1; }
 
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
+
+[template=article-preview] {
+  cursor: pointer; }
+  [template=article-preview] .article-preview-image {
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0;
+    position: relative; }
+    [template=article-preview] .article-preview-image .tag {
+      height: 30px;
+      background: white;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      line-height: 30px;
+      bottom: 0;
+      left: 0;
+      padding: 0 20px;
+      margin: 0;
+      color: #555;
+      font-weight: 700; }
+  [template=article-preview] h3 {
+    padding-bottom: 0; }
+
 [template=header] .header {
   top: 0;
   left: 0;
@@ -256,6 +305,8 @@ textarea {
   position: fixed;
   z-index: 100;
   overflow: hidden;
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
   transition: .3s; }
   [template=header] .header.active .bottom-bar, [template=header] .header:hover .bottom-bar {
     -webkit-transform: translateY(0px);
@@ -272,7 +323,9 @@ textarea {
     height: 70px;
     position: relative;
     z-index: 100;
-    transition: .3s; }
+    transition: .3s;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px); }
     @media (max-width: 767px) {
       [template=header] .header .top-bar {
         height: 50px; } }
@@ -291,7 +344,8 @@ textarea {
     -webkit-transform: translateY(-40px);
             transform: translateY(-40px);
     transition: .3s;
-    overflow: hidden; }
+    overflow: hidden;
+    will-change: transform; }
     @media (max-width: 767px) {
       [template=header] .header .bottom-bar {
         height: 40px;
@@ -313,8 +367,8 @@ textarea {
         height: 40px;
         width: 40px; } }
     [template=header] .header .logo:hover {
-      -webkit-transform: rotate(720deg);
-              transform: rotate(720deg); }
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg); }
   [template=header] .header .logo-text {
     color: white;
     text-transform: uppercase;
@@ -381,57 +435,6 @@ textarea {
       background: white;
       color: #be3234; }
 
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }
-
-[template=article-preview] {
-  cursor: pointer; }
-  [template=article-preview] .article-preview-image {
-    height: 100px;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 0;
-    position: relative; }
-    [template=article-preview] .article-preview-image .tag {
-      height: 30px;
-      background: white;
-      background: rgba(255, 255, 255, 0.9);
-      position: absolute;
-      line-height: 30px;
-      bottom: 0;
-      left: 0;
-      padding: 0 20px;
-      margin: 0;
-      color: #555;
-      font-weight: 700; }
-  [template=article-preview] h3 {
-    padding-bottom: 0; }
-
-[template=hero] {
-  cursor: pointer; }
-
 [template=latest] .latest .latest-preview {
   margin-bottom: 20px;
   border-bottom: 1px solid #eee;
@@ -456,3 +459,6 @@ textarea {
     background-position: center;
     background-size: cover;
     position: relative; }
+
+[template=hero] {
+  cursor: pointer; }

@@ -8,6 +8,7 @@
     //height: 100px;
     z-index: 100;
     overflow: hidden;
+    transform: translateY(0px);
     //background: $primary;
     //    background: linear-gradient(-90deg, lighten($primary, 20%) 10%, darken($primary, 10%) 90%);
 
@@ -42,6 +43,7 @@
       position: relative;
       z-index: 100;
       transition: .3s;
+      transform: translateY(0px);
 
       @media (max-width: 767px) {
         height: 50px;
@@ -68,6 +70,7 @@
       transform: translateY(-40px);
       transition: .3s;
       overflow: hidden;
+      will-change:transform;
 
       @media (max-width: 767px) {
         height: 40px;
@@ -93,7 +96,7 @@
       }
 
       &:hover {
-        transform: rotate(720deg);
+        transform: rotate(360deg);
       }
     }
 
