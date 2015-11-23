@@ -250,29 +250,6 @@ textarea {
             transform: translateY(0);
     opacity: 1; }
 
-[template=article-preview] {
-  cursor: pointer; }
-  [template=article-preview] .article-preview-image {
-    height: 100px;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 0;
-    position: relative; }
-    [template=article-preview] .article-preview-image .tag {
-      height: 30px;
-      background: white;
-      background: rgba(255, 255, 255, 0.9);
-      position: absolute;
-      line-height: 30px;
-      bottom: 0;
-      left: 0;
-      padding: 0 20px;
-      margin: 0;
-      color: #555;
-      font-weight: 700; }
-  [template=article-preview] h3 {
-    padding-bottom: 0; }
-
 [template=foot] .foot-top {
   background: #333;
   color: white;
@@ -298,6 +275,29 @@ textarea {
       padding: 0 10px;
       font-size: 20px; }
 
+[template=article-preview] {
+  cursor: pointer; }
+  [template=article-preview] .article-preview-image {
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0;
+    position: relative; }
+    [template=article-preview] .article-preview-image .tag {
+      height: 30px;
+      background: white;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      line-height: 30px;
+      bottom: 0;
+      left: 0;
+      padding: 0 20px;
+      margin: 0;
+      color: #555;
+      font-weight: 700; }
+  [template=article-preview] h3 {
+    padding-bottom: 0; }
+
 [template=header] .header {
   top: 0;
   left: 0;
@@ -306,6 +306,8 @@ textarea {
   z-index: 100;
   overflow: hidden;
   transition: .3s; }
+  [template=header] .header.active .bottom-bar, [template=header] .header:hover .bottom-bar {
+    margin-top: 0; }
   [template=header] .header .helper-bar {
     background: #b22f31;
     height: 3px;
@@ -318,8 +320,7 @@ textarea {
     height: 70px;
     position: relative;
     z-index: 100;
-    transition: .3s;
-    margin-top: 0px; }
+    transition: .3s; }
     @media (max-width: 767px) {
       [template=header] .header .top-bar {
         height: 50px; } }

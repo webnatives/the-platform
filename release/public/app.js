@@ -252,6 +252,28 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -286,28 +308,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
             scope = _.extend(scope, {
                 getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };

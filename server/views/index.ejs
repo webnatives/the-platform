@@ -48,29 +48,6 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id}}">
-        <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div>
-                            <div class="tag">{{getContent().terms.category[0].name}}</div>
-                            <h3>{{getContent().title}}</h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -112,6 +89,29 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <div class="tag">{{getContent().terms.category[0].name}}</div>
+                            <h3>{{getContent().title}}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </div>
+        </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="header.html">
