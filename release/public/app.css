@@ -173,7 +173,7 @@ textarea {
   padding: 15px; }
 
 [screen] {
-  padding: 20px 0;
+  padding: 20px 0 0;
   padding-top: 153px;
   opacity: 0;
   transition: .3s;
@@ -257,6 +257,31 @@ textarea {
     -webkit-transform: translateY(0);
             transform: translateY(0);
     opacity: 1; }
+
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
 
 [template=article-preview] {
   cursor: pointer; }
@@ -447,6 +472,9 @@ textarea {
 [template=hero] {
   cursor: pointer; }
 
+[template=latest] .latest h3, [template=latest] .latest h2 {
+  color: black; }
+
 [template=latest] .latest .latest-preview {
   margin-bottom: 20px;
   border-bottom: 1px solid #eee;
@@ -456,44 +484,22 @@ textarea {
           transform: translateX(0px);
   transition: .2s;
   cursor: pointer; }
+  [template=latest] .latest .latest-preview h3, [template=latest] .latest .latest-preview h2 {
+    padding: 0;
+    margin: 0;
+    color: black; }
   [template=latest] .latest .latest-preview:hover {
     -webkit-transform: translateX(5px);
             transform: translateX(5px); }
+    [template=latest] .latest .latest-preview:hover h3 {
+      color: #be3234; }
   [template=latest] .latest .latest-preview:last-child {
     margin-bottom: 0px;
     border-bottom: none;
     padding-bottom: 0px; }
-  [template=latest] .latest .latest-preview h3 {
-    padding: 0;
-    margin: 0; }
   [template=latest] .latest .latest-preview .preview-image {
     height: 80px;
     background: #f7f7f7;
     background-position: center;
     background-size: cover;
     position: relative; }
-
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }

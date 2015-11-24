@@ -10,6 +10,8 @@ module.exports = {
         app.get('/api/post/:id', Get.post);
         app.get('/api/posts/cat/:cat', Get.postsByCat);
         app.get('/api/posts/tag/:tag', Get.postsByTag);
+        //app.get('/api/posts/author/:id', Get.postsByAuthor);
+        app.get('/api/posts/:filter/:value', Get.postsByFilter);
         app.get('/api/posts', Get.posts);
         app.get('*', Get.index);
     }

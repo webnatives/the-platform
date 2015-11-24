@@ -48,6 +48,49 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
+<script type="text/ng-template" id="foot.html">
+    <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>The Platform is a groundbreaking blog that provides current affairs and cultural commentary. Our pieces offer challenging opinions from a range of spectrums; that’s why we love hosting a platform for them.</p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Writers</h2>
+                        <p>Writer's Guidelines</p>
+                        <p>User Guidelines</p>
+                        <p>Join</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>About</h2>
+                        <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
+                    </div>
+                </div>
+
+                <div class="foot-bottom">
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id}}">
         <div class="article-preview fi">
@@ -183,49 +226,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="foot.html">
-    <div template="foot">
-        <div class="foot-top">
-            <div class="container">
-                <p>The Platform is a groundbreaking blog that provides current affairs and cultural commentary. Our pieces offer challenging opinions from a range of spectrums; that’s why we love hosting a platform for them.</p>
-            </div>
-        </div>
-
-        <div class="foot">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>Get In Touch</h2>
-                        <p>Subscribe</p>
-                        <p>Contact Us</p>
-                    </div>
-                </div>
-
-                <div class="foot-bottom">
-
-                    Copyright &copy; 2015 The Platform. All rights reserved.
-                    <div class="social pull-right">
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen>
         <div class="container">
@@ -239,16 +239,23 @@
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
-                            <span class="pull-right" style="margin-left: 40px">
+                            <span class="pull-right" style="margin-left: 40px"  ng-show="getContent().featured_image.source">
                                 Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
                             </span>
 
-                            <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.name}} </a>
+                            <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
+                            &nbsp;
                         </small>
                     </p>
-                    <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
+
+                    <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
                         <div class="tag">Culture</div>
                     </div>
+
+                    <!--<div class="hero-image" style="background-image: url('{{getImage()}}');height:500px">-->
+                        <!--<div class="tag">Culture</div>-->
+                    <!--</div>-->
+
                     <div style="height: 10px"></div>
 
                 </div>
@@ -269,65 +276,47 @@
                     </div>
 
                     <div class="box">
-                        <h2><a href="#">Louis Bayman</a></h2>
-                        <hr>
-                        <p>Louis Bayman is a film critic and academic based at the University of Southampton. He is also the co-editor, with Nat&aacute;lia Pinazza, of&nbsp;<em>The Directory of World Cinema: Brazil</em>&nbsp;and&nbsp;<em>World Film Locations: S&atilde;o Paulo</em>, both published by Intellect Press.
-                        </p>
+                        <h2><a ng-bind-html="trustAsHtml(getContent().author.name)"></a></h2>
+                        <hr ng-if="getContent().author.description">
+                        <p ng-if="getContent().author.description" ng-bind-html="trustAsHtml(getContent().author.description)"></p>
                     </div>
                     <div class="clearfix"></div>
 
-                    <div class="section-title">Featured Post</div>
+                    <div class="section-title">Featured Posts</div>
                     <hero-item
-                            class="clearfix"
-                            heading="'Suffragette: It\’s Time to Inspire Rage in the Women of Britain'"
-                            summary="'New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies'"
-                            image="'http://cdn.movieweb.com/img.site/PHBCkOvcE7GpEK_1_l.jpg'"
-                            tag="'Culture'"
+                            ng-if="getFeaturedArticle(0)"
+                            id="getFeaturedArticle(0).ID"
                             height="150"
-                            link=""
                     ></hero-item>
+                    <article-preview-item
+                            ng-repeat="article in getFeatured() track by $index"
+                            ng-if="$index != 0 && $index < 3"
+                            id="getFeaturedArticle($index).ID"
+                            height="150"
+                    ></article-preview-item>
 
                     <div class="section-title">Related Posts</div>
-                    <article-preview-item></article-preview-item>
-                    <article-preview-item></article-preview-item>
-                    <article-preview-item></article-preview-item>
+
+                    <article-preview-item
+                            ng-repeat="article in getRelated() track by $index"
+                            ng-if="$index < 3"
+                            id="article.ID"
+                    ></article-preview-item>
                 </div>
 
                 <div class="col-sm-12">
-                    <div class="section-title">Related Posts</div>
+                    <div class="section-title">You Might Also Like</div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4"
+                     ng-repeat="article in getRelated() track by $index"
+                     ng-if="$index < 3"
+                >
                     <hero-item
-                            heading="'The “Routine” of Gun-Control Discourse in America'"
-                            summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                            image="'http://www.the-platform.org.uk/wp-content/themes/Nuke/timthumb.php?src=http://www.the-platform.org.uk/wp-content/uploads/2015/10/Gun-Law-Featured2.jpg&w=520&h=250&zc=1'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
+                            id="article.ID"
+                            height="250"
                     ></hero-item>
                 </div>
 
-                <div class="col-sm-4">
-                    <hero-item
-                            heading="'Lorem ipsum dolor sit amet, consectetur adipisicing elit'"
-                            summary="'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa fuga fugit nihil perferendis possimus quae.'"
-                            image="'https://unsplash.it/500/500/?random&689'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></hero-item>
-                </div>
-
-                <div class="col-sm-4">
-                    <hero-item
-                            heading="'The “Routine” of Gun-Control Discourse in America'"
-                            summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                            image="'https://unsplash.it/500/500/?random&567'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></hero-item>
-                </div>
 
                 <div class="col-sm-12">
                     <div class="section-title">#Paris</div>
@@ -513,74 +502,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    ng-if="$index != 0"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="5"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Culture'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Politics'"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="tag-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -617,6 +538,80 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="topic-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="5"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-12"></div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Culture'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-6">
+                    <latest-item
+                            heading="'Politics'"
+                    ></latest-item>
+                </div>
             </div>
 
         </div>

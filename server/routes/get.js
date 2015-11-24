@@ -45,12 +45,11 @@ module.exports = {
         })
     },
 
-    post(req, res) {
-        request.get({url: `${API}/wp-json/posts/${req.params.id}`, json: true}, function (e, r, body) {
-            //standardData.content = body
-            res.send(body);
-        })
-    },
+    postsByAuthor: (req, res) => request.get({url: `${API}/wp-json/posts?filter[author]=${req.params.id}`, json: true},  (e, r, body) => res.send(body)),
+
+    postsByFilter: (req, res) => request.get({url: `${API}/wp-json/posts?filter[${req.params.filter}]=${req.params.value}`, json: true},  (e, r, body) => res.send(body)),
+
+    post: (req, res) => request.get({url: `${API}/wp-json/posts/${req.params.id}`, json: true},  (e, r, body) => res.send(body)),
 
     posts(req, res) {
         request.get({url: `${API}/wp-json/posts/`, json: true}, function (e, r, body) {

@@ -3,34 +3,40 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <hero-item
                             ng-if="getContent()"
                             id="getArticle(0).ID"
                             height="350"
                     ></hero-item>
                 </div>
-                <div class="col-md-8">
+                <div class="col-xs-12">
                     <div class="row">
 
-                        <div class="col-sm-6">
+                        <div class="col-md-4 col-sm-7">
                             <hero-item
                                     ng-repeat="article in getContentHalf(0) track by $index"
-                                    ng-if="$index != 0"
                                     id="article.ID"
                                     height="200"
                             ></hero-item>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-md-4 col-sm-5">
                             <hero-item
                                     ng-repeat="article in getContentHalf(1) track by $index"
                                     id="article.ID"
                                     height="200"
                             ></hero-item>
                         </div>
+                        <div class="col-md-4 col-sm-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-12">
                     <latest-item
                             heading="'Latest Articles'"
                             amount="5"
