@@ -12,10 +12,20 @@
                 </div>
                 <div class="col-md-8">
                     <div class="row">
-                        <div class="col-sm-6" ng-repeat="article in getContent() track by $index" ng-hide="$index == 0">
+
+                        <div class="col-sm-6">
                             <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    ng-if="$index != 0"
                                     id="article.ID"
-                                    height="132"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="article.ID"
+                                    height="200"
                             ></hero-item>
                         </div>
                     </div>

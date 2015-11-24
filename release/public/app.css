@@ -45,6 +45,8 @@ hr {
   transition: .2s;
   margin-bottom: 20px;
   will-change: transform; }
+  .box h2, .box h3 {
+    transition: .3s; }
   .box .box-header {
     border-bottom: 1px solid #eee;
     margin: -20px -20px 20px;
@@ -58,6 +60,8 @@ hr {
     .box:hover.large {
       -webkit-transform: translateY(0px);
               transform: translateY(0px); }
+    .box:hover h2, .box:hover h3 {
+      color: #be3234; }
 
 .tag {
   font-size: 14px;
@@ -258,6 +262,7 @@ textarea {
   cursor: pointer; }
   [template=article-preview] .article-preview-image {
     height: 100px;
+    background: #f7f7f7;
     background-position: center;
     background-size: cover;
     margin-bottom: 0;
@@ -276,31 +281,6 @@ textarea {
       font-weight: 700; }
   [template=article-preview] h3 {
     padding-bottom: 0; }
-
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }
 
 [template=group] .group .group-preview {
   margin-bottom: 20px;
@@ -488,6 +468,32 @@ textarea {
     margin: 0; }
   [template=latest] .latest .latest-preview .preview-image {
     height: 80px;
+    background: #f7f7f7;
     background-position: center;
     background-size: cover;
     position: relative; }
+
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }

@@ -1,16 +1,16 @@
 'use strict';
 
-app.directive('articlePreviewItem', (State, API) => {
+app.directive('articlePreviewItem', (State, API, $sce) => {
     return {
         templateUrl: 'article-preview.html',
         scope: {
-            heading:'=',
-            id:'=',
-            image:'=',
-            link:'=',
-            summary:'=',
-            height:'=',
-            tag:'='
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
         },
         link(scope, element, attrs) {
 
@@ -20,7 +20,7 @@ app.directive('articlePreviewItem', (State, API) => {
 
             var init = () => {
                 console.log('scope.id (article-preview)', scope.id);
-                if (scope.id ==undefined) return;
+                if (scope.id == undefined) return;
                 API.getPost(scope.id).then((response) => {
                     content = response;
                     console.log('post (article-preview)', response);
@@ -31,7 +31,8 @@ app.directive('articlePreviewItem', (State, API) => {
             init();
 
             scope = _.extend(scope, {
-                getContent: getContent
+                getContent: getContent,
+                trustAsHtml: $sce.trustAsHtml
             });
         }
     }

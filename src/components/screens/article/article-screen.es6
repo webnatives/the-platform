@@ -2,21 +2,21 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
 
     var content;
 
-    var getContent = () => content;
-
     var init = () => {
         API.getPost($stateParams.id).then((response) => {
             content = response;
             console.log('content', content);
-            $element.find('[screen]').addClass('active')
+            $element.find('[screen]').addClass('active');
+            content.content = content.content.split("<p>&nbsp;</p>").join("");
         });
     };
 
     init();
 
     _.extend($scope, {
-        getContent: getContent,
-        trustAsHtml: $sce.trustAsHtml
+        trustAsHtml: $sce.trustAsHtml,
+        getContent: () => content,
+        getContentHalf: (index) => _.chunk(content, content.length / 2)[index]
     })
 });
 

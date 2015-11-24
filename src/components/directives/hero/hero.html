@@ -3,11 +3,12 @@
         <div class="hero fi">
             <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
                 <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:{{height}}px">
-                    <div class="tag">{{getContent().terms.category[0].name}}</div>
+                    <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
                 </div>
 
-                <h2>{{getContent().title}}</h2>
-                <p>{{getContent().acf.summary}}</p>
+                <h2 ng-bind-html="trustAsHtml(getContent().title)"></h2>
+                <p ng-bind-html="trustAsHtml(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
+                <p ng-bind-html="trustAsHtml(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
 
             </div>
         </div>

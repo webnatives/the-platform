@@ -6,7 +6,7 @@
                     <!--<div style="height: 10px"></div>-->
 
                     <!--<div class="tag">Culture</div>-->
-                    <h1>{{getContent().title}}</h1>
+                    <h1 ng-bind-html="$root.html(getContent().title)"></h1>
 
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
@@ -15,7 +15,7 @@
                                 Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
                             </span>
 
-                            <a ng-href="/tag/{{tag.name}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.name}} </a>
+                            <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.name}} </a>
                         </small>
                     </p>
                     <div class="hero-image" style="background-image: url('{{getContent().featured_image.source}}');height:500px">

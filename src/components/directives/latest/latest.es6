@@ -9,7 +9,7 @@ app.directive('latestItem', (State, API) => {
         },
         link(scope, element, attrs) {
 
-            var articles, amount = scope.amount || 6;
+            var articles, amount = scope.amount || 3;
 
             var getArticles = () => _.take(articles, amount);
 

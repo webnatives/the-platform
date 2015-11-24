@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('heroItem', (API, State) => {
+app.directive('heroItem', (API, State, $sce) => {
     return {
         templateUrl: 'hero.html',
         scope: {
@@ -25,13 +25,15 @@ app.directive('heroItem', (API, State) => {
                     content = response;
                     console.log('post', response);
                     element.find('.fi').addClass('active');
+                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
                 });
             };
 
             init();
 
             scope = _.extend(scope, {
-                getContent: getContent
+                getContent: getContent,
+                trustAsHtml: $sce.trustAsHtml
             });
         }
     }

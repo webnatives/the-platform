@@ -75,6 +75,10 @@ hr {
   margin-bottom: 20px;
   will-change: transform;
 
+  h2, h3 {
+    transition: .3s;
+  }
+
   &.large {
     //border-top:3px solid $blue;
   }
@@ -97,6 +101,10 @@ hr {
 
     &.large {
       transform: translateY(0px);
+    }
+
+    h2, h3 {
+      color: $red;
     }
   }
 }

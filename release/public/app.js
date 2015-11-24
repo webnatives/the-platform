@@ -234,7 +234,7 @@ app.factory('API', function ($rootScope, $http) {
 });
 'use strict';
 
-app.factory('State', function ($rootScope) {
+app.factory('State', function ($rootScope, $sce) {
 
     var title = 'Content Types';
 
@@ -245,6 +245,8 @@ app.factory('State', function ($rootScope) {
     var getTitle = function getTitle() {
         return title;
     };
+
+    $rootScope.html = $sce.trustAsHtml;
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
         $(document).scrollTop(0);
@@ -281,7 +283,7 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State, API) {
+app.directive('articlePreviewItem', function (State, API, $sce) {
     return {
         templateUrl: 'article-preview.html',
         scope: {
@@ -314,29 +316,8 @@ app.directive('articlePreviewItem', function (State, API) {
             init();
 
             scope = _.extend(scope, {
-                getContent: getContent
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+                getContent: getContent,
+                trustAsHtml: $sce.trustAsHtml
             });
         }
     };
@@ -422,7 +403,7 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (API, State) {
+app.directive('heroItem', function (API, State, $sce) {
     return {
         templateUrl: 'hero.html',
         scope: {
@@ -449,13 +430,15 @@ app.directive('heroItem', function (API, State) {
                     content = response;
                     console.log('post', response);
                     element.find('.fi').addClass('active');
+                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
                 });
             };
 
             init();
 
             scope = _.extend(scope, {
-                getContent: getContent
+                getContent: getContent,
+                trustAsHtml: $sce.trustAsHtml
             });
         }
     };
@@ -473,7 +456,7 @@ app.directive('latestItem', function (State, API) {
         link: function link(scope, element, attrs) {
 
             var articles,
-                amount = scope.amount || 6;
+                amount = scope.amount || 3;
 
             var getArticles = function getArticles() {
                 return _.take(articles, amount);
@@ -496,27 +479,51 @@ app.directive('latestItem', function (State, API) {
     };
 });
 
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce) {
 
     var content;
-
-    var getContent = function getContent() {
-        return content;
-    };
 
     var init = function init() {
         API.getPost($stateParams.id).then(function (response) {
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');
+            content.content = content.content.split("<p>&nbsp;</p>").join("");
         });
     };
 
     init();
 
     _.extend($scope, {
-        getContent: getContent,
-        trustAsHtml: $sce.trustAsHtml
+        trustAsHtml: $sce.trustAsHtml,
+        getContent: function getContent() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        }
     });
 });
 
@@ -586,6 +593,36 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
+app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByCat($stateParams.cat).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getArticle: function getArticle(index) {
+            return content[index];
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        }
+    });
+});
+
 app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
@@ -603,38 +640,5 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
         getTerms: function getTerms() {
             return terms;
         }
-    });
-});
-
-app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
-
-    var content;
-
-    var getContent = function getContent() {
-        return content;
-    };
-
-    var getFeaturedArticles = function getFeaturedArticles() {
-        return content;
-    };
-
-    var getArticle = function getArticle(index) {
-        return content[index];
-    };
-
-    var init = function init() {
-        API.getPostsByCat($stateParams.cat).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getContent: getContent,
-        getFeaturedArticles: getFeaturedArticles,
-        getArticle: getArticle
     });
 });
