@@ -3,15 +3,26 @@
         <div class="article-preview fi">
             <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
                 <div class="row">
-                    <div class="col-xs-6">
-                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div>
-                            <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
-                            <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                    <div ng-if="getContent().featured_image.source">
+                        <div class="col-xs-5">
+                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
                         </div>
                     </div>
+                    <div ng-if="!getContent().featured_image.source">
+                        <div class="col-xs-12">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->

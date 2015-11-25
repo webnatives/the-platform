@@ -6,6 +6,7 @@
                     <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
                 </div>
 
+                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>-->
                 <h2 ng-bind-html="trustAsHtml(getContent().title)"></h2>
                 <p ng-bind-html="trustAsHtml(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
                 <p ng-bind-html="trustAsHtml(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>

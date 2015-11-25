@@ -1,5 +1,5 @@
 <script type="text/ng-template" id="group.html">
-    <div template="group">
+    <div template="group" ids="{{ids}}">
         <div class="group fi">
             <div class="box large">
 
@@ -8,15 +8,26 @@
                 <div>
                     <div class="group-preview" ng-repeat="article in getArticles()">
                         <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{article.title}}</h3>
+                            <div ng-if="article.featured_image.source">
+                                <div class="col-xs-4">
+                                    <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div>
+                                        <div class="tag">{{article.terms.category[0].name}}</div>
+                                        <h3>{{article.title}}</h3>
+                                    </div>
                                 </div>
                             </div>
+                            <div ng-if="!article.featured_image.source">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <div class="tag">{{article.terms.category[0].name}}</div>
+                                        <h3>{{article.title}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -1,31 +1,28 @@
 'use strict';
 
-app.directive('groupItem', (State, API) => {
-    return {
-        templateUrl: 'group.html',
-        scope: {
-            heading:'=',
-            amount:'='
-        },
-        link(scope, element, attrs) {
+app.directive('groupItem', (State, API) => ({
+    templateUrl: 'group.html',
+    scope: {heading: '=', ids: '='},
+    link(scope, element, attrs) {
 
-            var articles, amount = scope.amount || 6;
+        var articles = [];
 
-            var getArticles = () => _.take(articles, amount);
-
-            var init = () => {
-                API.getPosts().then((response) => {
-                    articles = response;
-                    console.log('post (article-preview)', response);
+        var init = () => {
+            _.each(scope.ids, (id, index) => {
+                console.warn(index, id)
+                API.getPost(id).then((response) => {
+                    articles.push(response);
+                    console.log('post (group)', id, response);
                     element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles
+                })
             });
-        }
+        };
+
+        init();
+
+        scope = _.assign(scope, {
+            getArticles: () => articles,
+            getArticle: (index) => articles[index]
+        });
     }
-});
+}));

@@ -48,6 +48,40 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div ng-if="getContent().featured_image.source">
+                        <div class="col-xs-5">
+                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!getContent().featured_image.source">
+                        <div class="col-xs-12">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -91,58 +125,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id}}">
-        <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div>
-                            <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
-                            <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
-                        </div>
-                    </div>
-                </div>
-
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
-            </div>
-        </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="group.html">
-    <div template="group">
-        <div class="group fi">
-            <div class="box large">
-
-                <h2 class="box-header">{{heading}}</h2>
-
-                <div>
-                    <div class="group-preview" ng-repeat="article in getArticles()">
-                        <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{article.title}}</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -180,6 +162,46 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="group.html">
+    <div template="group" ids="{{ids}}">
+        <div class="group fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading}}</h2>
+
+                <div>
+                    <div class="group-preview" ng-repeat="article in getArticles()">
+                        <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
+                            <div ng-if="article.featured_image.source">
+                                <div class="col-xs-4">
+                                    <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div>
+                                        <div class="tag">{{article.terms.category[0].name}}</div>
+                                        <h3>{{article.title}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="!article.featured_image.source">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <div class="tag">{{article.terms.category[0].name}}</div>
+                                        <h3>{{article.title}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
@@ -188,6 +210,7 @@
                     <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
                 </div>
 
+                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>-->
                 <h2 ng-bind-html="trustAsHtml(getContent().title)"></h2>
                 <p ng-bind-html="trustAsHtml(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
                 <p ng-bind-html="trustAsHtml(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
@@ -263,9 +286,9 @@
                     <div class="article-content">
 
 
-                        <p><strong ng-bind-html="trustAsHtml(getContent().acf.summary)"></strong></p>
+                        <p><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
-                        <div ng-bind-html="trustAsHtml(getContent().content)"></div>
+                        <div ng-bind-html="$root.html(getContent().content)"></div>
                     </div>
 
 
@@ -276,9 +299,9 @@
                     </div>
 
                     <div class="box">
-                        <h2><a ng-bind-html="trustAsHtml(getContent().author.name)"></a></h2>
+                        <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
                         <hr ng-if="getContent().author.description">
-                        <p ng-if="getContent().author.description" ng-bind-html="trustAsHtml(getContent().author.description)"></p>
+                        <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
                     </div>
                     <div class="clearfix"></div>
 
@@ -294,6 +317,14 @@
                             id="getFeaturedArticle($index).ID"
                             height="150"
                     ></article-preview-item>
+
+                    <hr>
+
+                    <group-item
+                            heading="'Related Posts'"
+                            ng-if="getRelatedIds()"
+                            ids="getRelatedIds()"
+                    ></group-item>
 
                     <div class="section-title">Related Posts</div>
 
@@ -319,50 +350,16 @@
 
 
                 <div class="col-sm-12">
-                    <div class="section-title">#Paris</div>
+                    <div class="section-title">#paris</div>
                 </div>
-                <div class="col-sm-6">
-                    <article-preview-item
-                            heading="'The “Routine” of Gun-Control Discourse in America'"
-                            summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                            image="'https://unsplash.it/500/500/?random&685d9'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></article-preview-item>
-                </div>
-
-                <div class="col-sm-6">
-                    <article-preview-item
-                            heading="'Lorem ipsum dolor sit amet, consectetur adipisicing elit'"
-                            summary="'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa fuga fugit nihil perferendis possimus quae.'"
-                            image="'https://unsplash.it/500/500/?random&6859'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></article-preview-item>
-                </div>
-
-                <div class="col-sm-6">
-                    <article-preview-item
-                            heading="'The “Routine” of Gun-Control Discourse in America'"
-                            summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                            image="'https://unsplash.it/500/500/?random&685d339'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></article-preview-item>
-                </div>
-
-                <div class="col-sm-6">
-                    <article-preview-item
-                            heading="'The “Routine” of Gun-Control Discourse in America'"
-                            summary="'Guns may have now caused enough harm to fire themselves to the top of the list of key issues in the 2016 election'"
-                            image="'https://unsplash.it/500/500/?random&685de339'"
-                            tag="'Politics'"
-                            height="150"
-                            link=""
-                    ></article-preview-item>
+                <div class="col-sm-4"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="250"
+                    ></hero-item>
                 </div>
             </div>
 
@@ -416,33 +413,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-12">
                     <latest-item
                             heading="'Latest Articles'"
                             amount="6"
                     ></latest-item>
                 </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
                 </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
+
+
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="150"
+                    ></hero-item>
                 </div>
+
                 <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
                     <latest-item
                             heading="'Culture'"
+                            amount="3"
                     ></latest-item>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <latest-item
                             heading="'Politics'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3">
+                    <latest-item
+                            heading="'International'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3">
+                    <latest-item
+                            heading="'Religion'"
+                            amount="3"
                     ></latest-item>
                 </div>
             </div>
@@ -495,49 +508,6 @@
                             amount="3"
                     ></latest-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -612,6 +582,49 @@
                             heading="'Politics'"
                     ></latest-item>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
+                </div>
+
             </div>
 
         </div>

@@ -1,12 +1,6 @@
 app.controller('HomeScreen', ($element, $timeout, API, $scope) => {
 
-    var content;
-
-    var getContent = () => content;
-
-    var getFeaturedArticles = () => content.acf.featuredArticles;
-
-    var getArticle = (index) => content.acf.featuredArticles[index].article;
+    var content, tags;
 
     var init = () => {
         API.getHome().then((response) => {
@@ -14,16 +8,18 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope) => {
             console.log('content', content);
             $element.find('[screen]').addClass('active')
         });
+        API.getPostsByTag("labour").then((response) => tags = response);
 
     };
 
     init();
 
     _.extend($scope, {
-        getContent: getContent,
-        getFeaturedArticles: getFeaturedArticles,
-        getArticle: getArticle
-    })
+        getTags: () => tags,
+        getContent: () => content,
+        getFeaturedArticles: () => content.acf.featuredArticles,
+        getArticle: (index) => content.acf.featuredArticles[index].article
+    });
 });
 
 

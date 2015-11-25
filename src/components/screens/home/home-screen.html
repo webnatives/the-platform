@@ -45,33 +45,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-12">
                     <latest-item
                             heading="'Latest Articles'"
                             amount="6"
                     ></latest-item>
                 </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
                 </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
+
+
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="150"
+                    ></hero-item>
                 </div>
+
                 <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
                     <latest-item
                             heading="'Culture'"
+                            amount="3"
                     ></latest-item>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <latest-item
                             heading="'Politics'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3">
+                    <latest-item
+                            heading="'International'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3">
+                    <latest-item
+                            heading="'Religion'"
+                            amount="3"
                     ></latest-item>
                 </div>
             </div>
