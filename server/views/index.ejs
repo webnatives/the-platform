@@ -48,40 +48,6 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id}}">
-        <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="row">
-                    <div ng-if="getContent().featured_image.source">
-                        <div class="col-xs-5">
-                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                        </div>
-                        <div class="col-xs-7">
-                            <div>
-                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="!getContent().featured_image.source">
-                        <div class="col-xs-12">
-                            <div>
-                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -123,6 +89,40 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="row">
+                    <div ng-if="getContent().featured_image.source">
+                        <div class="col-xs-5">
+                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!getContent().featured_image.source">
+                        <div class="col-xs-12">
+                            <div>
+                                <div class="tag" ng-bind-html="trustAsHtml(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="trustAsHtml(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </div>
+        </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -461,18 +461,18 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 col-xs-12">
                     <h1>#{{getTag()}}</h1>
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(0) track by $index"
                                     id="article.ID"
                                     height="300"
                             ></hero-item>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(1) track by $index"
                                     id="article.ID"
@@ -481,96 +481,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-12">
                     <latest-item
                             heading="'Latest Articles'"
                             amount="3"
                     ></latest-item>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-12">
                     <latest-item
                             heading="'Culture'"
                             amount="3"
                     ></latest-item>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-12">
                     <latest-item
                             heading="'Politics'"
                             amount="3"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="5"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-12"></div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Culture'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-6">
-                    <latest-item
-                            heading="'Politics'"
                     ></latest-item>
                 </div>
             </div>
@@ -616,6 +542,80 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="topic-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="article.ID"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="5"
+                    ></latest-item>
+                </div>
+                <div class="col-xs-12"></div>
+                <div class="col-sm-3 col-xs-12">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <article-preview-item></article-preview-item>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <latest-item
+                            heading="'Culture'"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <latest-item
+                            heading="'Politics'"
+                    ></latest-item>
+                </div>
             </div>
 
         </div>
