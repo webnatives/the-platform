@@ -43,6 +43,11 @@
 <div ui-view></div>
 
 <header-item></header-item>
+<script type="text/ng-template" id="alert.html">
+    <div template="alert">
+        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id}}">
         <div class="article-preview fi">
@@ -75,11 +80,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -249,6 +249,120 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="article-screen.html">
+    <div screen>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <h1 ng-bind-html="$root.html(getContent().title)"></h1>
+
+                    <div style="height: 10px"></div>
+                    <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
+                        <small>
+                            <span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">
+                                Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
+                            </span>
+
+                            <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
+                            &nbsp;
+                        </small>
+                    </p>
+
+                    <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
+                        <div class="tag">Culture</div>
+                    </div>
+
+
+                    <div style="height: 10px"></div>
+
+                </div>
+                <div class="col-sm-8 col-xs-12">
+                    <div class="article-content">
+
+
+                        <p><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
+
+                        <div ng-bind-html="$root.html(getContent().content)"></div>
+                    </div>
+
+
+                </div>
+                <div class="col-sm-4 col-xs-12">
+                    <div class="section-title start">
+                        About The Author
+                    </div>
+
+                    <div class="box">
+                        <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
+                        <hr ng-if="getContent().author.description">
+                        <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div class="section-title">Featured Posts</div>
+                    <hero-item
+                            ng-if="getFeaturedArticle(0)"
+                            id="getFeaturedArticle(0).ID"
+                            height="150"
+                    ></hero-item>
+                    <article-preview-item
+                            ng-repeat="article in getFeatured() track by $index"
+                            ng-if="$index != 0 && $index < 3"
+                            id="getFeaturedArticle($index).ID"
+                            height="150"
+                    ></article-preview-item>
+
+                    <hr>
+
+                    <group-item
+                            heading="'Related Posts'"
+                            ng-if="getRelatedIds()"
+                            ids="getRelatedIds()"
+                    ></group-item>
+
+                    <!--<div class="section-title">Related Posts</div>-->
+
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getRelated() track by $index"-->
+                    <!--ng-if="$index < 3"-->
+                    <!--id="article.ID"-->
+                    <!--&gt;</article-preview-item>-->
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="section-title">You Might Also Like</div>
+                </div>
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getRelated() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="250"
+                    ></hero-item>
+                </div>
+
+
+                <div class="col-xs-12">
+                    <div class="section-title">#paris</div>
+                </div>
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="250"
+                    ></hero-item>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -342,118 +456,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="article-screen.html">
-    <div screen>
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-
-                    <h1 ng-bind-html="$root.html(getContent().title)"></h1>
-
-                    <div style="height: 10px"></div>
-                    <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
-                        <small>
-                            <span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">
-                                Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
-                            </span>
-
-                            <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
-                            &nbsp;
-                        </small>
-                    </p>
-
-                    <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
-                        <div class="tag">Culture</div>
-                    </div>
-                    
-
-                    <div style="height: 10px"></div>
-
-                </div>
-                <div class="col-sm-8 col-xs-12">
-                    <div class="article-content">
-
-
-                        <p><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
-
-                        <div ng-bind-html="$root.html(getContent().content)"></div>
-                    </div>
-
-
-                </div>
-                <div class="col-sm-4 col-xs-12">
-                    <div class="section-title start">
-                        About The Author
-                    </div>
-
-                    <div class="box">
-                        <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
-                        <hr ng-if="getContent().author.description">
-                        <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div class="section-title">Featured Posts</div>
-                    <hero-item
-                            ng-if="getFeaturedArticle(0)"
-                            id="getFeaturedArticle(0).ID"
-                            height="150"
-                    ></hero-item>
-                    <article-preview-item
-                            ng-repeat="article in getFeatured() track by $index"
-                            ng-if="$index != 0 && $index < 3"
-                            id="getFeaturedArticle($index).ID"
-                            height="150"
-                    ></article-preview-item>
-
-                    <hr>
-
-                    <group-item
-                            heading="'Related Posts'"
-                            ng-if="getRelatedIds()"
-                            ids="getRelatedIds()"
-                    ></group-item>
-
-                    <!--<div class="section-title">Related Posts</div>-->
-
-                    <!--<article-preview-item-->
-                    <!--ng-repeat="article in getRelated() track by $index"-->
-                    <!--ng-if="$index < 3"-->
-                    <!--id="article.ID"-->
-                    <!--&gt;</article-preview-item>-->
-                </div>
-
-                <div class="col-xs-12">
-                    <div class="section-title">You Might Also Like</div>
-                </div>
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getRelated() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="250"
-                    ></hero-item>
-                </div>
-
-
-                <div class="col-xs-12">
-                    <div class="section-title">#paris</div>
-                </div>
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="250"
-                    ></hero-item>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="tag-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -497,49 +499,6 @@
                             amount="3"
                     ></latest-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -614,6 +573,49 @@
                             heading="'Politics'"
                     ></latest-item>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
+                </div>
+
             </div>
 
         </div>
