@@ -2,16 +2,14 @@
     <div screen>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
-                    <!--<div style="height: 10px"></div>-->
+                <div class="col-xs-12">
 
-                    <!--<div class="tag">Culture</div>-->
                     <h1 ng-bind-html="$root.html(getContent().title)"></h1>
 
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
-                            <span class="pull-right" style="margin-left: 40px"  ng-show="getContent().featured_image.source">
+                            <span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">
                                 Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
                             </span>
 
@@ -23,15 +21,12 @@
                     <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
                         <div class="tag">Culture</div>
                     </div>
-
-                    <!--<div class="hero-image" style="background-image: url('{{getImage()}}');height:500px">-->
-                        <!--<div class="tag">Culture</div>-->
-                    <!--</div>-->
+                    
 
                     <div style="height: 10px"></div>
 
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-xs-12">
                     <div class="article-content">
 
 
@@ -42,7 +37,7 @@
 
 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 col-xs-12">
                     <div class="section-title start">
                         About The Author
                     </div>
@@ -75,19 +70,19 @@
                             ids="getRelatedIds()"
                     ></group-item>
 
-                    <div class="section-title">Related Posts</div>
+                    <!--<div class="section-title">Related Posts</div>-->
 
-                    <article-preview-item
-                            ng-repeat="article in getRelated() track by $index"
-                            ng-if="$index < 3"
-                            id="article.ID"
-                    ></article-preview-item>
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getRelated() track by $index"-->
+                    <!--ng-if="$index < 3"-->
+                    <!--id="article.ID"-->
+                    <!--&gt;</article-preview-item>-->
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="section-title">You Might Also Like</div>
                 </div>
-                <div class="col-sm-4"
+                <div class="col-sm-4 col-xs-12"
                      ng-repeat="article in getRelated() track by $index"
                      ng-if="$index < 3"
                 >
@@ -98,10 +93,10 @@
                 </div>
 
 
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="section-title">#paris</div>
                 </div>
-                <div class="col-sm-4"
+                <div class="col-sm-4 col-xs-12"
                      ng-repeat="article in getTags() track by $index"
                      ng-if="$index < 3"
                 >

@@ -43,11 +43,6 @@
 <div ui-view></div>
 
 <header-item></header-item>
-<script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
-    </div>
-</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id}}">
         <div class="article-preview fi">
@@ -80,6 +75,11 @@
             </div>
         </div>
 
+    </div>
+</script>
+<script type="text/ng-template" id="alert.html">
+    <div template="alert">
+        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -125,43 +125,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="header.html">
-    <div template="header">
-        <div class="header" ng-class="{active:isMenuVisible()}">
-            <div class="helper-bar">
-                <div class="container"></div>
-            </div>
-
-            <div class="top-bar">
-                <div class="logo" ui-sref="home"></div>
-                <div class="logo-text" ui-sref="home">The Platform</div>
-
-                <div class="social hidden-xs">
-                    <i class="fa fa-twitter"></i>
-                    <i class="fa fa-facebook"></i>
-                    <i class="fa fa-envelope"></i>
-                </div>
-            </div>
-
-            <div class="bottom-bar">
-                <div class="container">
-                    <div class="menu-items">
-                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
-                        <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
-                        <div class="item" ui-sref="topic({cat:'politics'})">Politics</div>
-                        <div class="item" ui-sref="topic({cat:'spirituality'})">Religion</div>
-                        <div class="item" ui-sref="topic({cat:'international'})">International</div>
-                        <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
-                        <div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>
-                        <div class="item">Writers' Guidelines</div>
-                        <div class="item">About</div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="group.html">
     <div template="group" ids="{{ids}}">
         <div class="group fi">
@@ -200,6 +163,43 @@
             </div>
         </div>
 
+    </div>
+</script>
+<script type="text/ng-template" id="header.html">
+    <div template="header">
+        <div class="header" ng-class="{active:isMenuVisible()}">
+            <div class="helper-bar">
+                <div class="container"></div>
+            </div>
+
+            <div class="top-bar">
+                <div class="logo" ui-sref="home"></div>
+                <div class="logo-text" ui-sref="home">The Platform</div>
+
+                <div class="social hidden-xs">
+                    <i class="fa fa-twitter"></i>
+                    <i class="fa fa-facebook"></i>
+                    <i class="fa fa-envelope"></i>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="container">
+                    <div class="menu-items">
+                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
+                        <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
+                        <div class="item" ui-sref="topic({cat:'politics'})">Politics</div>
+                        <div class="item" ui-sref="topic({cat:'spirituality'})">Religion</div>
+                        <div class="item" ui-sref="topic({cat:'international'})">International</div>
+                        <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
+                        <div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>
+                        <div class="item">Writers' Guidelines</div>
+                        <div class="item">About</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="hero.html">
@@ -249,20 +249,111 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
+                            ></article-preview-item>
+
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(3).ID"
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(4).ID"
+                                    height="361"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="6"
+                    ></latest-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
+                </div>
+
+
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="150"
+                    ></hero-item>
+                </div>
+
+                <div class="col-sm-3 col-xs-12">
+                    <latest-item
+                            heading="'Culture'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <latest-item
+                            heading="'Politics'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <latest-item
+                            heading="'International'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+                <div class="col-sm-3 col-xs-12">
+                    <latest-item
+                            heading="'Religion'"
+                            amount="3"
+                    ></latest-item>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen>
         <div class="container">
             <div class="row">
-                <div class="col-sm-12">
-                    <!--<div style="height: 10px"></div>-->
+                <div class="col-xs-12">
 
-                    <!--<div class="tag">Culture</div>-->
                     <h1 ng-bind-html="$root.html(getContent().title)"></h1>
 
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
-                            <span class="pull-right" style="margin-left: 40px"  ng-show="getContent().featured_image.source">
+                            <span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">
                                 Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>
                             </span>
 
@@ -274,15 +365,12 @@
                     <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
                         <div class="tag">Culture</div>
                     </div>
-
-                    <!--<div class="hero-image" style="background-image: url('{{getImage()}}');height:500px">-->
-                        <!--<div class="tag">Culture</div>-->
-                    <!--</div>-->
+                    
 
                     <div style="height: 10px"></div>
 
                 </div>
-                <div class="col-sm-8">
+                <div class="col-sm-8 col-xs-12">
                     <div class="article-content">
 
 
@@ -293,7 +381,7 @@
 
 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4 col-xs-12">
                     <div class="section-title start">
                         About The Author
                     </div>
@@ -326,19 +414,19 @@
                             ids="getRelatedIds()"
                     ></group-item>
 
-                    <div class="section-title">Related Posts</div>
+                    <!--<div class="section-title">Related Posts</div>-->
 
-                    <article-preview-item
-                            ng-repeat="article in getRelated() track by $index"
-                            ng-if="$index < 3"
-                            id="article.ID"
-                    ></article-preview-item>
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getRelated() track by $index"-->
+                    <!--ng-if="$index < 3"-->
+                    <!--id="article.ID"-->
+                    <!--&gt;</article-preview-item>-->
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="section-title">You Might Also Like</div>
                 </div>
-                <div class="col-sm-4"
+                <div class="col-sm-4 col-xs-12"
                      ng-repeat="article in getRelated() track by $index"
                      ng-if="$index < 3"
                 >
@@ -349,10 +437,10 @@
                 </div>
 
 
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="section-title">#paris</div>
                 </div>
-                <div class="col-sm-4"
+                <div class="col-sm-4 col-xs-12"
                      ng-repeat="article in getTags() track by $index"
                      ng-if="$index < 3"
                 >
@@ -364,105 +452,6 @@
             </div>
 
         </div>
-    </div>
-</script>
-<script type="text/ng-template" id="home-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
-
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(3).ID"
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(4).ID"
-                                    height="361"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                        <div class="col-sm-6">
-                            <!--<article-preview-item></article-preview-item>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="6"
-                    ></latest-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="section-title">#labour</div>
-                </div>
-
-
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="150"
-                    ></hero-item>
-                </div>
-
-                <div class="col-sm-3">
-                    <latest-item
-                            heading="'Culture'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-3">
-                    <latest-item
-                            heading="'Politics'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-3">
-                    <latest-item
-                            heading="'International'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-3">
-                    <latest-item
-                            heading="'Religion'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="tag-screen.html">
@@ -508,6 +497,49 @@
                             amount="3"
                     ></latest-item>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -582,49 +614,6 @@
                             heading="'Politics'"
                     ></latest-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
             </div>
 
         </div>
