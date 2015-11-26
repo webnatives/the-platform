@@ -19,8 +19,13 @@ app.directive('heroItem', (API, State, $sce) => {
             var getContent = () => content;
 
             var init = () => {
+                console.log('$(window).width()', $(window).width());
+                if ($(window).width() < 769) scope.height = 150;
+                console.log('scope.height', scope.height);
+
                 console.log('post', scope.id);
                 if (scope.id ==undefined) return;
+
                 API.getPost(scope.id).then((response) => {
                     content = response;
                     console.log('post', response);

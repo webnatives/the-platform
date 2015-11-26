@@ -258,6 +258,30 @@ textarea {
             transform: translateY(0);
     opacity: 1; }
 
+[template=article-preview] {
+  cursor: pointer; }
+  [template=article-preview] .article-preview-image {
+    height: 100px;
+    background: #f7f7f7;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0;
+    position: relative; }
+    [template=article-preview] .article-preview-image .tag {
+      height: 30px;
+      background: white;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      line-height: 30px;
+      bottom: 0;
+      left: 0;
+      padding: 0 20px;
+      margin: 0;
+      color: #555;
+      font-weight: 700; }
+  [template=article-preview] h3 {
+    padding-bottom: 0; }
+
 [template=foot] .foot-top {
   background: #333;
   color: white;
@@ -282,30 +306,6 @@ textarea {
     [template=foot] .foot .foot-bottom .social i.fa {
       padding: 0 10px;
       font-size: 20px; }
-
-[template=article-preview] {
-  cursor: pointer; }
-  [template=article-preview] .article-preview-image {
-    height: 100px;
-    background: #f7f7f7;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 0;
-    position: relative; }
-    [template=article-preview] .article-preview-image .tag {
-      height: 30px;
-      background: white;
-      background: rgba(255, 255, 255, 0.9);
-      position: absolute;
-      line-height: 30px;
-      bottom: 0;
-      left: 0;
-      padding: 0 20px;
-      margin: 0;
-      color: #555;
-      font-weight: 700; }
-  [template=article-preview] h3 {
-    padding-bottom: 0; }
 
 [template=group] .group h3, [template=group] .group h2 {
   color: black; }
@@ -479,9 +479,6 @@ textarea {
       background: white;
       color: #be3234; }
 
-[template=hero] {
-  cursor: pointer; }
-
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
 
@@ -513,3 +510,6 @@ textarea {
     background-position: center;
     background-size: cover;
     position: relative; }
+
+[template=hero] {
+  cursor: pointer; }

@@ -290,28 +290,6 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -344,6 +322,28 @@ app.directive('articlePreviewItem', function (State, API) {
                 getContent: function getContent() {
                     return content;
                 }
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -425,49 +425,6 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (API, State, $sce) {
-    return {
-        templateUrl: 'hero.html',
-        scope: {
-            heading: '=',
-            id: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var getContent = function getContent() {
-                return content;
-            };
-
-            var init = function init() {
-                console.log('post', scope.id);
-                if (scope.id == undefined) return;
-                API.getPost(scope.id).then(function (response) {
-                    content = response;
-                    console.log('post', response);
-                    element.find('.fi').addClass('active');
-                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: getContent,
-                trustAsHtml: $sce.trustAsHtml
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('latestItem', function (State, API) {
     return {
         templateUrl: 'latest.html',
@@ -501,37 +458,52 @@ app.directive('latestItem', function (State, API) {
     };
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+'use strict';
 
-    var content, tags;
-
-    var init = function init() {
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            return tags = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTags: function getTags() {
-            return tags;
+app.directive('heroItem', function (API, State, $sce) {
+    return {
+        templateUrl: 'hero.html',
+        scope: {
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
         },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
+        link: function link(scope, element, attrs) {
+
+            var content;
+
+            var getContent = function getContent() {
+                return content;
+            };
+
+            var init = function init() {
+                console.log('$(window).width()', $(window).width());
+                if ($(window).width() < 769) scope.height = 150;
+                console.log('scope.height', scope.height);
+
+                console.log('post', scope.id);
+                if (scope.id == undefined) return;
+
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post', response);
+                    element.find('.fi').addClass('active');
+                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+                });
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                getContent: getContent,
+                trustAsHtml: $sce.trustAsHtml
+            });
         }
-    });
+    };
 });
 
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
@@ -601,13 +573,46 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+
+    var content, tags;
+
+    var init = function init() {
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            return tags = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTags: function getTags() {
+            return tags;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
 app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
 
     var init = function init() {
         $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?filter[posts_per_page]=50').then(function (response) {
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=3&filter[posts_per_page]=50').then(function (response) {
             return terms = response.data;
         });
     };
@@ -654,6 +659,26 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
+});
+
 app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
 
     var content;
@@ -680,26 +705,6 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
-        }
-    });
-});
-
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
         }
     });
 });
