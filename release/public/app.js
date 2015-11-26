@@ -425,6 +425,52 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
+app.directive('heroItem', function (API, State) {
+    return {
+        templateUrl: 'hero.html',
+        scope: {
+            heading: '=',
+            id: '=',
+            image: '=',
+            link: '=',
+            summary: '=',
+            height: '=',
+            tag: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var content;
+
+            var getHeight = function getHeight() {
+                return $(window).width() < 769 ? 150 : scope.height;
+            };
+
+            var init = function init() {
+                console.log('post', scope.id);
+                if (scope.id == undefined) return;
+
+                API.getPost(scope.id).then(function (response) {
+                    content = response;
+                    console.log('post', response);
+                    element.find('.fi').addClass('active');
+                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+                });
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                getContent: function getContent() {
+                    return content;
+                },
+                getHeight: getHeight
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('latestItem', function (State, API) {
     return {
         templateUrl: 'latest.html',
@@ -453,54 +499,6 @@ app.directive('latestItem', function (State, API) {
 
             scope = _.assign(scope, {
                 getArticles: getArticles
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('heroItem', function (API, State, $sce) {
-    return {
-        templateUrl: 'hero.html',
-        scope: {
-            heading: '=',
-            id: '=',
-            image: '=',
-            link: '=',
-            summary: '=',
-            height: '=',
-            tag: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var getContent = function getContent() {
-                return content;
-            };
-
-            var init = function init() {
-                console.log('$(window).width()', $(window).width());
-                if ($(window).width() < 769) scope.height = 150;
-                console.log('scope.height', scope.height);
-
-                console.log('post', scope.id);
-                if (scope.id == undefined) return;
-
-                API.getPost(scope.id).then(function (response) {
-                    content = response;
-                    console.log('post', response);
-                    element.find('.fi').addClass('active');
-                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: getContent,
-                trustAsHtml: $sce.trustAsHtml
             });
         }
     };
