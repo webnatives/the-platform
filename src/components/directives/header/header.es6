@@ -1,39 +1,33 @@
 'use strict';
 
-app.directive('headerItem', (State) => {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
+app.directive('headerItem', (State) => ({
+    templateUrl: 'header.html',
+    scope: {},
 
-        link(scope, element, attrs) {
+    link(scope, element, attrs) {
 
-            var menuVisible = true, currentscroll = 0;
+        var menuVisible = true, currentscroll = 0;
 
-            var isMenuVisible = () => menuVisible;
+        var checkScroll = () => {
+            menuVisible = $(window).scrollTop() <= currentscroll;
+            currentscroll = $(window).scrollTop();
+            scope.$digest();
+        };
 
-            var checkScroll= () => {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
+        var events = () => {
+            $(window).on('scroll', checkScroll);
+        };
 
-            var events = () => {
+        var init = () => {
+            events();
+        };
 
-                //$('body').on('touchmove', checkScroll);
-                $(window).on('scroll', checkScroll);
-            };
+        init();
 
-            var init = () => {
-                events();
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
+        scope = _.extend(scope, {
+            isMenuVisible: () => menuVisible,
+            toggleMenu: State.toggleMenu,
+            getTitle: State.getTitle
+        });
     }
-});
+}));

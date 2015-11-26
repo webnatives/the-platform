@@ -283,29 +283,7 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('articlePreviewItem', function (State, API, $sce) {
+app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
         scope: {
@@ -321,10 +299,6 @@ app.directive('articlePreviewItem', function (State, API, $sce) {
 
             var content;
 
-            var getContent = function getContent() {
-                return content;
-            };
-
             var init = function init() {
                 console.log('scope.id (article-preview)', scope.id);
                 if (scope.id == undefined) return;
@@ -338,8 +312,9 @@ app.directive('articlePreviewItem', function (State, API, $sce) {
             init();
 
             scope = _.extend(scope, {
-                getContent: getContent,
-                trustAsHtml: $sce.trustAsHtml
+                getContent: function getContent() {
+                    return content;
+                }
             });
         }
     };
@@ -392,10 +367,6 @@ app.directive('headerItem', function (State) {
             var menuVisible = true,
                 currentscroll = 0;
 
-            var isMenuVisible = function isMenuVisible() {
-                return menuVisible;
-            };
-
             var checkScroll = function checkScroll() {
                 menuVisible = $(window).scrollTop() <= currentscroll;
                 currentscroll = $(window).scrollTop();
@@ -403,8 +374,6 @@ app.directive('headerItem', function (State) {
             };
 
             var events = function events() {
-
-                //$('body').on('touchmove', checkScroll);
                 $(window).on('scroll', checkScroll);
             };
 
@@ -414,8 +383,32 @@ app.directive('headerItem', function (State) {
 
             init();
 
+            scope = _.extend(scope, {
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
             scope = _.assign(scope, {
-                isMenuVisible: isMenuVisible,
+                isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -501,6 +494,39 @@ app.directive('latestItem', function (State, API) {
     };
 });
 
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+
+    var content, tags;
+
+    var init = function init() {
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            return tags = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTags: function getTags() {
+            return tags;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
 
     var content, featured, related, relatedIds, image, tags;
@@ -568,72 +594,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
-
-    var content, tags;
-
-    var init = function init() {
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            return tags = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTags: function getTags() {
-            return tags;
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
-        }
-    });
-});
-
-app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var content;
-
-    var init = function init() {
-        API.getPostsByTag($stateParams.tag).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTag: function getTag() {
-            return $stateParams.tag;
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(content, content.length / 2)[index];
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getArticle: function getArticle(index) {
-            return content[index];
-        }
-    });
-});
-
 app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
@@ -680,6 +640,39 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
+app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByTag($stateParams.tag).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTag: function getTag() {
+            return $stateParams.tag;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getArticle: function getArticle(index) {
+            return content[index];
         }
     });
 });
