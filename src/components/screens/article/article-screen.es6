@@ -21,7 +21,7 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
         _.each(content.terms.post_tag, (tag, index) => string += tag.slug + ',');
         API.getPostsByTag(string).then((response) => {
             related = _.shuffle(response);
-            relatedIds = _.take(_.map(related, (article) => article.ID), 3);
+            relatedIds = _.take(_.map(related, (article) => article.ID), 5);
         });
     };
 

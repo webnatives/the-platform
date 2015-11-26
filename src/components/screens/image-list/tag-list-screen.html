@@ -1,0 +1,40 @@
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>

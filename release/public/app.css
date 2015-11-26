@@ -258,6 +258,31 @@ textarea {
             transform: translateY(0);
     opacity: 1; }
 
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
+
 [template=article-preview] {
   cursor: pointer; }
   [template=article-preview] .article-preview-image {
@@ -453,31 +478,6 @@ textarea {
       color: white;
       background: white;
       color: #be3234; }
-
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }
 
 [template=hero] {
   cursor: pointer; }

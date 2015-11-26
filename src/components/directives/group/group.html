@@ -14,8 +14,8 @@
                                 </div>
                                 <div class="col-xs-8">
                                     <div>
-                                        <div class="tag">{{article.terms.category[0].name}}</div>
-                                        <h3>{{article.title}}</h3>
+                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                        <h3 ng-bind-html="$root.html(article.title)"></h3>
                                     </div>
                                 </div>
                             </div>

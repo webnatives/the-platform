@@ -17,6 +17,8 @@ app.factory('API', function ($rootScope, $http) {
 
     var getPosts = () => $http.get(`${API_URL}posts/`).then(response => response.data);
 
+    //var getPosts = () => $http.get(`${API_URL}posts/posts_per_page/100`).then(response => response.data);
+
     var getPostsByCat = (cat) => $http.get(`${API_URL}posts/cat/${cat}`).then(response => response.data);
 
     var getPostsByTag = (tag) => $http.get(`${API_URL}posts/tag/${tag}`).then(response => response.data);
