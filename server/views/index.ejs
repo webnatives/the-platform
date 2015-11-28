@@ -229,6 +229,24 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
+                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                </div>
+
+                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
+                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
+                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
+                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="latest.html">
     <div template="latest">
         <div class="latest fi">
@@ -258,22 +276,101 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
-                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
-                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
+                            ></article-preview-item>
+
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(3).ID"
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(4).ID"
+                                    height="361"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="6"
+                    ></latest-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
                 </div>
 
-                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
-                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
-                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
-                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
 
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="150"
+                    ></hero-item>
+                </div>
+
+                <div class="col-sm-3 col-xs-12" ng-if="getInternational()">
+                    <group-item
+                            heading="'International'"
+                            ids="getIds(getInternational(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-3 col-xs-12" ng-if="getPolitics()">
+                    <group-item
+                            heading="'Politics'"
+                            ids="getIds(getPolitics(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-3 col-xs-12" ng-if="getCulture()">
+                    <group-item
+                            heading="'Culture'"
+                            ids="getIds(getCulture(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-3 col-xs-12" ng-if="getReligion()">
+                    <group-item
+                            heading="'Religion'"
+                            ids="getIds(getReligion(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
             </div>
+
         </div>
 
+        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -390,103 +487,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="home-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-md-8 col-xs-12">
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
-
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(3).ID"
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(4).ID"
-                                    height="361"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="6"
-                    ></latest-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="section-title">#labour</div>
-                </div>
-
-
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="150"
-                    ></hero-item>
-                </div>
-
-                <div class="col-sm-3 col-xs-12" ng-if="getInternational()">
-                    <group-item
-                            heading="'International'"
-                            ids="getIds(getInternational(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getPolitics()">
-                    <group-item
-                            heading="'Politics'"
-                            ids="getIds(getPolitics(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getCulture()">
-                    <group-item
-                            heading="'Culture'"
-                            ids="getIds(getCulture(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getReligion()">
-                    <group-item
-                            heading="'Religion'"
-                            ids="getIds(getReligion(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="image-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -552,24 +552,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="3"
-                    ></latest-item>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
                 </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Culture'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Politics'"
-                            amount="3"
-                    ></latest-item>
-                </div>
+
             </div>
 
         </div>
@@ -615,78 +640,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="5"
-                    ></latest-item>
-                </div>
-                <div class="col-xs-12"></div>
-                <div class="col-sm-3 col-xs-12">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <article-preview-item></article-preview-item>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <latest-item
-                            heading="'Culture'"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <latest-item
-                            heading="'Politics'"
-                    ></latest-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
             </div>
 
         </div>

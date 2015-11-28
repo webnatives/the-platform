@@ -479,6 +479,9 @@ textarea {
       background: white;
       color: #be3234; }
 
+[template=hero] {
+  cursor: pointer; }
+
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
 
@@ -510,6 +513,3 @@ textarea {
     background-position: center;
     background-size: cover;
     position: relative; }
-
-[template=hero] {
-  cursor: pointer; }
