@@ -336,6 +336,14 @@ textarea {
   margin-bottom: 15px;
   position: relative;
 
+  .article-screen & {
+    height: 500px;
+
+    @media (max-width: 767px) {
+      height: 150px;
+    }
+  }
+
   @media (max-width: 767px) {
     height: 150px;
   }

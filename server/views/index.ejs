@@ -48,40 +48,6 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id()}}">
-        <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id(), slug:getContent().slug})">
-                <div class="row">
-                    <div ng-if="getContent().featured_image.source">
-                        <div class="col-xs-5">
-                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
-                        </div>
-                        <div class="col-xs-7">
-                            <div>
-                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-if="!getContent().featured_image.source">
-                        <div class="col-xs-12">
-                            <div>
-                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -229,6 +195,58 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id()}}">
+        <div class="article-preview fi">
+            <div class="box" ui-sref="article({id:id(), slug:getContent().slug})">
+                <div class="row">
+                    <div ng-if="getContent().featured_image.source">
+                        <div class="col-xs-5">
+                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div>
+                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!getContent().featured_image.source">
+                        <div class="col-xs-12">
+                            <div>
+                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </div>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id(), slug:getContent().slug})">
+                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
+                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                </div>
+
+                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
+                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
+                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
+                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="latest.html">
     <div template="latest">
         <div class="latest fi">
@@ -258,26 +276,8 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id(), slug:getContent().slug})">
-                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
-                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                </div>
-
-                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
-                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
-                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
-                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="article-screen.html">
-    <div screen>
+    <div screen class="article-screen">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
@@ -296,7 +296,7 @@
                         </small>
                     </p>
 
-                    <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}');height:500px">
+                    <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}')">
                         <div class="tag">Culture</div>
                     </div>
 

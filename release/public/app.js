@@ -295,45 +295,6 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('articlePreviewItem', function (State, API) {
-    return {
-        templateUrl: 'article-preview.html',
-        scope: {
-            heading: '&',
-            id: '&',
-            image: '&',
-            link: '&',
-            summary: '&',
-            height: '&',
-            tag: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var init = function init() {
-                //console.log('scope.id (article-preview)', scope.id());
-                if (scope.id() == undefined) return;
-                API.getPost(scope.id()).then(function (response) {
-                    content = response;
-                    //console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: function getContent() {
-                    return content;
-                }
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -428,34 +389,38 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API) {
+app.directive('articlePreviewItem', function (State, API) {
     return {
-        templateUrl: 'latest.html',
+        templateUrl: 'article-preview.html',
         scope: {
             heading: '&',
-            amount: '&'
+            id: '&',
+            image: '&',
+            link: '&',
+            summary: '&',
+            height: '&',
+            tag: '&'
         },
         link: function link(scope, element, attrs) {
 
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
+            var content;
 
             var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('post (article-preview)', response);
+                //console.log('scope.id (article-preview)', scope.id());
+                if (scope.id() == undefined) return;
+                API.getPost(scope.id()).then(function (response) {
+                    content = response;
+                    //console.log('post (article-preview)', response);
                     element.find('.fi').addClass('active');
                 });
             };
 
             init();
 
-            scope = _.assign(scope, {
-                getArticles: getArticles
+            scope = _.extend(scope, {
+                getContent: function getContent() {
+                    return content;
+                }
             });
         }
     };
@@ -502,6 +467,41 @@ app.directive('heroItem', function (API, State) {
                     return content;
                 },
                 getHeight: getHeight
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles
             });
         }
     };
