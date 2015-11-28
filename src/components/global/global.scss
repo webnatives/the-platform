@@ -75,6 +75,13 @@ hr {
   margin-bottom: 20px;
   will-change: transform;
 
+
+
+  @media (max-width: 767px) {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
   h2, h3 {
     transition: .3s;
   }
@@ -94,6 +101,11 @@ hr {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media (max-width: 767px) {
+      margin: -10px -10px 10px;
+      padding: 10px;
+    }
   }
 
   &:hover {
@@ -278,7 +290,8 @@ textarea {
 
   @media (max-width: 767px) {
     font-size: 14px;
-    padding-top: 120px;
+    padding: 10px 0 0;
+    padding-top: 110px;
   }
 }
 
@@ -292,6 +305,7 @@ textarea {
 .row {
   margin-right: -10px;
   margin-left: -10px;
+
 }
 
 .section-title {
@@ -301,6 +315,11 @@ textarea {
   font-size: 20px;
   font-weight: 700;
   color: black;
+
+  @media (max-width: 767px) {
+    padding: 10px 0 10px;
+    margin-top: 10px;
+  }
 
   &.start {
     border-top: none;
@@ -316,6 +335,10 @@ textarea {
   background-size: cover;
   margin-bottom: 15px;
   position: relative;
+
+  @media (max-width: 767px) {
+    height: 150px;
+  }
 
   .tag {
     height: 30px;

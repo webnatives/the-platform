@@ -45,6 +45,10 @@ hr {
   transition: .2s;
   margin-bottom: 20px;
   will-change: transform; }
+  @media (max-width: 767px) {
+    .box {
+      padding: 10px;
+      margin-bottom: 10px; } }
   .box h2, .box h3 {
     transition: .3s; }
   .box .box-header {
@@ -54,6 +58,10 @@ hr {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
+    @media (max-width: 767px) {
+      .box .box-header {
+        margin: -10px -10px 10px;
+        padding: 10px; } }
   .box:hover {
     -webkit-transform: translateY(-5px);
             transform: translateY(-5px); }
@@ -186,7 +194,8 @@ textarea {
   @media (max-width: 767px) {
     [screen] {
       font-size: 14px;
-      padding-top: 120px; } }
+      padding: 10px 0 0;
+      padding-top: 110px; } }
 
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
   position: relative;
@@ -205,6 +214,10 @@ textarea {
   font-size: 20px;
   font-weight: 700;
   color: black; }
+  @media (max-width: 767px) {
+    .section-title {
+      padding: 10px 0 10px;
+      margin-top: 10px; } }
   .section-title.start {
     border-top: none;
     margin-top: 0;
@@ -217,6 +230,9 @@ textarea {
   background-size: cover;
   margin-bottom: 15px;
   position: relative; }
+  @media (max-width: 767px) {
+    .hero-image {
+      height: 150px; } }
   .hero-image .tag {
     height: 30px;
     background: white;
@@ -336,41 +352,6 @@ textarea {
     padding: 0;
     margin: 0; }
   [template=group] .group .group-preview .preview-image {
-    height: 80px;
-    background: #f7f7f7;
-    background-position: center;
-    background-size: cover;
-    position: relative; }
-
-[template=hero] {
-  cursor: pointer; }
-
-[template=latest] .latest h3, [template=latest] .latest h2 {
-  color: black; }
-
-[template=latest] .latest .latest-preview {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
-  cursor: pointer;
-  -webkit-transform: translateX(0px);
-          transform: translateX(0px);
-  transition: .2s;
-  cursor: pointer; }
-  [template=latest] .latest .latest-preview h3, [template=latest] .latest .latest-preview h2 {
-    padding: 0;
-    margin: 0;
-    color: black; }
-  [template=latest] .latest .latest-preview:hover {
-    -webkit-transform: translateX(5px);
-            transform: translateX(5px); }
-    [template=latest] .latest .latest-preview:hover h3 {
-      color: #be3234; }
-  [template=latest] .latest .latest-preview:last-child {
-    margin-bottom: 0px;
-    border-bottom: none;
-    padding-bottom: 0px; }
-  [template=latest] .latest .latest-preview .preview-image {
     height: 80px;
     background: #f7f7f7;
     background-position: center;
@@ -513,3 +494,38 @@ textarea {
       color: white;
       background: white;
       color: #be3234; }
+
+[template=hero] {
+  cursor: pointer; }
+
+[template=latest] .latest h3, [template=latest] .latest h2 {
+  color: black; }
+
+[template=latest] .latest .latest-preview {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+  cursor: pointer;
+  -webkit-transform: translateX(0px);
+          transform: translateX(0px);
+  transition: .2s;
+  cursor: pointer; }
+  [template=latest] .latest .latest-preview h3, [template=latest] .latest .latest-preview h2 {
+    padding: 0;
+    margin: 0;
+    color: black; }
+  [template=latest] .latest .latest-preview:hover {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px); }
+    [template=latest] .latest .latest-preview:hover h3 {
+      color: #be3234; }
+  [template=latest] .latest .latest-preview:last-child {
+    margin-bottom: 0px;
+    border-bottom: none;
+    padding-bottom: 0px; }
+  [template=latest] .latest .latest-preview .preview-image {
+    height: 80px;
+    background: #f7f7f7;
+    background-position: center;
+    background-size: cover;
+    position: relative; }
