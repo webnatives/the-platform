@@ -229,24 +229,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id(), slug:getContent().slug})">
-                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
-                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                </div>
-
-                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
-                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
-                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
-                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="latest.html">
     <div template="latest">
         <div class="latest fi">
@@ -270,6 +252,24 @@
                     </div>
                 </div>
 
+
+            </div>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <div class="box red" ui-sref="article({id:id(), slug:getContent().slug})">
+                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
+                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                </div>
+
+                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
+                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
+                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
+                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
 
             </div>
         </div>
@@ -394,46 +394,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -527,6 +487,46 @@
                             horizontal="false"
                     ></group-item>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
             </div>
 
         </div>

@@ -15,6 +15,69 @@ app.directive('ngEnter', function () {
         });
     };
 });
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+    var resolve = {
+        timeout: function timeout($timeout) {
+            $('[screen]').removeClass('active');
+            //$('.loading-logo').addClass('active');
+            return $timeout(300);
+        }
+    };
+
+    // For any unmatched url, redirect to /
+    $urlRouterProvider.otherwise("/");
+
+    // Now set up the states
+    $stateProvider.state('home', {
+        url: "/",
+        templateUrl: "home-screen.html",
+        controller: "HomeScreen",
+        resolve: resolve
+    }).state('topic', {
+        url: "/topic/:cat",
+        templateUrl: "topic-screen.html",
+        controller: "TopicScreen",
+        resolve: resolve
+    }).state('tag', {
+        url: "/tag/:tag",
+        templateUrl: "tag-screen.html",
+        controller: "TagScreen",
+        resolve: resolve
+    }).state('tagList', {
+        url: "/tag-list",
+        templateUrl: "tag-list-screen.html",
+        controller: "TagListScreen",
+        resolve: resolve
+    }).state('imageList', {
+        url: "/image-list/:page",
+        templateUrl: "image-list-screen.html",
+        controller: "ImageListScreen",
+        resolve: resolve
+    }).state('article', {
+        url: "/article/:id/:slug",
+        templateUrl: "article-screen.html",
+        controller: "ArticleScreen",
+        resolve: resolve
+    });
+
+    $locationProvider.html5Mode(true);
+});
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 'use strict';
 
 app.factory('Alert', function ($timeout, $rootScope) {
@@ -208,69 +271,6 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
-
-    var resolve = {
-        timeout: function timeout($timeout) {
-            $('[screen]').removeClass('active');
-            //$('.loading-logo').addClass('active');
-            return $timeout(300);
-        }
-    };
-
-    // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
-
-    // Now set up the states
-    $stateProvider.state('home', {
-        url: "/",
-        templateUrl: "home-screen.html",
-        controller: "HomeScreen",
-        resolve: resolve
-    }).state('topic', {
-        url: "/topic/:cat",
-        templateUrl: "topic-screen.html",
-        controller: "TopicScreen",
-        resolve: resolve
-    }).state('tag', {
-        url: "/tag/:tag",
-        templateUrl: "tag-screen.html",
-        controller: "TagScreen",
-        resolve: resolve
-    }).state('tagList', {
-        url: "/tag-list",
-        templateUrl: "tag-list-screen.html",
-        controller: "TagListScreen",
-        resolve: resolve
-    }).state('imageList', {
-        url: "/image-list/:page",
-        templateUrl: "image-list-screen.html",
-        controller: "ImageListScreen",
-        resolve: resolve
-    }).state('article', {
-        url: "/article/:id/:slug",
-        templateUrl: "article-screen.html",
-        controller: "ArticleScreen",
-        resolve: resolve
-    });
-
-    $locationProvider.html5Mode(true);
-});
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 'use strict';
 
 app.directive('alert', function (Alert) {
@@ -428,6 +428,41 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
+app.directive('latestItem', function (State, API) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('heroItem', function (API, State) {
     return {
         templateUrl: 'hero.html',
@@ -467,41 +502,6 @@ app.directive('heroItem', function (API, State) {
                     return content;
                 },
                 getHeight: getHeight
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State, API) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles
             });
         }
     };
@@ -589,26 +589,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
 
     var content, tags, international, politics, religion, culture;
@@ -667,6 +647,26 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });
