@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apicache": "0.0.12",
     "body-parser": "^1.14.1",
+    "cached-request": "^0.1.4",
     "chai": "^3.3.0",
     "cors": "^2.7.1",
     "del": "^2.0.2",

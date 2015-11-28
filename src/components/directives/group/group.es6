@@ -2,14 +2,14 @@
 
 app.directive('groupItem', (State, API) => ({
     templateUrl: 'group.html',
-    scope: {heading: '=', ids: '='},
+    scope: {heading: '&', ids: '&', horizontal:"&"},
     link(scope, element, attrs) {
 
         var articles = [];
 
         var init = () => {
-            _.each(scope.ids, (id, index) => {
-                console.warn(index, id)
+            _.each(scope.ids(), (id, index) => {
+                console.warn('group', index, id);
                 API.getPost(id).then((response) => {
                     articles.push(response);
                     console.log('post (group)', id, response);

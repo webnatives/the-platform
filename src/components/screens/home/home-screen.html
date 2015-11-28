@@ -60,29 +60,33 @@
                     ></hero-item>
                 </div>
 
-                <div class="col-sm-3 col-xs-12">
-                    <latest-item
-                            heading="'Culture'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <latest-item
-                            heading="'Politics'"
-                            amount="3"
-                    ></latest-item>
-                </div>
-                <div class="col-sm-3 col-xs-12">
-                    <latest-item
+                <div class="col-sm-3 col-xs-12" ng-if="getInternational()">
+                    <group-item
                             heading="'International'"
-                            amount="3"
-                    ></latest-item>
+                            ids="getIds(getInternational(), 3)"
+                            horizontal="false"
+                    ></group-item>
                 </div>
-                <div class="col-sm-3 col-xs-12">
-                    <latest-item
+                <div class="col-sm-3 col-xs-12" ng-if="getPolitics()">
+                    <group-item
+                            heading="'Politics'"
+                            ids="getIds(getPolitics(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-3 col-xs-12" ng-if="getCulture()">
+                    <group-item
+                            heading="'Culture'"
+                            ids="getIds(getCulture(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-3 col-xs-12" ng-if="getReligion()">
+                    <group-item
                             heading="'Religion'"
-                            amount="3"
-                    ></latest-item>
+                            ids="getIds(getReligion(), 3)"
+                            horizontal="false"
+                    ></group-item>
                 </div>
             </div>
 

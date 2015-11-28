@@ -6,7 +6,7 @@ var MongoService = require('./../services/mongo-service');
 var request = require('request');
 
 var standardData = {
-    title: "Nathan-Jamahiel Nelson - Powerful Code and Efficient Living with Nathan Jamahiel Nelson",
+    title: "The Platform - Powerful Code and Efficient Living with Nathan Jamahiel Nelson",
     ogTitle: "Powerful Code and Efficient Living with Nathan-Jamahiel Nelson",
     ogSiteName: "Jamahiel",
     ogUrl: "http://www.jamahiel.com",
@@ -45,28 +45,43 @@ module.exports = {
         })
     },
 
-    postsByAuthor: (req, res) => request.get({url: `${API}/wp-json/posts?filter[author]=${req.params.id}`, json: true},  (e, r, body) => res.send(body)),
+    postsByAuthor: (req, res) => request.get({
+        url: `${API}/wp-json/posts?filter[author]=${req.params.id}`,
+        json: true
+    }, (e, r, body) => res.send(body)),
 
-    postsByFilter: (req, res) => request.get({url: `${API}/wp-json/posts?filter[${req.params.filter}]=${req.params.value}`, json: true},  (e, r, body) => res.send(body)),
+    postsByFilter: (req, res) => request.get({
+        url: `${API}/wp-json/posts?filter[${req.params.filter}]=${req.params.value}`,
+        json: true
+    }, (e, r, body) => res.send(body)),
 
-    post: (req, res) => request.get({url: `${API}/wp-json/posts/${req.params.id}`, json: true},  (e, r, body) => res.send(body)),
+    post: (req, res) => request.get({
+        url: `${API}/wp-json/posts/${req.params.id}`,
+        json: true
+    }, (e, r, body) => res.send(body)),
 
     posts(req, res) {
-        request.get({url: `${API}/wp-json/posts/`, json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/posts/?filter[posts_per_page]=20`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
     },
 
     postsByCat(req, res) {
-        request.get({url: `${API}/wp-json/posts?filter[category_name]=${req.params.cat}`, json: true}, function (e, r, body) {
+        request.get({
+            url: `${API}/wp-json/posts?filter[posts_per_page]=20&filter[category_name]=${req.params.cat}`,
+            json: true
+        }, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
     },
 
     postsByTag(req, res) {
-        request.get({url: `${API}/wp-json/posts?filter[tag]=${req.params.tag}`, json: true}, function (e, r, body) {
+        request.get({
+            url: `${API}/wp-json/posts?filter[posts_per_page]=20&filter[tag]=${req.params.tag}`,
+            json: true
+        }, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
