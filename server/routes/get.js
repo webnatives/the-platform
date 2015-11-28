@@ -61,7 +61,7 @@ module.exports = {
     }, (e, r, body) => res.send(body)),
 
     posts(req, res) {
-        request.get({url: `${API}/wp-json/posts/?filter[posts_per_page]=20`, json: true}, function (e, r, body) {
+        request.get({url: `${API}/wp-json/posts/?filter[posts_per_page]=10`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
