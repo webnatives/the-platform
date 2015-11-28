@@ -6,12 +6,12 @@ var MongoService = require('./../services/mongo-service');
 var request = require('request');
 
 var standardData = {
-    title: "The Platform - Powerful Code and Efficient Living with Nathan Jamahiel Nelson",
-    ogTitle: "Powerful Code and Efficient Living with Nathan-Jamahiel Nelson",
-    ogSiteName: "Jamahiel",
-    ogUrl: "http://www.jamahiel.com",
-    ogImage: "http://www.jamahiel.com/public/img/hero-india.jpg",
-    ogDescription: "A full-stack developer/designer with a passion for powerful, minimal code and efficient living.",
+    title: "The Platform | Challenging opinions on current affairs and culture.",
+    ogTitle: "A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.",
+    ogSiteName: "The Platform",
+    ogUrl: "http://www.the-platform.org.uk",
+    ogImage: "http://www.the-platform.org.uk/wp-content/themes/Nuke/images/logo_white.png",
+    ogDescription: "A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.",
     ogType: "website"
 };
 

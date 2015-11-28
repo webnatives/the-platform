@@ -19,6 +19,7 @@ body {
 
 input, select, textarea {
   font-family: 'Catamaran', sans-serif;
+  font-family: 'Merriweather', serif;
   font-size: 14px;
   font-weight: 300;
   min-width: 150px; }
@@ -223,6 +224,30 @@ textarea {
     margin-top: 0;
     padding-top: 0; }
 
+.subscribe {
+  font-size: 14px;
+  color: black; }
+  .subscribe p {
+    font-size: 14px;
+    padding-bottom: 10px;
+    font-weight: 700; }
+  .subscribe input {
+    background: #f7f7f7;
+    width: 100%;
+    border-radius: 0; }
+
+.butn {
+  background: #be3234;
+  line-height: 40px;
+  height: 40px;
+  color: white;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: .3s; }
+  .butn:hover {
+    background: #cc3d3f; }
+
 .hero-image {
   height: 300px;
   background: #f7f7f7;
@@ -278,6 +303,30 @@ textarea {
     -webkit-transform: translateY(0);
             transform: translateY(0);
     opacity: 1; }
+
+[template=article-preview] {
+  cursor: pointer; }
+  [template=article-preview] .article-preview-image {
+    height: 100px;
+    background: #f7f7f7;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0;
+    position: relative; }
+    [template=article-preview] .article-preview-image .tag {
+      height: 30px;
+      background: white;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      line-height: 30px;
+      bottom: 0;
+      left: 0;
+      padding: 0 20px;
+      margin: 0;
+      color: #555;
+      font-weight: 700; }
+  [template=article-preview] h3 {
+    padding-bottom: 0; }
 
 [template=foot] .foot-top {
   background: #333;
@@ -479,30 +528,6 @@ textarea {
       color: white;
       background: white;
       color: #be3234; }
-
-[template=article-preview] {
-  cursor: pointer; }
-  [template=article-preview] .article-preview-image {
-    height: 100px;
-    background: #f7f7f7;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 0;
-    position: relative; }
-    [template=article-preview] .article-preview-image .tag {
-      height: 30px;
-      background: white;
-      background: rgba(255, 255, 255, 0.9);
-      position: absolute;
-      line-height: 30px;
-      bottom: 0;
-      left: 0;
-      padding: 0 20px;
-      margin: 0;
-      color: #555;
-      font-weight: 700; }
-  [template=article-preview] h3 {
-    padding-bottom: 0; }
 
 [template=hero] {
   cursor: pointer; }

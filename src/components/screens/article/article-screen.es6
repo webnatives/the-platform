@@ -8,12 +8,12 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
         if (string != "") {
             API.getPostsByTag(string).then((response) => {
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => article.ID), 5);
+                relatedIds = _.take(_.map(related, (article) => article.ID), 3);
             });
         } else {
             API.getRandomPosts(string).then((response) => {
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => article.ID), 5);
+                relatedIds = _.take(_.map(related, (article) => article.ID), 3);
             });
         }
     };
