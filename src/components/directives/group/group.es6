@@ -10,7 +10,6 @@ app.directive('groupItem', (State, API) => ({
         var init = () => {
             _.each(scope.ids(), (id, index) => API.getPost(id).then((response) => {
                 articles.push(response);
-                //console.log('post (group)', id, response);
                 element.find('.fi').addClass('active');
             }));
         };

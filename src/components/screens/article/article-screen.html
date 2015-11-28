@@ -29,8 +29,12 @@
                 <div class="col-sm-8 col-xs-12">
                     <div class="article-content">
 
+                        <div class="section-title start">
+                            {{getDate()}}
+                        </div>
 
-                        <p><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
+
+                        <p ng-if="getContent().acf.summary"><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
                         <div ng-bind-html="$root.html(getContent().content)"></div>
                     </div>

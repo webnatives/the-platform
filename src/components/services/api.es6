@@ -17,7 +17,7 @@ app.factory('API', function ($rootScope, $http) {
 
     var getPosts = () => $http.get(`${API_URL}posts/`).then(response => response.data);
 
-    //var getPosts = () => $http.get(`${API_URL}posts/posts_per_page/100`).then(response => response.data);
+    var getRandomPosts = () => $http.get(`${API_URL}posts/orderby/rand`).then(response => response.data);
 
     var getPostsByCat = (cat) => $http.get(`${API_URL}posts/cat/${cat}`).then(response => response.data);
 
@@ -51,6 +51,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getPosts: getPosts,
+        getRandomPosts: getRandomPosts,
         getPostsByCat: getPostsByCat,
         getPostsByTag: getPostsByTag,
         getCollections: getCollections,

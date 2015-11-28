@@ -2,6 +2,26 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
 
     var content, featured, related, relatedIds, image, tags;
 
+    var loadRelated = (string = "") => {
+        _.each(content.terms.post_tag, (tag, index) => string += tag.slug + ',');
+
+        if (string != "") {
+            API.getPostsByTag(string).then((response) => {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, (article) => article.ID), 5);
+            });
+        } else {
+            API.getRandomPosts(string).then((response) => {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, (article) => article.ID), 5);
+            });
+        }
+    };
+
+    var getDate = () => {
+        return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY")
+    };
+
     var init = () => {
         API.getPost($stateParams.id).then((response) => {
             content = response;
@@ -17,20 +37,13 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
         API.getPostsByTag("paris").then((response) => tags = response);
     };
 
-    var loadRelated = (string = "") => {
-        _.each(content.terms.post_tag, (tag, index) => string += tag.slug + ',');
-        API.getPostsByTag(string).then((response) => {
-            related = _.shuffle(response);
-            relatedIds = _.take(_.map(related, (article) => article.ID), 5);
-        });
-    };
-
     init();
 
     _.extend($scope, {
         trustAsHtml: $sce.trustAsHtml,
         getImage: () => image,
         getContent: () => content,
+        getDate: getDate,
         getTags: () => tags,
         getRelated: () => related,
         getRelatedIds: () => relatedIds,

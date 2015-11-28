@@ -15,6 +15,21 @@ app.directive('ngEnter', function () {
         });
     };
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -50,7 +65,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: "TagListScreen",
         resolve: resolve
     }).state('imageList', {
-        url: "/image-list",
+        url: "/image-list/:page",
         templateUrl: "image-list-screen.html",
         controller: "ImageListScreen",
         resolve: resolve
@@ -63,21 +78,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 'use strict';
 
 app.factory('Alert', function ($timeout, $rootScope) {
@@ -180,7 +180,11 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
-    //var getPosts = () => $http.get(`${API_URL}posts/posts_per_page/100`).then(response => response.data);
+    var getRandomPosts = function getRandomPosts() {
+        return $http.get(API_URL + 'posts/orderby/rand').then(function (response) {
+            return response.data;
+        });
+    };
 
     var getPostsByCat = function getPostsByCat(cat) {
         return $http.get(API_URL + 'posts/cat/' + cat).then(function (response) {
@@ -230,6 +234,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getPosts: getPosts,
+        getRandomPosts: getRandomPosts,
         getPostsByCat: getPostsByCat,
         getPostsByTag: getPostsByTag,
         getCollections: getCollections,
@@ -363,7 +368,6 @@ app.directive('groupItem', function (State, API) {
                 _.each(scope.ids(), function (id, index) {
                     return API.getPost(id).then(function (response) {
                         articles.push(response);
-                        //console.log('post (group)', id, response);
                         element.find('.fi').addClass('active');
                     });
                 });
@@ -378,45 +382,6 @@ app.directive('groupItem', function (State, API) {
                 getArticle: function getArticle(index) {
                     return articles[index];
                 }
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('headerItem', function (State) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };
@@ -503,9 +468,76 @@ app.directive('latestItem', function (State, API) {
     };
 });
 
+'use strict';
+
+app.directive('headerItem', function (State) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
 
     var content, featured, related, relatedIds, image, tags;
+
+    var loadRelated = function loadRelated() {
+        var string = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
+
+        _.each(content.terms.post_tag, function (tag, index) {
+            return string += tag.slug + ',';
+        });
+
+        if (string != "") {
+            API.getPostsByTag(string).then(function (response) {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, function (article) {
+                    return article.ID;
+                }), 5);
+            });
+        } else {
+            API.getRandomPosts(string).then(function (response) {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, function (article) {
+                    return article.ID;
+                }), 5);
+            });
+        }
+    };
+
+    var getDate = function getDate() {
+        return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY");
+    };
 
     var init = function init() {
         API.getPost($stateParams.id).then(function (response) {
@@ -525,20 +557,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
         });
     };
 
-    var loadRelated = function loadRelated() {
-        var string = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-
-        _.each(content.terms.post_tag, function (tag, index) {
-            return string += tag.slug + ',';
-        });
-        API.getPostsByTag(string).then(function (response) {
-            related = _.shuffle(response);
-            relatedIds = _.take(_.map(related, function (article) {
-                return article.ID;
-            }), 5);
-        });
-    };
-
     init();
 
     _.extend($scope, {
@@ -549,6 +567,7 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
         getContent: function getContent() {
             return content;
         },
+        getDate: getDate,
         getTags: function getTags() {
             return tags;
         },
@@ -638,7 +657,7 @@ app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $st
 
     var init = function init() {
         $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=3&filter[posts_per_page]=50').then(function (response) {
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
             return terms = response.data;
         });
     };

@@ -60,28 +60,31 @@
                     ></hero-item>
                 </div>
 
-                <div class="col-sm-3 col-xs-12" ng-if="getInternational()">
+                <div class="col-xs-12">
+
+                </div>
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getInternational()">
                     <group-item
                             heading="'International'"
                             ids="getIds(getInternational(), 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getPolitics()">
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getPolitics()">
                     <group-item
                             heading="'Politics'"
                             ids="getIds(getPolitics(), 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getCulture()">
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">
                     <group-item
                             heading="'Culture'"
                             ids="getIds(getCulture(), 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-3 col-xs-12" ng-if="getReligion()">
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">
                     <group-item
                             heading="'Religion'"
                             ids="getIds(getReligion(), 3)"

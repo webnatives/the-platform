@@ -38,7 +38,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             resolve: resolve
         })
         .state('imageList', {
-            url: "/image-list",
+            url: "/image-list/:page",
             templateUrl: "image-list-screen.html",
             controller: "ImageListScreen",
             resolve: resolve

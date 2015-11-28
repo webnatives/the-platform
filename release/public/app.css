@@ -342,6 +342,41 @@ textarea {
     background-size: cover;
     position: relative; }
 
+[template=hero] {
+  cursor: pointer; }
+
+[template=latest] .latest h3, [template=latest] .latest h2 {
+  color: black; }
+
+[template=latest] .latest .latest-preview {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+  cursor: pointer;
+  -webkit-transform: translateX(0px);
+          transform: translateX(0px);
+  transition: .2s;
+  cursor: pointer; }
+  [template=latest] .latest .latest-preview h3, [template=latest] .latest .latest-preview h2 {
+    padding: 0;
+    margin: 0;
+    color: black; }
+  [template=latest] .latest .latest-preview:hover {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px); }
+    [template=latest] .latest .latest-preview:hover h3 {
+      color: #be3234; }
+  [template=latest] .latest .latest-preview:last-child {
+    margin-bottom: 0px;
+    border-bottom: none;
+    padding-bottom: 0px; }
+  [template=latest] .latest .latest-preview .preview-image {
+    height: 80px;
+    background: #f7f7f7;
+    background-position: center;
+    background-size: cover;
+    position: relative; }
+
 [template=header] .header {
   top: 0;
   left: 0;
@@ -478,38 +513,3 @@ textarea {
       color: white;
       background: white;
       color: #be3234; }
-
-[template=hero] {
-  cursor: pointer; }
-
-[template=latest] .latest h3, [template=latest] .latest h2 {
-  color: black; }
-
-[template=latest] .latest .latest-preview {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
-  cursor: pointer;
-  -webkit-transform: translateX(0px);
-          transform: translateX(0px);
-  transition: .2s;
-  cursor: pointer; }
-  [template=latest] .latest .latest-preview h3, [template=latest] .latest .latest-preview h2 {
-    padding: 0;
-    margin: 0;
-    color: black; }
-  [template=latest] .latest .latest-preview:hover {
-    -webkit-transform: translateX(5px);
-            transform: translateX(5px); }
-    [template=latest] .latest .latest-preview:hover h3 {
-      color: #be3234; }
-  [template=latest] .latest .latest-preview:last-child {
-    margin-bottom: 0px;
-    border-bottom: none;
-    padding-bottom: 0px; }
-  [template=latest] .latest .latest-preview .preview-image {
-    height: 80px;
-    background: #f7f7f7;
-    background-position: center;
-    background-size: cover;
-    position: relative; }
