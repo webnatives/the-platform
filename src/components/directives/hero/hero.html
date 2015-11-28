@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
-            <div class="box red" ui-sref="article({id:id, slug:getContent().slug})">
+            <div class="box red" ui-sref="article({id:id(), slug:getContent().slug})">
                 <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
                     <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
                 </div>

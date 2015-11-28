@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id}}">
+    <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id, slug:getContent().slug})">
+            <div class="box" ui-sref="article({id:id(), slug:getContent().slug})">
                 <div class="row">
                     <div ng-if="getContent().featured_image.source">
                         <div class="col-xs-5">

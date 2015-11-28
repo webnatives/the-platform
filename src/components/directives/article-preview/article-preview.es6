@@ -3,24 +3,24 @@
 app.directive('articlePreviewItem', (State, API) => ({
     templateUrl: 'article-preview.html',
     scope: {
-        heading: '=',
-        id: '=',
-        image: '=',
-        link: '=',
-        summary: '=',
-        height: '=',
-        tag: '='
+        heading: '&',
+        id: '&',
+        image: '&',
+        link: '&',
+        summary: '&',
+        height: '&',
+        tag: '&'
     },
     link(scope, element, attrs) {
 
         var content;
 
         var init = () => {
-            console.log('scope.id (article-preview)', scope.id);
-            if (scope.id == undefined) return;
-            API.getPost(scope.id).then((response) => {
+            //console.log('scope.id (article-preview)', scope.id());
+            if (scope.id() == undefined) return;
+            API.getPost(scope.id()).then((response) => {
                 content = response;
-                console.log('post (article-preview)', response);
+                //console.log('post (article-preview)', response);
                 element.find('.fi').addClass('active');
             });
         };
