@@ -44,7 +44,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             resolve: resolve
         })
         .state('article', {
-            url: "/article/:id/:slug",
+            url: "/:year/:month/:date/:slug/?:id",
             templateUrl: "article-screen.html",
             controller: "ArticleScreen",
             resolve: resolve

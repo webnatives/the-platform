@@ -60,6 +60,17 @@ module.exports = {
         json: true
     }, (e, r, body) => res.send(body)),
 
+    postBySlug(req, res) {
+        request.get({
+            url: `${API}/wp-json/posts?filter[name]=${req.params.slug}`,
+            json: true
+        }, function (e, r, body) {
+            //standardData.content = body
+            res.send(body[0]);
+        })
+    },
+
+
     posts(req, res) {
         request.get({url: `${API}/wp-json/posts/?filter[posts_per_page]=10`, json: true}, function (e, r, body) {
             //standardData.content = body

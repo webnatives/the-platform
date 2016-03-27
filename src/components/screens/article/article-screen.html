@@ -4,13 +4,16 @@
             <div class="row">
                 <div class="col-xs-12">
 
+                </div>
+                <div class="col-md-8 col-xs-12">
+
                     <h1 ng-bind-html="$root.html(getContent().title)"></h1>
 
                     <div style="height: 10px"></div>
                     <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
                         <small>
                             <!--<span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">-->
-                                <!--Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>-->
+                            <!--Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>-->
                             <!--</span>-->
 
                             <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
@@ -25,8 +28,6 @@
 
                     <div style="height: 10px"></div>
 
-                </div>
-                <div class="col-sm-7 col-md-8 col-xs-12">
                     <div class="article-content">
 
                         <div class="section-title start">
@@ -41,7 +42,7 @@
 
 
                 </div>
-                <div class="col-sm-5 col-md-4 col-xs-12">
+                <div class="col-md-4 col-xs-12">
                     <div class="section-title start">
                         About The Author
                     </div>
@@ -83,17 +84,17 @@
 
                     <hr>
 
-                    <latest-item
-                            heading="'Latest Posts'"
-                    ></latest-item>
-
-                    <hr>
-
                     <group-item
                             heading="'Related Posts'"
                             ng-if="getRelatedIds()"
                             ids="getRelatedIds()"
                     ></group-item>
+
+                    <hr>
+
+                    <latest-item
+                            heading="'Latest Posts'"
+                    ></latest-item>
 
                     <!--<div class="section-title">Related Posts</div>-->
 

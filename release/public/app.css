@@ -40,6 +40,7 @@ hr {
   border: none; }
 
 .box {
+  display: block;
   background: white;
   padding: 20px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -396,7 +397,7 @@ textarea {
   top: 0;
   left: 0;
   right: 0;
-  position: fixed;
+  position: absolute;
   z-index: 100;
   overflow: hidden;
   -webkit-transform: translateY(0px);
@@ -431,20 +432,33 @@ textarea {
       [template=header] .header .top-bar .social i.fa {
         padding: 0 10px;
         font-size: 20px; }
+    [template=header] .header .top-bar .silent-bar {
+      background: #b22f31;
+      border-radius: 0 0 4px 4px;
+      position: absolute;
+      right: 150px;
+      top: 0;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 10px;
+      color: white;
+      font-weight: 700; }
+      @media (max-width: 767px) {
+        [template=header] .header .top-bar .silent-bar {
+          right: 15px; } }
+      [template=header] .header .top-bar .silent-bar i.fa {
+        padding: 0 10px;
+        font-size: 20px; }
   [template=header] .header .bottom-bar {
     background: white;
     height: 40px;
     background: #b63032;
-    -webkit-transform: translateY(-40px);
-            transform: translateY(-40px);
     transition: 0.3s;
     overflow: hidden;
     will-change: transform; }
     @media (max-width: 767px) {
       [template=header] .header .bottom-bar {
-        height: 40px;
-        -webkit-transform: translateY(-40px);
-                transform: translateY(-40px); } }
+        height: 40px; } }
   [template=header] .header .logo {
     position: absolute;
     background: url("http://www.the-platform.org.uk/wp-content/themes/Nuke/images/logo_white.png");

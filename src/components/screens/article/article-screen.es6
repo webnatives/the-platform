@@ -23,7 +23,7 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
     };
 
     var init = () => {
-        API.getPost($stateParams.id).then((response) => {
+        API.getPostBySlug($stateParams.slug).then((response) => {
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');

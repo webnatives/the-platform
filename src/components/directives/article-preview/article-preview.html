@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
-            <div class="box" ui-sref="article({id:id(), slug:getContent().slug})">
+            <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
                 <div class="row">
                     <div ng-if="getContent().featured_image.source">
                         <div class="col-xs-5">
@@ -27,7 +27,7 @@
 
                 <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
 
-            </div>
+            </a>
         </div>
 
     </div>

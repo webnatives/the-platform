@@ -6,6 +6,8 @@
 
                 <div ng-if="!horizontal()">
                     <div class="group-preview" ng-repeat="article in getArticles()">
+
+                        <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
                         <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
                             <div ng-if="article.featured_image.source">
                                 <div class="col-xs-4">

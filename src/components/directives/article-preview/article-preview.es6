@@ -15,12 +15,16 @@ app.directive('articlePreviewItem', (State, API) => ({
 
         var content;
 
+        var getDate = () => {
+            return moment(content.date)
+        };
+
         var init = () => {
             //console.log('scope.id (article-preview)', scope.id());
             if (scope.id() == undefined) return;
             API.getPost(scope.id()).then((response) => {
                 content = response;
-                //console.log('post (article-preview)', response);
+                console.log('post (article-preview)', response);
                 element.find('.fi').addClass('active');
             });
         };
@@ -28,7 +32,8 @@ app.directive('articlePreviewItem', (State, API) => ({
         init();
 
         scope = _.extend(scope, {
-            getContent: () => content
+            getContent: () => content,
+            getDate: (format) => getDate().format(format)
         });
     }
 }));
