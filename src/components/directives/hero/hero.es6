@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('heroItem', (API, State) => ({
+app.directive('heroItem', (API, State, Helper) => ({
     templateUrl: 'hero.html',
     scope: {
         heading: '&',
@@ -33,7 +33,8 @@ app.directive('heroItem', (API, State) => ({
 
         scope = _.extend(scope, {
             getContent: () => content,
-            getHeight: getHeight
+            getHeight,
+            getDateString:Helper.getDateString
         });
     }
 }));

@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('latestItem', (State, API) => {
+app.directive('latestItem', (State, API, Helper) => {
     return {
         templateUrl: 'latest.html',
         scope: {
@@ -24,7 +24,8 @@ app.directive('latestItem', (State, API) => {
             init();
 
             scope = _.assign(scope, {
-                getArticles: getArticles
+                getArticles: getArticles,
+                getDateString:Helper.getDateString
             });
         }
     }

@@ -8,7 +8,8 @@
                     <div class="group-preview" ng-repeat="article in getArticles()">
 
                         <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
-                        <div class="row" ui-sref="article({id:article.ID, slug:article.slug})">
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                        <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
                             <div ng-if="article.featured_image.source">
                                 <div class="col-xs-4">
                                     <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
@@ -29,7 +30,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </a>
                     </div>
                 </div>
 
@@ -37,7 +38,7 @@
                     <div class="group-preview">
                         <div class="row">
                             <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
-                                <div ng-if="article.featured_image.source" ui-sref="article({id:article.ID, slug:article.slug})">
+                                <a ng-if="article.featured_image.source" ng-href="{{getDateString(article)}}">
                                     <div class="col-xs-4">
                                         <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
                                     </div>
@@ -47,15 +48,15 @@
                                             <h3 ng-bind-html="$root.html(article.title)"></h3>
                                         </div>
                                     </div>
-                                </div>
-                                <div ng-if="!article.featured_image.source">
+                                </a>
+                                <a ng-if="!article.featured_image.source">
                                     <div class="col-xs-12">
                                         <div>
                                             <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
                                             <h3 ng-bind-html="$root.html(article.title)"></h3>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </div>

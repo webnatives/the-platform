@@ -16,7 +16,11 @@ app.directive('articlePreviewItem', (State, API) => ({
         var content;
 
         var getDate = () => {
-            return moment(content.date)
+            if (content) {
+                return moment(content.date);
+            } else {
+                return {}
+            }
         };
 
         var init = () => {

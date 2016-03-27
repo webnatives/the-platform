@@ -255,7 +255,15 @@ app.factory('API', function ($rootScope, $http) {
 
 app.service('Helper', function ($rootScope, $http) {
 
-    _.extend(this, {});
+    var getDateString = function getDateString(article) {
+        if (!article) return "/";
+
+        return "/" + moment(article.date).format('YYYY') + "/" + moment(article.date).format('MM') + "/" + moment(article.date).format('DD') + "/" + article.slug + "/";
+    };
+
+    _.extend(this, {
+        getDateString: getDateString
+    });
 });
 'use strict';
 
@@ -325,7 +333,11 @@ app.directive('articlePreviewItem', function (State, API) {
             var content;
 
             var _getDate = function _getDate() {
-                return moment(content.date);
+                if (content) {
+                    return moment(content.date);
+                } else {
+                    return {};
+                }
             };
 
             var init = function init() {
@@ -374,9 +386,7 @@ app.directive('footItem', function (State) {
     };
 });
 
-'use strict';
-
-app.directive('groupItem', function (State, API) {
+app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
         scope: { heading: '&', ids: '&', horizontal: "&" },
@@ -401,7 +411,8 @@ app.directive('groupItem', function (State, API) {
                 },
                 getArticle: function getArticle(index) {
                     return articles[index];
-                }
+                },
+                getDateString: Helper.getDateString
             });
         }
     };
@@ -448,7 +459,7 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (API, State) {
+app.directive('heroItem', function (API, State, Helper) {
     return {
         templateUrl: 'hero.html',
         scope: {
@@ -486,7 +497,8 @@ app.directive('heroItem', function (API, State) {
                 getContent: function getContent() {
                     return content;
                 },
-                getHeight: getHeight
+                getHeight: getHeight,
+                getDateString: Helper.getDateString
             });
         }
     };
@@ -494,7 +506,7 @@ app.directive('heroItem', function (API, State) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API) {
+app.directive('latestItem', function (State, API, Helper) {
     return {
         templateUrl: 'latest.html',
         scope: {
@@ -521,10 +533,73 @@ app.directive('latestItem', function (State, API) {
             init();
 
             scope = _.assign(scope, {
-                getArticles: getArticles
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
             });
         }
     };
+});
+
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+
+    var content, tags, international, politics, religion, culture;
+
+    var init = function init() {
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            return tags = response;
+        });
+        API.getPostsByCat("international").then(function (response) {
+            return international = response;
+        });
+        API.getPostsByCat("politics").then(function (response) {
+            return politics = response;
+        });
+        API.getPostsByCat("culture").then(function (response) {
+            return culture = response;
+        });
+        API.getPostsByCat("spirituality").then(function (response) {
+            return religion = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getInternational: function getInternational() {
+            return international;
+        },
+        getPolitics: function getPolitics() {
+            return politics;
+        },
+        getCulture: function getCulture() {
+            return culture;
+        },
+        getReligion: function getReligion() {
+            return religion;
+        },
+        getTags: function getTags() {
+            return tags;
+        },
+        getIds: function getIds(array, amount) {
+            return _.take(_.map(array, function (item) {
+                return item.ID;
+            }), 3);
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
 });
 
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
@@ -678,68 +753,6 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
     _.extend($scope, {
         getTerms: function getTerms() {
             return terms;
-        }
-    });
-});
-
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
-
-    var content, tags, international, politics, religion, culture;
-
-    var init = function init() {
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            return tags = response;
-        });
-        API.getPostsByCat("international").then(function (response) {
-            return international = response;
-        });
-        API.getPostsByCat("politics").then(function (response) {
-            return politics = response;
-        });
-        API.getPostsByCat("culture").then(function (response) {
-            return culture = response;
-        });
-        API.getPostsByCat("spirituality").then(function (response) {
-            return religion = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getInternational: function getInternational() {
-            return international;
-        },
-        getPolitics: function getPolitics() {
-            return politics;
-        },
-        getCulture: function getCulture() {
-            return culture;
-        },
-        getReligion: function getReligion() {
-            return religion;
-        },
-        getTags: function getTags() {
-            return tags;
-        },
-        getIds: function getIds(array, amount) {
-            return _.take(_.map(array, function (item) {
-                return item.ID;
-            }), 3);
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
         }
     });
 });

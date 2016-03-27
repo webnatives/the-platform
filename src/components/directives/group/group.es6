@@ -1,6 +1,4 @@
-'use strict';
-
-app.directive('groupItem', (State, API) => ({
+app.directive('groupItem', (State, API, Helper) => ({
     templateUrl: 'group.html',
     scope: {heading: '&', ids: '&', horizontal: "&"},
     link(scope, element, attrs) {
@@ -18,7 +16,8 @@ app.directive('groupItem', (State, API) => ({
 
         scope = _.assign(scope, {
             getArticles: () => articles,
-            getArticle: (index) => articles[index]
+            getArticle: (index) => articles[index],
+            getDateString: Helper.getDateString
         });
     }
 }));

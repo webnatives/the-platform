@@ -18,6 +18,12 @@ gulp.task("default", () => gulp.start([
     'gen-lib-css'
 ]));
 
+gulp.task('dev-front-end', ['default'], () => {
+    gulp.watch([
+        'src/**/*'
+    ], ['default']);
+});
+
 gulp.task('dev', ['start-server', 'default'], () => {
     gulp.watch([
         'src/**/*'
@@ -47,6 +53,11 @@ gulp.task('gen-js', () =>
     gulp.src(['src/app.es6', 'src/components/**/*.es6'])
         .pipe(concat('app.js'))
         .pipe(babel())
+        .on('error', function (e) {
+            console.log('>>> ERROR', e);
+            // emit here
+            this.emit('end');
+        })
         .pipe(gulp.dest("release/public"))
 );
 

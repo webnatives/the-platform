@@ -76,6 +76,12 @@ hr {
   transition: .2s;
   margin-bottom: 20px;
   will-change: transform;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
 
 
 
@@ -138,8 +144,8 @@ hr {
 .fi {
   opacity: 0;
   will-change: opcaity;
-  transition: 0.9s;
-  transition-delay: 0.3s;
+  transition: 0.4s;
+  transition-delay: 0.1s;
   visibility: hidden;
   transform: translateY(50px);
 
@@ -279,7 +285,7 @@ textarea {
   padding: 20px 0 0;
   padding-top: 153px;
   opacity: 0;
-  transition: .3s;
+  transition: .2s;
   display: block;
   will-change: opacity;
   overflow-x: hidden;
@@ -307,6 +313,8 @@ textarea {
 .row {
   margin-right: -10px;
   margin-left: -10px;
+
+  display: block;
 
 }
 
