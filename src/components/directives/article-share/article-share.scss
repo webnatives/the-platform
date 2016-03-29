@@ -1,0 +1,44 @@
+[template=article-share] {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0 50px;
+  margin-top: 20px;
+
+  .share-title {
+    //color: white;
+
+    padding: 20px 0 20px;
+    //margin-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+
+    .fa {
+      animation: pulse 1s infinite;
+
+    }
+  }
+
+  p {
+    //color: white;
+
+    font-size: 15px;
+    line-height: 32px;
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+
+}
+
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}

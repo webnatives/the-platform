@@ -1,4 +1,4 @@
-$body: #555;
+$body: #333;
 $blue: #1b65ae;
 $green: #97bc41;
 $red: #b40305;
@@ -180,7 +180,7 @@ h1 {
 
 h1, h2 {
   //font-size: 26px;
-  color: black;
+  color: $body;
   font-weight: 100;
 
   .fa {
@@ -193,7 +193,7 @@ h2, h3 {
   font-size: 16px;
   font-weight: 700;
   //text-transform: uppercase;
-  color: black;
+  color: $body;
 }
 
 h3 {
@@ -224,8 +224,14 @@ p {
     font-size: 16px;
     line-height: 2;
     margin-bottom: 30px;
-    color: black;
+    color: $body;
     font-weight: 400;
+
+
+    font-size: 15px;
+    line-height: 32px;
+    margin-bottom: 30px;
+    font-weight: 300;
 
     em, strong, a {
       //padding: 0 5px;
@@ -324,7 +330,7 @@ textarea {
   margin-top: 20px;
   font-size: 20px;
   font-weight: 700;
-  color: black;
+  color: $body;
 
   @media (max-width: 767px) {
     padding: 10px 0 10px;
@@ -342,7 +348,7 @@ textarea {
   //background: #eee;
   //padding: 20px;
   font-size: 14px;
-  color: black;
+  color: $body;
 
   p {
     font-size: 14px;

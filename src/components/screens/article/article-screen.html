@@ -35,7 +35,8 @@
                         </div>
 
 
-                        <p ng-if="getContent().acf.summary"><strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
+                        <p ng-if="getContent().acf.summary">
+                            <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
                         <div ng-bind-html="$root.html(getContent().content)"></div>
                     </div>
@@ -104,6 +105,15 @@
                     <!--id="article.ID"-->
                     <!--&gt;</article-preview-item>-->
                 </div>
+            </div>
+        </div>
+
+
+
+        <article-share-item></article-share-item>
+
+        <div class="container">
+            <div class="row">
 
                 <div class="col-xs-12">
                     <div class="section-title">You Might Also Like</div>
