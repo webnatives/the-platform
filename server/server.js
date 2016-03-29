@@ -11,7 +11,7 @@ var routes = require('./routes/routes');
 
 //server setup
 var app = express(),
-    port = process.env.PORT || 4000;
+    port = process.env.PORT || 4010;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));

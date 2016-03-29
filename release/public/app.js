@@ -557,6 +557,53 @@ app.directive('latestItem', function (State, API, Helper) {
     };
 });
 
+'use strict';
+
+app.directive('share', function ($timeout) {
+    return {
+        templateUrl: 'share.html',
+        scope: {
+            id: '=',
+            title: '=theTitle'
+
+        },
+
+        link: function link(scope, element, attrs) {
+
+            console.log('sc', scope.summary);
+            console.log('sc', scope);
+            console.log('sc', attrs);
+
+            var random = _.random(0, 500);
+
+            var getReverseClass = function getReverseClass() {
+                return scope.reverse ? 'reverse' : '';
+            };
+
+            var getRandom = function getRandom() {
+                return random;
+            };
+
+            var init = function init() {
+                $timeout(function () {
+                    return scope.ready = true;
+                }, _.random(500));
+                $timeout(function () {
+                    return scope.ready2 = true;
+                }, _.random(500));
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getReverseClass: getReverseClass,
+                getRandom: getRandom
+
+            });
+        }
+    };
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
 
     var content, featured, related, relatedIds, image, tags;
