@@ -127,6 +127,12 @@ hr {
       color: $red;
     }
   }
+
+  &.nohover {
+    &:hover {
+      transform: translateY(0px);
+    }
+  }
 }
 
 .tag {
@@ -386,8 +392,13 @@ textarea {
   background: #f7f7f7;
   background-position: center;
   background-size: cover;
-  margin-bottom: 15px;
+  margin: -20px -20px 20px;
+  //margin-bottom: 15px;
   position: relative;
+
+  @media (max-width: 767px) {
+    margin: -10px -10px 10px;
+  }
 
   .article-screen & {
     height: 500px;
@@ -415,4 +426,24 @@ textarea {
     font-weight: 700;
   }
 
+}
+
+.article-social {
+
+  .fa {
+    margin-left: 10px;
+    font-size: 20px;
+  }
+
+  .fa-twitter {
+    color: #55acee;
+  }
+
+  .fa-facebook {
+    color: #3b5998;
+  }
+
+  .fa-facebook {
+    color: #3b5998;
+  }
 }

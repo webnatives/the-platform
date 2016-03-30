@@ -47,12 +47,20 @@
       }
 
       .preview-image {
-        height: 80px;
+        height: 110px;
         background: #f7f7f7;
         background-position: center;
         background-size: cover;
         //margin-bottom: 10px;
         position: relative;
+
+        margin: -20px 0px -20px -20px;
+
+        @media (max-width: 767px) {
+          margin: -10px 0px -10px -10px;
+        }
+
+
       }
 
     }

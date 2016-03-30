@@ -2,12 +2,17 @@
   cursor: pointer;
 
   .article-preview-image {
-    height: 100px;
+    height: 130px;
     background: #f7f7f7;
     background-position: center;
     background-size: cover;
     margin-bottom: 0;
     position: relative;
+    margin: -20px 0px -20px -20px;
+
+    @media (max-width: 767px) {
+      margin: -10px 0px -10px -10px;
+    }
 
     .tag {
       height: 30px;
