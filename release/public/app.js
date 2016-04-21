@@ -256,6 +256,7 @@ app.factory('API', function ($rootScope, $http) {
 app.service('Helper', function ($rootScope, $http) {
 
     var getDateString = function getDateString(article) {
+        //console.log('getDateString', article)
         if (!article) return "/";
 
         return "/" + moment(article.date).format('YYYY') + "/" + moment(article.date).format('MM') + "/" + moment(article.date).format('DD') + "/" + article.slug + "/";
@@ -381,28 +382,6 @@ app.directive('articleShareItem', function (API, State, Helper) {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -430,6 +409,64 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -521,51 +558,107 @@ app.directive('heroItem', function (API, State, Helper) {
     };
 });
 
-'use strict';
+app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) {
 
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
+    var content, featured, related, relatedIds, image, tags;
 
-            var articles,
-                amount = scope.amount() || 3;
+    var loadRelated = function loadRelated() {
+        var string = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
 
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
+        _.each(content.terms.post_tag, function (tag, index) {
+            return string += tag.slug + ',';
+        });
 
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
+        if (string != "") {
+            API.getPostsByTag(string).then(function (response) {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, function (article) {
+                    return article.ID;
+                }), 3);
+            });
+        } else {
+            API.getRandomPosts(string).then(function (response) {
+                related = _.shuffle(response);
+                relatedIds = _.take(_.map(related, function (article) {
+                    return article.ID;
+                }), 3);
             });
         }
     };
+
+    var getDate = function getDate() {
+        //console.log('getDate: content',content)
+        if (content) return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY");
+    };
+
+    var getFeatured = function getFeatured() {
+        //console.log('getFeatured: featured',featured)
+        if (featured) return featured.acf.featuredArticles;
+    };
+
+    var getSlug = function getSlug() {
+        if (window.location.host) return window.location.host + Helper.getDateString(content);
+    };
+
+    var getFeaturedArticle = function getFeaturedArticle(index) {
+        if (featured) return featured.acf.featuredArticles[index].article;
+    };
+
+    var init = function init() {
+        API.getPostBySlug($stateParams.slug).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+            content.content = content.content.split("<p>&nbsp;</p>").join("");
+
+            loadRelated();
+        });
+
+        API.getHome($stateParams.id).then(function (response) {
+            return featured = response;
+        });
+        API.getPostsByTag("paris").then(function (response) {
+            return tags = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        trustAsHtml: $sce.trustAsHtml,
+        getSlug: getSlug,
+        getImage: function getImage() {
+            return image;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getDate: getDate,
+        getTags: function getTags() {
+            return tags;
+        },
+        getRelated: function getRelated() {
+            return related;
+        },
+        getRelatedIds: function getRelatedIds() {
+            return relatedIds;
+        },
+        getFeatured: getFeatured,
+        getFeaturedArticle: getFeaturedArticle,
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        }
+    });
 });
 
 'use strict';
 
-app.directive('share', function ($timeout) {
+app.directive('share', function ($timeout, Helper) {
     return {
         templateUrl: 'share.html',
         scope: {
-            id: '=',
-            title: '=theTitle'
-
+            link: '@',
+            header: '@'
         },
 
         link: function link(scope, element, attrs) {
@@ -602,6 +695,26 @@ app.directive('share', function ($timeout) {
             });
         }
     };
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
 });
 
 app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
@@ -662,108 +775,6 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
-        }
-    });
-});
-
-app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http) {
-
-    var content, featured, related, relatedIds, image, tags;
-
-    var loadRelated = function loadRelated() {
-        var string = arguments.length <= 0 || arguments[0] === undefined ? "" : arguments[0];
-
-        _.each(content.terms.post_tag, function (tag, index) {
-            return string += tag.slug + ',';
-        });
-
-        if (string != "") {
-            API.getPostsByTag(string).then(function (response) {
-                related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, function (article) {
-                    return article.ID;
-                }), 3);
-            });
-        } else {
-            API.getRandomPosts(string).then(function (response) {
-                related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, function (article) {
-                    return article.ID;
-                }), 3);
-            });
-        }
-    };
-
-    var getDate = function getDate() {
-        return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY");
-    };
-
-    var init = function init() {
-        API.getPostBySlug($stateParams.slug).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-            content.content = content.content.split("<p>&nbsp;</p>").join("");
-
-            loadRelated();
-        });
-
-        API.getHome($stateParams.id).then(function (response) {
-            return featured = response;
-        });
-        API.getPostsByTag("paris").then(function (response) {
-            return tags = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        trustAsHtml: $sce.trustAsHtml,
-        getImage: function getImage() {
-            return image;
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getDate: getDate,
-        getTags: function getTags() {
-            return tags;
-        },
-        getRelated: function getRelated() {
-            return related;
-        },
-        getRelatedIds: function getRelatedIds() {
-            return relatedIds;
-        },
-        getFeatured: function getFeatured() {
-            return featured.acf.featuredArticles;
-        },
-        getFeaturedArticle: function getFeaturedArticle(index) {
-            return featured.acf.featuredArticles[index].article;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(content, content.length / 2)[index];
-        }
-    });
-});
-
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
         }
     });
 });

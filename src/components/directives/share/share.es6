@@ -1,12 +1,11 @@
 'use strict';
 
-app.directive('share', ($timeout) => {
+app.directive('share', ($timeout, Helper) => {
     return {
         templateUrl: 'share.html',
         scope: {
-            id:'=',
-            title:'=theTitle'
-
+            link:'@',
+            header:'@'
         },
 
         link(scope, element, attrs) {

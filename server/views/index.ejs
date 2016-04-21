@@ -101,51 +101,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="foot.html">
-    <div template="foot">
-        <div class="foot-top">
-            <div class="container">
-                <p>
-                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
-                </p>
-            </div>
-        </div>
-
-        <div class="foot">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>Get In Touch</h2>
-                        <p>Subscribe</p>
-                        <p>Contact Us</p>
-                    </div>
-                </div>
-
-                <div class="foot-bottom">
-
-                    Copyright &copy; 2015 The Platform. All rights reserved.
-                    <div class="social pull-right">
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="group.html">
     <div template="group" ids="{{ids}}">
         <div class="group fi">
@@ -216,6 +171,80 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="latest.html">
+    <div template="latest">
+        <div class="latest fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading()}}</h2>
+
+                <div>
+                    <div class="latest-preview" ng-repeat="article in getArticles()">
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{article.title}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="foot.html">
+    <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>
+                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
+                </p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Writers</h2>
+                        <p>Writer's Guidelines</p>
+                        <p>User Guidelines</p>
+                        <p>Join</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>About</h2>
+                        <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
+                    </div>
+                </div>
+
+                <div class="foot-bottom">
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -273,196 +302,6 @@
             </a>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="latest.html">
-    <div template="latest">
-        <div class="latest fi">
-            <div class="box large">
-
-                <h2 class="box-header">{{heading()}}</h2>
-
-                <div>
-                    <div class="latest-preview" ng-repeat="article in getArticles()">
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{article.title}}</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="share.html">
-    <div template="share">
-        <div class="share-float">
-            <div class="share-buttons">
-                <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u=http://www.jamahiel.com/post/{{id}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
-
-                <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url=http://www.jamahiel.com/post/{{id}}&text={{title}} by @Jamahiel" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
-
-                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://www.jamahiel.com/post/{{id}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
-
-                <a class="butn light block" target="_blank" ng-href="mailto:?subject={{title}}&body=http://www.jamahiel.com/post/{{id}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="share" ng-class="{active:ready}">
-                <div class="share-content">
-                    <h2>Share the &nbsp;<i class="fa fa-heart" style="font-size: inherit;opacity: inherit"></i></h2>
-
-                    <p>If you enjoyed this post, we’d be very grateful if you’d help it spread by emailing it to a friend, or sharing it on Twitter or Facebook. Thank you!</p>
-                </div>
-                <div class="share-buttons">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u=http://www.jamahiel.com/post/{{id}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url=http://www.jamahiel.com/post/{{id}}&text={{title}} by @Jamahiel" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://www.jamahiel.com/post/{{id}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="mailto:?subject={{title}}&body=http://www.jamahiel.com/post/{{id}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="home-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-xs-12">
-                </div>
-                <div class="col-md-8 col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
-
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(3).ID"
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="getArticle(4).ID"
-                                    height="361"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="10"
-                    ></latest-item>
-                </div>
-
-                <div class="col-xs-12">
-
-                    <div class="box subscribe">
-                        <p>Stay updated with every article</p>
-
-                        <div class="row">
-                            <div class="col-xs-7 col-sm-8">
-                                <input type="text" placeholder="Email Address">
-                            </div>
-                            <div class="col-xs-5 col-sm-4">
-                                <div class="butn">Subscribe</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12">
-                    <div class="section-title">#labour</div>
-                </div>
-
-
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="150"
-                    ></hero-item>
-                </div>
-
-                <div class="col-xs-12">
-
-                </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getInternational()">
-                    <group-item
-                            heading="'International'"
-                            ids="getIds(getInternational(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getPolitics()">
-                    <group-item
-                            heading="'Politics'"
-                            ids="getIds(getPolitics(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">
-                    <group-item
-                            heading="'Culture'"
-                            ids="getIds(getCulture(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">
-                    <group-item
-                            heading="'Religion'"
-                            ids="getIds(getReligion(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -587,7 +426,7 @@
 
 
         <!--<article-share-item></article-share-item>-->
-        <share></share>
+        <share ng-if="getSlug()" header="{{getContent().title}}" link="{{getSlug()}}"></share>
 
         <div class="container">
             <div class="row">
@@ -625,6 +464,50 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="share.html">
+    <div template="share">
+        <div class="share-float">
+            <div class="share-buttons">
+                <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u={{link}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
+
+                <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
+
+                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+
+                <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="share" ng-class="{active:ready}">
+                <div class="share-content">
+                    <h2>Share the &nbsp;<i class="fa fa-heart" style="font-size: inherit;opacity: inherit"></i></h2>
+
+                    <p>If you enjoyed this post, we’d be very grateful if you’d help it spread by emailing it to a friend, or sharing it on Twitter or Facebook. Thank you!</p>
+                </div>
+                <div class="share-buttons">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u={{link}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
+                        </div>
+                        <div class="col-xs-3">
+                            <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
+                        </div>
+                        <div class="col-xs-3">
+                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                        </div>
+                        <div class="col-xs-3">
+                            <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="image-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -658,6 +541,123 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="getArticle(0).ID"
+                            height="350"
+                    ></hero-item>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
+                            ></article-preview-item>
+
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(3).ID"
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="getArticle(4).ID"
+                                    height="361"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="10"
+                    ></latest-item>
+                </div>
+
+                <div class="col-xs-12">
+
+                    <div class="box subscribe">
+                        <p>Stay updated with every article</p>
+
+                        <div class="row">
+                            <div class="col-xs-7 col-sm-8">
+                                <input type="text" placeholder="Email Address">
+                            </div>
+                            <div class="col-xs-5 col-sm-4">
+                                <div class="butn">Subscribe</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
+                </div>
+
+
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="article.ID"
+                            height="150"
+                    ></hero-item>
+                </div>
+
+                <div class="col-xs-12">
+
+                </div>
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getInternational()">
+                    <group-item
+                            heading="'International'"
+                            ids="getIds(getInternational(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getPolitics()">
+                    <group-item
+                            heading="'Politics'"
+                            ids="getIds(getPolitics(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">
+                    <group-item
+                            heading="'Culture'"
+                            ids="getIds(getCulture(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">
+                    <group-item
+                            heading="'Religion'"
+                            ids="getIds(getReligion(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
             </div>
 
         </div>

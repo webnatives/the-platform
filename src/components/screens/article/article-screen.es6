@@ -1,4 +1,4 @@
-app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, $sce, $http) => {
+app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) => {
 
     var content, featured, related, relatedIds, image, tags;
 
@@ -19,7 +19,22 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
     };
 
     var getDate = () => {
-        return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY")
+        //console.log('getDate: content',content)
+        if (content) return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY")
+    };
+
+
+    var getFeatured = () => {
+        //console.log('getFeatured: featured',featured)
+         if (featured) return featured.acf.featuredArticles;
+    };
+
+    var getSlug = () => {
+        if (window.location.host) return window.location.host + Helper.getDateString(content);
+    };
+
+    var getFeaturedArticle = (index) => {
+         if (featured) return featured.acf.featuredArticles[index].article;
     };
 
     var init = () => {
@@ -41,14 +56,15 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
 
     _.extend($scope, {
         trustAsHtml: $sce.trustAsHtml,
+        getSlug,
         getImage: () => image,
         getContent: () => content,
-        getDate: getDate,
+        getDate,
         getTags: () => tags,
         getRelated: () => related,
         getRelatedIds: () => relatedIds,
-        getFeatured: () => featured.acf.featuredArticles,
-        getFeaturedArticle: (index) => featured.acf.featuredArticles[index].article,
+        getFeatured,
+        getFeaturedArticle,
         getContentHalf: (index) => _.chunk(content, content.length / 2)[index]
     })
 });

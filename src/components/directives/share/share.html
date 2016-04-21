@@ -2,13 +2,13 @@
     <div template="share">
         <div class="share-float">
             <div class="share-buttons">
-                <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u=http://www.jamahiel.com/post/{{id}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
+                <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u={{link}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
 
-                <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url=http://www.jamahiel.com/post/{{id}}&text={{title}} by @Jamahiel" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
+                <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
 
-                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://www.jamahiel.com/post/{{id}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
 
-                <a class="butn light block" target="_blank" ng-href="mailto:?subject={{title}}&body=http://www.jamahiel.com/post/{{id}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
+                <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
             </div>
         </div>
 
@@ -22,16 +22,16 @@
                 <div class="share-buttons">
                     <div class="row">
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u=http://www.jamahiel.com/post/{{id}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
+                            <a class="butn light block" target="_blank" ng-href="http://www.facebook.com/sharer.php?u={{link}}" style="background: #3b5998;"><i class="fa fa-fw fa-facebook"></i></a>
                         </div>
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url=http://www.jamahiel.com/post/{{id}}&text={{title}} by @Jamahiel" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
+                            <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
                         </div>
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url=http://www.jamahiel.com/post/{{id}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
                         </div>
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="mailto:?subject={{title}}&body=http://www.jamahiel.com/post/{{id}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
+                            <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
                         </div>
                     </div>
 
