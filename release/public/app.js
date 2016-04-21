@@ -295,28 +295,6 @@ app.factory('State', function ($rootScope, $sce) {
 });
 'use strict';
 
-app.directive('alert', function (Alert) {
-    return {
-        templateUrl: 'alert.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope.getColour = Alert.getColour;
-            scope.getMessage = Alert.getMessage;
-            scope.getActive = Alert.getActive;
-            scope.setActive = Alert.setActive;
-            scope.switchActive = Alert.switchActive;
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -367,6 +345,28 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
+app.directive('alert', function (Alert) {
+    return {
+        templateUrl: 'alert.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope.getColour = Alert.getColour;
+            scope.getMessage = Alert.getMessage;
+            scope.getActive = Alert.getActive;
+            scope.setActive = Alert.setActive;
+            scope.switchActive = Alert.switchActive;
+        }
+    };
+});
+
+'use strict';
+
 app.directive('articleShareItem', function (API, State, Helper) {
     return {
         templateUrl: 'article-share.html',
@@ -378,74 +378,6 @@ app.directive('articleShareItem', function (API, State, Helper) {
             init();
 
             scope = _.extend(scope, {});
-        }
-    };
-});
-
-app.directive('groupItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'group.html',
-        scope: { heading: '&', ids: '&', horizontal: "&" },
-        link: function link(scope, element, attrs) {
-
-            var articles = [];
-
-            var init = function init() {
-                _.each(scope.ids(), function (id, index) {
-                    return API.getPost(id).then(function (response) {
-                        articles.push(response);
-                        element.find('.fi').addClass('active');
-                    });
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: function getArticles() {
-                    return articles;
-                },
-                getArticle: function getArticle(index) {
-                    return articles[index];
-                },
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
-            });
         }
     };
 });
@@ -511,6 +443,38 @@ app.directive('headerItem', function (State) {
     };
 });
 
+app.directive('groupItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'group.html',
+        scope: { heading: '&', ids: '&', horizontal: "&" },
+        link: function link(scope, element, attrs) {
+
+            var articles = [];
+
+            var init = function init() {
+                _.each(scope.ids(), function (id, index) {
+                    return API.getPost(id).then(function (response) {
+                        articles.push(response);
+                        element.find('.fi').addClass('active');
+                    });
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: function getArticles() {
+                    return articles;
+                },
+                getArticle: function getArticle(index) {
+                    return articles[index];
+                },
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('heroItem', function (API, State, Helper) {
@@ -558,6 +522,42 @@ app.directive('heroItem', function (API, State, Helper) {
     };
 });
 
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) {
 
     var content, featured, related, relatedIds, image, tags;
@@ -597,7 +597,7 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     };
 
     var getSlug = function getSlug() {
-        if (window.location.host) return window.location.host + Helper.getDateString(content);
+        if (window.location.host) return 'http://' + window.location.host + Helper.getDateString(content);
     };
 
     var getFeaturedArticle = function getFeaturedArticle(index) {
@@ -779,6 +779,36 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
     });
 });
 
+app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByCat($stateParams.cat).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getArticle: function getArticle(index) {
+            return content[index];
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -828,36 +858,6 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
     _.extend($scope, {
         getTerms: function getTerms() {
             return terms;
-        }
-    });
-});
-
-app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
-
-    var content;
-
-    var init = function init() {
-        API.getPostsByCat($stateParams.cat).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getArticle: function getArticle(index) {
-            return content[index];
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(_.rest(content), content.length / 4)[index];
         }
     });
 });

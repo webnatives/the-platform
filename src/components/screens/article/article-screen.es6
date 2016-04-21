@@ -30,7 +30,7 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
     };
 
     var getSlug = () => {
-        if (window.location.host) return window.location.host + Helper.getDateString(content);
+        if (window.location.host) return 'http://' + window.location.host + Helper.getDateString(content);
     };
 
     var getFeaturedArticle = (index) => {
