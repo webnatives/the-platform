@@ -442,23 +442,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
-'use strict';
-
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -475,6 +458,23 @@ app.directive('footItem', function (State) {
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
         }
     };
 });
@@ -554,42 +554,6 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
     return {
         templateUrl: 'hero.html',
@@ -636,6 +600,42 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                     return content;
                 },
                 getHeight: getHeight,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
                 getDateString: Helper.getDateString
             });
         }

@@ -386,6 +386,31 @@ textarea {
   [template=article-preview] h3 {
     padding-bottom: 0; }
 
+[template=foot] .foot-top {
+  background: #333;
+  color: white;
+  padding: 20px 0;
+  text-align: center; }
+
+[template=foot] .foot {
+  background: #222;
+  color: white;
+  padding: 40px 0 20px; }
+  [template=foot] .foot h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 15px; }
+  [template=foot] .foot p {
+    font-size: 15px;
+    line-height: 2; }
+  [template=foot] .foot .foot-bottom {
+    border-top: #333 3px solid;
+    padding-top: 20px;
+    margin-top: 20px; }
+    [template=foot] .foot .foot-bottom .social i.fa {
+      padding: 0 10px;
+      font-size: 20px; }
+
 [template=article-share] {
   background: rgba(0, 0, 0, 0.1);
   padding: 0 50px;
@@ -424,31 +449,6 @@ textarea {
   100% {
     -webkit-transform: scale(0.9);
     transform: scale(0.9); } }
-
-[template=foot] .foot-top {
-  background: #333;
-  color: white;
-  padding: 20px 0;
-  text-align: center; }
-
-[template=foot] .foot {
-  background: #222;
-  color: white;
-  padding: 40px 0 20px; }
-  [template=foot] .foot h2 {
-    color: white;
-    margin-bottom: 20px;
-    font-size: 15px; }
-  [template=foot] .foot p {
-    font-size: 15px;
-    line-height: 2; }
-  [template=foot] .foot .foot-bottom {
-    border-top: #333 3px solid;
-    padding-top: 20px;
-    margin-top: 20px; }
-    [template=foot] .foot .foot-bottom .social i.fa {
-      padding: 0 10px;
-      font-size: 20px; }
 
 [template=group] .group h3, [template=group] .group h2 {
   color: black; }
@@ -643,6 +643,9 @@ textarea {
       background: white;
       color: #b40305; }
 
+[template=hero] {
+  cursor: pointer; }
+
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
 
@@ -683,15 +686,12 @@ textarea {
       [template=latest] .latest .latest-preview .preview-image {
         margin: -10px 0px -10px -10px; } }
 
-[template=hero] {
-  cursor: pointer; }
-
 [template=loading] .loading {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: 100vh;
   z-index: 1000;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -719,10 +719,10 @@ textarea {
     top: -50px;
     opacity: 0; }
   [template=loading] .loading .loading-icon {
-    transition: 0.6s;
+    transition: 0.3s;
     transition-delay: 1s;
     position: relative;
-    bottom: -40px;
+    top: 40px;
     opacity: 0;
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #eee;
@@ -742,7 +742,7 @@ textarea {
     visibility: visible; }
     [template=loading] .loading.active .loading-text, [template=loading] .loading.active .loading-icon {
       transition-delay: 0s;
-      bottom: 0px;
+      top: 0px;
       opacity: 1; }
 
 [template=share] {
