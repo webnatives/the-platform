@@ -63,6 +63,25 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -94,25 +113,6 @@
 
             </a>
         </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
 
     </div>
 </script>
@@ -304,6 +304,35 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="latest.html">
+    <div template="latest">
+        <div class="latest fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading()}}</h2>
+
+                <div>
+                    <div class="latest-preview" ng-repeat="article in getArticles()">
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{$root.getTitle(article)}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="loading-item.html">
     <div template="loading">
         <div class="loading" ng-class="{active:getActive()}">
@@ -355,35 +384,6 @@
                 </div>
             </div>
 
-        </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="latest.html">
-    <div template="latest">
-        <div class="latest fi">
-            <div class="box large">
-
-                <h2 class="box-header">{{heading()}}</h2>
-
-                <div>
-                    <div class="latest-preview" ng-repeat="article in getArticles()">
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{$root.getTitle(article)}}</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-            </div>
         </div>
 
     </div>
