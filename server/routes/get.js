@@ -34,7 +34,7 @@ module.exports = {
         }, function (e, r, body) {
             console.log(`${API}posts?filter[name]=${req.params.slug}&_embed`, 'postPage', body[0]);
 
-            var data = _.extend(standardData, {
+            var data = {
                 title: body[0].title.rendered + " | The Platform",
                 ogTitle: body[0].title.rendered + " | The Platform",
                 ogSiteName: "The Platform",
@@ -42,9 +42,9 @@ module.exports = {
                 ogImage: body[0]._embedded['wp:featuredmedia'][0].source_url,
                 ogDescription: body[0].excerpt.rendered,
                 ogType: "website"
-            });
-            //res.send('hello')
-            res.render('index', standardData);
+            };
+
+            res.render('index', data);
         })
 
     },

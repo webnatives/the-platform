@@ -12,7 +12,7 @@
     display: flex;
     align-content: center;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     text-align: center;
     flex-direction: column;
 
@@ -22,7 +22,7 @@
     transition: 1s;
     //transition-delay: 1s;
     visibility: hidden;
-    pointer-events: none;
+    //pointer-events: none;
 
     .loading-text {
       transition: 0.4s;
@@ -32,12 +32,23 @@
       //transition-delay: 1s;
     }
 
-    .fa {
+    .loading-icon {
       transition: 0.6s;
       transition-delay: 1s;
       position: relative;
-      top: -50px;
+      bottom: -40px;
       opacity: 0;
+      background: darken($red, 5%);
+      line-height: 40px;
+      height: 40px;
+      width: 50px;
+      text-align: center;
+      border-radius: 3px 3px 0 0;
+
+      .fa {
+        height: 40px;
+        line-height: 40px;
+      }
     }
 
     &.active {
@@ -45,9 +56,9 @@
       transition: 0.4s;
       visibility: visible;
 
-      .loading-text, .fa {
+      .loading-text, .loading-icon {
         transition-delay: 0s;
-        top: 0px;
+        bottom: 0px;
         opacity: 1;
       }
     }

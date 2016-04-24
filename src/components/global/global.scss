@@ -66,6 +66,16 @@ hr {
   border: none;
 }
 
+.article-header {
+  margin: 20px;
+  margin: 10px 10px 20px;
+
+  @media (max-width: 768px) {
+    margin: 10px;
+    font-size: 20px;
+  }
+}
+
 .box {
   display: block;
   background: white;
@@ -82,8 +92,6 @@ hr {
     text-decoration: none;
     color: inherit;
   }
-
-
 
   @media (max-width: 767px) {
     padding: 10px;
@@ -149,7 +157,7 @@ hr {
 
 .blokk {
 
-  font-family:'BLOKKNeue-Regular';
+  font-family: 'BLOKKNeue-Regular';
   //color: #999;
 }
 
@@ -239,7 +247,6 @@ p {
     color: $body;
     font-weight: 400;
 
-
     font-size: 15px;
     line-height: 32px;
     margin-bottom: 30px;
@@ -255,6 +262,18 @@ p {
     a {
       color: $red;
     }
+  }
+}
+
+.article-content {
+
+
+  .start {
+    font-weight: bold;
+    background: #f7f7f7;
+    padding: 0 20px;
+    /* box-shadow: 0 0 5px rgba(0,0,0,0.15); */
+    border: 1px solid #ddd;
   }
 }
 

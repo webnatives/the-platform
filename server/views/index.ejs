@@ -63,25 +63,6 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -113,6 +94,25 @@
 
             </a>
         </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
 
     </div>
 </script>
@@ -333,17 +333,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="loading-item.html">
-    <div template="loading">
-        <div class="loading" ng-class="{active:getActive()}">
-            <!--<div class="loading-text">{{getMessage()}}</div>-->
-
-            <i class="fa fa-2x fa-spin fa-cog"></i>
-            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="share.html">
     <div template="share">
         <div class="share-float">
@@ -388,6 +377,20 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="loading-item.html">
+    <div template="loading">
+        <div class="loading" ng-class="{active:getActive()}">
+            <!--<div class="loading-text">{{getMessage()}}</div>-->
+
+            <div class="loading-icon">
+                <i class="fa fa-spin fa-cog"></i>
+
+            </div>
+            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen class="article-screen">
         <div class="container">
@@ -398,9 +401,9 @@
                 <div class="col-md-8 col-xs-12">
                     <div class="box nohover">
 
-                        <h1 style="margin: 20px;" ng-bind-html="$root.getTitle(getContent())"></h1>
+                        <h1 class="article-header" ng-bind-html="$root.getTitle(getContent())"></h1>
 
-                        <div style="height: 20px"></div>
+                        <!--<div style="height: 20px"></div>-->
 
                         <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}')">
                             <div class="tag">Culture</div>
@@ -721,15 +724,60 @@
                         <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="article.ID"
+                                    id="{{article.id}}"
                                     height="300"
                             ></hero-item>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
+                                    id="{{article.id}}"
                                     height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="topic-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
                             ></hero-item>
                         </div>
                     </div>
@@ -777,51 +825,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

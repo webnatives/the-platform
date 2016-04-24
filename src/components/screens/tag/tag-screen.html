@@ -10,14 +10,14 @@
                         <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="article.ID"
+                                    id="{{article.id}}"
                                     height="300"
                             ></hero-item>
                         </div>
                         <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
+                                    id="{{article.id}}"
                                     height="300"
                             ></hero-item>
                         </div>

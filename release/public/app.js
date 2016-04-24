@@ -392,23 +392,6 @@ app.directive('alert', function (Alert) {
 
 'use strict';
 
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -453,6 +436,23 @@ app.directive('articlePreviewItem', function (State, API) {
                     return _getDate().format(format);
                 }
             });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
         }
     };
 });
@@ -644,28 +644,6 @@ app.directive('latestItem', function (State, API, Helper) {
 
 'use strict';
 
-app.directive('loadingItem', function (Loading) {
-    return {
-        templateUrl: 'loading-item.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(scope, {
-                getActive: Loading.getActive,
-                setActive: Loading.setActive,
-                randMsg: Loading.randMsg,
-                getMessage: Loading.getMessage
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('share', function ($timeout, Helper) {
     return {
         templateUrl: 'share.html',
@@ -705,6 +683,28 @@ app.directive('share', function ($timeout, Helper) {
                 getReverseClass: getReverseClass,
                 getRandom: getRandom
 
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('loadingItem', function (Loading) {
+    return {
+        templateUrl: 'loading-item.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
             });
         }
     };
@@ -764,7 +764,7 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');
-            content.content = content.content.split("<p>&nbsp;</p>").join("");
+            content.content.rendered = content.content.rendered.split("<p>&nbsp;</p>").join("");
 
             loadRelated();
         });
@@ -922,26 +922,6 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
 
     var content;
@@ -968,6 +948,26 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });

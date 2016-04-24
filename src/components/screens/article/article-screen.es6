@@ -45,7 +45,7 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');
-            content.content = content.content.split("<p>&nbsp;</p>").join("");
+            content.content.rendered = content.content.rendered.split("<p>&nbsp;</p>").join("");
 
             loadRelated();
 
