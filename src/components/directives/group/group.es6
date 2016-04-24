@@ -6,7 +6,9 @@ app.directive('groupItem', (State, API, Helper) => ({
         var articles = [];
 
         var init = () => {
+            console.log('ids',scope.ids())
             _.each(scope.ids(), (id, index) => API.getPost(id).then((response) => {
+                console.log('group',id)
                 articles.push(response);
                 element.find('.fi').addClass('active');
             }));

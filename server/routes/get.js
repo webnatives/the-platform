@@ -2,8 +2,9 @@
 
 var fs = require('fs');
 var _ = require('underscore');
-var MongoService = require('./../services/mongo-service');
 var request = require('request');
+var rp = require('request-promise');
+
 
 var standardData = {
     title: "The Platform | Challenging opinions on current affairs and culture.",
@@ -15,54 +16,70 @@ var standardData = {
     ogType: "website"
 };
 
-var API = "http://52.18.144.118";
+var API = "http://admin.platformonline.uk/wp-json/wp/v2/";
+//var API = "http://platform.jamahielhosting.com/wp-json/wp/v2/";
 //var API = "http://www.the-platform.org.uk";
 
 module.exports = {
-    collections(req, res) {
-        MongoService.getCollections(docs => res.send(docs));
-    },
 
-    documentByKeyValue(req, res) {
-        var query = {};
-        query[req.params.key] = req.params.value;
-        MongoService.findDocuments(req.params.collection, query, {}, docs => res.send(docs));
-    },
-
-    documents(req, res) {
-        MongoService.findDocuments(req.params.collection, req.query, {}, docs => res.send(docs));
-    },
-
-    index(req, res) {
+    indexPage(req, res) {
         //res.send('hello')
         res.render('index', standardData);
     },
 
-    home(req, res) {
-        request.get({url: `${API}/wp-json/pages/home`, json: true}, function (e, r, body) {
-            //standardData.content = body;
-            res.send(body);
+    postPage(req, res) {
+        request.get({
+            url: `${API}posts?filter[name]=${req.params.slug}&_embed`,
+            json: true
+        }, function (e, r, body) {
+            console.log('postPage', body[0]);
+
+            var data = _.extend(standardData, {
+                title: body[0].title.rendered + " | The Platform",
+                ogTitle: body[0].title.rendered + " | The Platform",
+                ogSiteName: "The Platform",
+                ogUrl: "http://platformonline.uk",
+                ogImage: body[0]._embedded['wp:featuredmedia'][0].source_url,
+                ogDescription: body[0].excerpt.rendered,
+                ogType: "website"
+            });
+            //res.send('hello')
+            res.render('index', standardData);
         })
+
+    },
+
+    home(req, res) {
+        //console.log('called home');
+        request.get({url: `${API}pages/?slug=home&_embed`, json: true}, (e, r, body) => {
+                //console.log(e,r,body);
+                //standardData.content = body;
+                res.send(body[0]);
+            });
     },
 
     postsByAuthor: (req, res) => request.get({
-        url: `${API}/wp-json/posts?filter[author]=${req.params.id}`,
+        url: `${API}posts?filter[author]=${req.params.id}&_embed`,
         json: true
     }, (e, r, body) => res.send(body)),
 
     postsByFilter: (req, res) => request.get({
-        url: `${API}/wp-json/posts?filter[${req.params.filter}]=${req.params.value}`,
+        url: `${API}posts?filter[${req.params.filter}]=${req.params.value}&_embed`,
         json: true
-    }, (e, r, body) => res.send(body)),
+    }, (e, r, body) => {
+        console.log(`${API}posts?filter[${req.params.filter}]=${req.params.value}&_embed`);
+        //console.log(e,r,body);
+        res.send(body)
+    }),
 
     post: (req, res) => request.get({
-        url: `${API}/wp-json/posts/${req.params.id}`,
+        url: `${API}posts/${req.params.id}?_embed`,
         json: true
     }, (e, r, body) => res.send(body)),
 
     postBySlug(req, res) {
         request.get({
-            url: `${API}/wp-json/posts?filter[name]=${req.params.slug}`,
+            url: `${API}posts?filter[name]=${req.params.slug}&_embed`,
             json: true
         }, function (e, r, body) {
             //standardData.content = body
@@ -72,7 +89,7 @@ module.exports = {
 
 
     posts(req, res) {
-        request.get({url: `${API}/wp-json/posts/?filter[posts_per_page]=10`, json: true}, function (e, r, body) {
+        request.get({url: `${API}posts/?filter[posts_per_page]=10&_embed`, json: true}, function (e, r, body) {
             //standardData.content = body
             res.send(body);
         })
@@ -80,9 +97,10 @@ module.exports = {
 
     postsByCat(req, res) {
         request.get({
-            url: `${API}/wp-json/posts?filter[posts_per_page]=20&filter[category_name]=${req.params.cat}`,
+            url: `${API}posts?filter[posts_per_page]=20&filter[category_name]=${req.params.cat}&_embed`,
             json: true
         }, function (e, r, body) {
+            console.log(`${API}posts?filter[posts_per_page]=20&filter[category_name]=${req.params.cat}&_embed`);
             //standardData.content = body
             res.send(body);
         })
@@ -90,7 +108,7 @@ module.exports = {
 
     postsByTag(req, res) {
         request.get({
-            url: `${API}/wp-json/posts?filter[posts_per_page]=20&filter[tag]=${req.params.tag}`,
+            url: `${API}posts?filter[posts_per_page]=20&filter[tag]=${req.params.tag}&_embed`,
             json: true
         }, function (e, r, body) {
             //standardData.content = body

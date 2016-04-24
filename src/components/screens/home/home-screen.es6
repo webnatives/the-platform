@@ -8,8 +8,8 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope) => {
             console.log('content', content);
             $element.find('[screen]').addClass('active')
         });
-        API.getPostsByTag("labour").then((response) => tags = response);
-        API.getPostsByCat("international").then((response) => international = response);
+        API.getPostsByTag("labour").then((response) => {console.log('tags, ids:', response); return tags = response});
+        API.getPostsByCat("international").then((response) => {console.log('international, ids:', response); return international = response});
         API.getPostsByCat("politics").then((response) => politics = response);
         API.getPostsByCat("culture").then((response) => culture = response);
         API.getPostsByCat("spirituality").then((response) => religion = response);
@@ -24,7 +24,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope) => {
         getCulture: () => culture,
         getReligion: () => religion,
         getTags: () => tags,
-        getIds: (array, amount) => _.take(_.map(array, (item) => item.ID), 3),
+        getIds: (array, amount) => _.take(_.map(array, (item) => item.id), 3),
         getContent: () => content,
         getFeaturedArticles: () => content.acf.featuredArticles,
         getArticle: (index) => content.acf.featuredArticles[index].article

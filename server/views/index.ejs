@@ -43,27 +43,32 @@
 <div ui-view></div>
 
 <header-item></header-item>
+<script type="text/ng-template" id="alert.html">
+    <div template="alert">
+        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
             <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
                 <div class="row">
-                    <div ng-if="getContent().featured_image.source">
+                    <div ng-if="$root.getImage(getContent())">
                         <div class="col-xs-5">
-                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                            <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')"></div>
                         </div>
                         <div class="col-xs-7">
                             <div>
                                 <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                                <h3 ng-bind-html="$root.getTitle(getContent())"></h3>
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!getContent().featured_image.source">
+                    <div ng-if="!$root.getImage(getContent())">
                         <div class="col-xs-12">
                             <div>
                                 <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                                <h3 ng-bind-html="$root.getTitle(getContent())"></h3>
                             </div>
                         </div>
                     </div>
@@ -75,11 +80,6 @@
             </a>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
 <script type="text/ng-template" id="article-share.html">
@@ -146,6 +146,76 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="group.html">
+    <div template="group" ids="{{ids}}">
+        <div class="group fi">
+            <div class="box large">
+                <h2 class="box-header" ng-bind="heading()"></h2>
+
+                <div ng-if="!horizontal()">
+                    <div class="group-preview" ng-repeat="article in getArticles()">
+
+                        <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                        <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
+                            <div ng-if="$root.getImage(article)">
+                                <div class="col-xs-4">
+                                    <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div>
+                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="!$root.getImage(article)">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div ng-if="horizontal()">
+                    <div class="group-preview">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
+                                <a ng-if="$root.getImage(article)" ng-href="{{getDateString(article)}}">
+                                    <div class="col-xs-4">
+                                        <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <div>
+                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a ng-if="!$root.getImage(article)">
+                                    <div class="col-xs-12">
+                                        <div>
+                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -187,88 +257,18 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="group.html">
-    <div template="group" ids="{{ids}}">
-        <div class="group fi">
-            <div class="box large">
-                <h2 class="box-header" ng-bind="heading()"></h2>
-
-                <div ng-if="!horizontal()">
-                    <div class="group-preview" ng-repeat="article in getArticles()">
-
-                        <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                        <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
-                            <div ng-if="article.featured_image.source">
-                                <div class="col-xs-4">
-                                    <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
-                                </div>
-                                <div class="col-xs-8">
-                                    <div>
-                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                        <h3 ng-bind-html="$root.html(article.title)"></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-if="!article.featured_image.source">
-                                <div class="col-xs-12">
-                                    <div>
-                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                        <h3 ng-bind-html="$root.html(article.title)"></h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </a>
-                    </div>
-                </div>
-
-                <div ng-if="horizontal()">
-                    <div class="group-preview">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
-                                <a ng-if="article.featured_image.source" ng-href="{{getDateString(article)}}">
-                                    <div class="col-xs-4">
-                                        <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <div>
-                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                            <h3 ng-bind-html="$root.html(article.title)"></h3>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a ng-if="!article.featured_image.source">
-                                    <div class="col-xs-12">
-                                        <div>
-                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                            <h3 ng-bind-html="$root.html(article.title)"></h3>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
             <a class="box red" ng-href="{{getDateString(getContent())}}">
-                <div class="hero-image" ng-style="" style="background-image: url('{{getContent().featured_image.source}}');height:{{getHeight()}}px">
-                    <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}');height:{{getHeight()}}px">
+                    <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
                 </div>
 
-                <!--<div class="tag" ng-if="!getContent().featured_image.source" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
-                <h2 ng-bind-html="$root.html(getContent().title)"></h2>
-                <p ng-bind-html="$root.html(getContent().acf.summary)" ng-show="getContent().acf.summary"></p>
-                <p ng-bind-html="$root.html(getContent().excerpt)" ng-show="!getContent().acf.summary"></p>
+                <div class="tag" ng-if="!$root.getImage(getContent())" ng-bind-html="$root.getCat(getContent())"></div>
+                <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
+                <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
+                <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
 
             </a>
         </div>
@@ -286,12 +286,12 @@
                     <div class="latest-preview" ng-repeat="article in getArticles()">
                         <a class="row" ng-href="{{getDateString(article)}}">
                             <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
                             </div>
                             <div class="col-xs-8">
                                 <div>
                                     <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{article.title}}</h3>
+                                    <h3>{{$root.getTitle(article)}}</h3>
                                 </div>
                             </div>
                         </a>
@@ -302,166 +302,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="article-screen.html">
-    <div screen class="article-screen">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-
-                </div>
-                <div class="col-md-8 col-xs-12">
-                    <div class="box nohover">
-
-                        <h1 style="margin: 20px;" ng-bind-html="$root.html(getContent().title)"></h1>
-
-                        <div style="height: 20px"></div>
-
-                        <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}')">
-                            <div class="tag">Culture</div>
-                        </div>
-
-                        <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
-                            <small>
-                                <!--<span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">-->
-                                <!--Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>-->
-                                <!--</span>-->
-
-                                <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
-                                &nbsp;
-                            </small>
-                        </p>
-
-                        <div style="height: 20px"></div>
-
-                        <div class="article-content">
-
-                            <p class="start" style="font-weight: bold">
-                                {{getDate()}}
-
-                                <span class="pull-right article-social">
-                                    <i class="fa fa-twitter"></i>
-                                    <i class="fa fa-facebook"></i>
-                                </span>
-                            </p>
-
-
-                            <p ng-if="getContent().acf.summary">
-                                <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
-
-                            <div ng-bind-html="$root.html(getContent().content)"></div>
-                        </div>
-
-                    </div>
-
-
-                    </div>
-                    <div class="col-md-4 col-xs-12">
-                        <div class="section-title start">
-                            About The Author
-                        </div>
-
-                        <div class="box">
-                            <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
-                            <hr ng-if="getContent().author.description">
-                            <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="section-title">
-                            Subscribe
-                        </div>
-
-                        <div class="box subscribe">
-                            <p>Stay updated with every article</p>
-                            <div class="row">
-                                <div class="col-xs-7">
-                                    <input type="text" placeholder="Email Address">
-                                </div>
-                                <div class="col-xs-5">
-                                    <div class="butn">Subscribe</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="section-title">Featured Posts</div>
-                        <hero-item
-                                ng-if="getFeaturedArticle(0)"
-                                id="getFeaturedArticle(0).ID"
-                                height="150"
-                        ></hero-item>
-                        <article-preview-item
-                                ng-repeat="article in getFeatured() track by $index"
-                                ng-if="$index != 0 && $index < 3"
-                                id="getFeaturedArticle($index).ID"
-                                height="150"
-                        ></article-preview-item>
-
-                        <hr>
-
-                        <group-item
-                                heading="'Related Posts'"
-                                ng-if="getRelatedIds()"
-                                ids="getRelatedIds()"
-                        ></group-item>
-
-                        <hr>
-
-                        <latest-item
-                                heading="'Latest Posts'"
-                        ></latest-item>
-
-                        <!--<div class="section-title">Related Posts</div>-->
-
-                        <!--<article-preview-item-->
-                        <!--ng-repeat="article in getRelated() track by $index"-->
-                        <!--ng-if="$index < 3"-->
-                        <!--id="article.ID"-->
-                        <!--&gt;</article-preview-item>-->
-                    </div>
-
-
-            </div>
-        </div>
-
-
-        <!--<article-share-item></article-share-item>-->
-        <share ng-if="getSlug()" header="{{getContent().title}}" link="{{getSlug()}}"></share>
-
-        <div class="container">
-            <div class="row">
-
-                <div class="col-xs-12">
-                    <div class="section-title">You Might Also Like</div>
-                </div>
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getRelated() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="250"
-                    ></hero-item>
-                </div>
-
-
-                <div class="col-xs-12">
-                    <div class="section-title">#paris</div>
-                </div>
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="article.ID"
-                            height="250"
-                    ></hero-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="share.html">
@@ -506,6 +346,169 @@
 
         </div>
 
+    </div>
+</script>
+<script type="text/ng-template" id="article-screen.html">
+    <div screen class="article-screen">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <div class="box nohover">
+
+                        <h1 style="margin: 20px;" ng-bind-html="$root.getTitle(getContent())"></h1>
+
+                        <div style="height: 20px"></div>
+
+                        <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}')">
+                            <div class="tag">Culture</div>
+                        </div>
+
+                        <p class="article-content" style="line-height: 1.4;margin-bottom: 0">
+                            <small>
+                                <!--<span class="pull-right" style="margin-left: 40px" ng-show="getContent().featured_image.source">-->
+                                <!--Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>-->
+                                <!--</span>-->
+
+                                <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in $root.getTags(getContent())"> #{{tag.slug}} </a>
+                                &nbsp;
+                            </small>
+                        </p>
+
+                        <div style="height: 20px"></div>
+
+                        <div class="article-content">
+
+                            <p class="start" style="font-weight: bold">
+                                {{getDate()}}
+
+                                <span class="pull-right article-social">
+                                    <i class="fa fa-twitter"></i>
+                                    <i class="fa fa-facebook"></i>
+                                </span>
+                            </p>
+
+
+                            <p ng-if="getContent().acf.summary">
+                                <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
+
+                            <div ng-bind-html="$root.html(getContent().content.rendered)"></div>
+                        </div>
+
+                    </div>
+
+
+                    </div>
+                    <div class="col-md-4 col-xs-12">
+                        <div class="section-title start">
+                            About The Author
+                        </div>
+
+                        <div class="box">
+                            <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
+                            <hr ng-if="getContent().author.description">
+                            <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="section-title">
+                            Subscribe
+                        </div>
+
+                        <div class="box subscribe">
+                            <p>Stay updated with every article</p>
+                            <div class="row">
+                                <div class="col-xs-7">
+                                    <input type="text" placeholder="Email Address">
+                                </div>
+                                <div class="col-xs-5">
+                                    <div class="butn">Subscribe</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Featured Posts</div>
+                        <hero-item
+                                ng-if="getFeaturedArticle(0)"
+                                id="{{getFeaturedArticle(0).ID}}"
+                                height="150"
+                        ></hero-item>
+                        <article-preview-item
+                                ng-repeat="article in getFeatured() track by $index"
+                                ng-if="$index != 0 && $index < 3"
+                                id="getFeaturedArticle($index).id"
+                                height="150"
+                        ></article-preview-item>
+
+                        <hr>
+
+                        {{getRelatedIds()}}
+                        hello
+
+                        <group-item
+                                heading="'Related Posts'"
+                                ng-if="getRelatedIds()"
+                                ids="getRelatedIds()"
+                        ></group-item>
+
+                        <hr>
+
+                        <latest-item
+                                heading="'Latest Posts'"
+                        ></latest-item>
+
+                        <!--<div class="section-title">Related Posts</div>-->
+
+                        <!--<article-preview-item-->
+                        <!--ng-repeat="article in getRelated() track by $index"-->
+                        <!--ng-if="$index < 3"-->
+                        <!--id="article.ID"-->
+                        <!--&gt;</article-preview-item>-->
+                    </div>
+
+
+            </div>
+        </div>
+
+
+        <!--<article-share-item></article-share-item>-->
+        <share ng-if="getSlug()" header="{{getContent().title}}" link="{{getSlug()}}"></share>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <div class="section-title">You Might Also Like</div>
+                </div>
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getRelated() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="{{article.id}}"
+                            height="250"
+                    ></hero-item>
+                </div>
+
+
+                <div class="col-xs-12">
+                    <div class="section-title">#paris</div>
+                </div>
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="{{article.id}}"
+                            height="250"
+                    ></hero-item>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="image-list-screen.html">
@@ -558,7 +561,7 @@
                 <div class="col-md-8 col-xs-12">
                     <hero-item
                             ng-if="getContent()"
-                            id="getArticle(0).ID"
+                            id="{{getArticle(0).ID}}"
                             height="350"
                     ></hero-item>
                     <div class="row">
@@ -576,14 +579,14 @@
                         <div class="col-sm-6 col-xs-12">
                             <hero-item
                                     ng-if="getContent()"
-                                    id="getArticle(3).ID"
+                                    id="{{getArticle(3).ID}}"
                                     height="132"
                             ></hero-item>
                         </div>
                         <div class="col-xs-12">
                             <hero-item
                                     ng-if="getContent()"
-                                    id="getArticle(4).ID"
+                                    id="{{getArticle(4).ID}}"
                                     height="361"
                             ></hero-item>
                         </div>
@@ -622,7 +625,7 @@
                      ng-if="$index < 3"
                 >
                     <hero-item
-                            id="article.ID"
+                            id="{{article.id}}"
                             height="150"
                     ></hero-item>
                 </div>
@@ -630,79 +633,35 @@
                 <div class="col-xs-12">
 
                 </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getInternational()">
+
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getInternational()">
                     <group-item
                             heading="'International'"
                             ids="getIds(getInternational(), 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getPolitics()">
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getPolitics()">
                     <group-item
                             heading="'Politics'"
                             ids="getIds(getPolitics(), 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">
-                    <group-item
-                            heading="'Culture'"
-                            ids="getIds(getCulture(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">
-                    <group-item
-                            heading="'Religion'"
-                            ids="getIds(getReligion(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="getArticle(0).ID"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="article.ID"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">-->
+                    <!--<group-item-->
+                            <!--heading="'Culture'"-->
+                            <!--ids="getIds(getCulture(), 3)"-->
+                            <!--horizontal="false"-->
+                    <!--&gt;</group-item>-->
+                <!--</div>-->
+                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">-->
+                    <!--<group-item-->
+                            <!--heading="'Religion'"-->
+                            <!--ids="getIds(getReligion(), 3)"-->
+                            <!--horizontal="false"-->
+                    <!--&gt;</group-item>-->
+                <!--</div>-->
             </div>
 
         </div>
@@ -778,6 +737,51 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="topic-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

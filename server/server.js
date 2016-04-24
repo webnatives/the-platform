@@ -1,5 +1,8 @@
 'use strict';
 
+var https = require('https');
+https.globalAgent.maxSockets = Infinity;
+
 //npm dependencies
 var express = require('express'),
     cors = require('cors'),

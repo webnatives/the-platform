@@ -8,11 +8,11 @@
                 <div class="col-md-8 col-xs-12">
                     <div class="box nohover">
 
-                        <h1 style="margin: 20px;" ng-bind-html="$root.html(getContent().title)"></h1>
+                        <h1 style="margin: 20px;" ng-bind-html="$root.getTitle(getContent())"></h1>
 
                         <div style="height: 20px"></div>
 
-                        <div class="hero-image" ng-show="getContent().featured_image.source" style="background-image: url('{{getContent().featured_image.source}}')">
+                        <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}')">
                             <div class="tag">Culture</div>
                         </div>
 
@@ -22,7 +22,7 @@
                                 <!--Image: <a href="http://www.ew.com/article/2015/09/01/london-film-festival-2015-lineup">EW.com</a>-->
                                 <!--</span>-->
 
-                                <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in getContent().terms.post_tag"> #{{tag.slug}} </a>
+                                <a ng-href="/tag/{{tag.slug}}" ng-repeat="tag in $root.getTags(getContent())"> #{{tag.slug}} </a>
                                 &nbsp;
                             </small>
                         </p>
@@ -44,7 +44,7 @@
                             <p ng-if="getContent().acf.summary">
                                 <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
-                            <div ng-bind-html="$root.html(getContent().content)"></div>
+                            <div ng-bind-html="$root.html(getContent().content.rendered)"></div>
                         </div>
 
                     </div>
@@ -81,17 +81,20 @@
                         <div class="section-title">Featured Posts</div>
                         <hero-item
                                 ng-if="getFeaturedArticle(0)"
-                                id="getFeaturedArticle(0).ID"
+                                id="{{getFeaturedArticle(0).ID}}"
                                 height="150"
                         ></hero-item>
                         <article-preview-item
                                 ng-repeat="article in getFeatured() track by $index"
                                 ng-if="$index != 0 && $index < 3"
-                                id="getFeaturedArticle($index).ID"
+                                id="getFeaturedArticle($index).id"
                                 height="150"
                         ></article-preview-item>
 
                         <hr>
+
+                        {{getRelatedIds()}}
+                        hello
 
                         <group-item
                                 heading="'Related Posts'"
@@ -133,7 +136,7 @@
                      ng-if="$index < 3"
                 >
                     <hero-item
-                            id="article.ID"
+                            id="{{article.id}}"
                             height="250"
                     ></hero-item>
                 </div>
@@ -147,7 +150,7 @@
                      ng-if="$index < 3"
                 >
                     <hero-item
-                            id="article.ID"
+                            id="{{article.id}}"
                             height="250"
                     ></hero-item>
                 </div>

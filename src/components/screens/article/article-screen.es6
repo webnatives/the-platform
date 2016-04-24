@@ -4,16 +4,19 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
 
     var loadRelated = (string = "") => {
         _.each(content.terms.post_tag, (tag, index) => string += tag.slug + ',');
+        console.log('random a');
 
         if (string != "") {
             API.getPostsByTag(string).then((response) => {
+                console.log('random 1', response);
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => article.ID), 3);
+                relatedIds = _.take(_.map(related, (article) => {console.log('related ids', article); return article.ID}), 3);
             });
         } else {
             API.getRandomPosts(string).then((response) => {
+                console.log('random 2', response);
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => article.ID), 3);
+                relatedIds = _.take(_.map(related, (article) => {console.log('related ids', article); return article.ID}), 3);
             });
         }
     };

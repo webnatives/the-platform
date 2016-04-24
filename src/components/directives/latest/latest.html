@@ -9,12 +9,12 @@
                     <div class="latest-preview" ng-repeat="article in getArticles()">
                         <a class="row" ng-href="{{getDateString(article)}}">
                             <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{article.featured_image.source}}')"></div>
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
                             </div>
                             <div class="col-xs-8">
                                 <div>
                                     <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{article.title}}</h3>
+                                    <h3>{{$root.getTitle(article)}}</h3>
                                 </div>
                             </div>
                         </a>

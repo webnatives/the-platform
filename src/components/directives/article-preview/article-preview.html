@@ -3,22 +3,22 @@
         <div class="article-preview fi">
             <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
                 <div class="row">
-                    <div ng-if="getContent().featured_image.source">
+                    <div ng-if="$root.getImage(getContent())">
                         <div class="col-xs-5">
-                            <div class="article-preview-image" style="background-image: url('{{getContent().featured_image.source}}')"></div>
+                            <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')"></div>
                         </div>
                         <div class="col-xs-7">
                             <div>
                                 <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                                <h3 ng-bind-html="$root.getTitle(getContent())"></h3>
                             </div>
                         </div>
                     </div>
-                    <div ng-if="!getContent().featured_image.source">
+                    <div ng-if="!$root.getImage(getContent())">
                         <div class="col-xs-12">
                             <div>
                                 <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-bind-html="$root.html(getContent().title)"></h3>
+                                <h3 ng-bind-html="$root.getTitle(getContent())"></h3>
                             </div>
                         </div>
                     </div>

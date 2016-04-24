@@ -4,7 +4,7 @@ app.directive('heroItem', (API, State, Helper) => ({
     templateUrl: 'hero.html',
     scope: {
         heading: '&',
-        id: '&',
+        id: '@',
         image: '&',
         link: '&',
         summary: '&',
@@ -18,14 +18,14 @@ app.directive('heroItem', (API, State, Helper) => ({
         var getHeight = () => $(window).width() < 769 ? 150 : scope.height();
 
         var init = () => {
-            //console.log('post', scope.id());
-            if (scope.id() == undefined) return;
+            //console.log('Hero ID', scope.id);
+            if (scope.id == undefined) return;
 
-            API.getPost(scope.id()).then((response) => {
+            API.getPost(scope.id).then((response) => {
                 content = response;
-                //console.log('post', response);
+                //console.log('Hero post content:', content);
                 element.find('.fi').addClass('active');
-                content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+                content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
             });
         };
 

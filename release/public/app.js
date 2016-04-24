@@ -253,7 +253,7 @@ app.factory('API', function ($rootScope, $http) {
 });
 'use strict';
 
-app.service('Helper', function ($rootScope, $http) {
+app.service('Helper', function ($rootScope, $http, $sce) {
 
     var getDateString = function getDateString(article) {
         //console.log('getDateString', article)
@@ -262,9 +262,42 @@ app.service('Helper', function ($rootScope, $http) {
         return "/" + moment(article.date).format('YYYY') + "/" + moment(article.date).format('MM') + "/" + moment(article.date).format('DD') + "/" + article.slug + "/";
     };
 
-    _.extend(this, {
-        getDateString: getDateString
-    });
+    var getImage = function getImage(content) {
+        return content && content._embedded ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
+    };
+
+    var getTitle = function getTitle(content) {
+        return content ? $sce.trustAsHtml(content.title.rendered) : undefined;
+    };
+
+    var getSummary = function getSummary(content) {
+        return content ? $sce.trustAsHtml(content.acf.summary) : undefined;
+    };
+
+    var getExcerpt = function getExcerpt(content) {
+        return content ? $sce.trustAsHtml(content.excerpt.rendered) : undefined;
+    };
+
+    var getTags = function getTags(content) {
+        return content ? content._embedded['wp:term'][1] : undefined;
+    };
+
+    var getCat = function getCat(content) {
+        return content ? $sce.trustAsHtml(content._embedded['wp:term'][0][0].name) : undefined;
+    };
+
+    var expose = {
+        getDateString: getDateString,
+        getImage: getImage,
+        getTitle: getTitle,
+        getExcerpt: getExcerpt,
+        getSummary: getSummary,
+        getTags: getTags,
+        getCat: getCat
+    };
+
+    _.extend($rootScope, expose);
+    _.extend(this, expose);
 });
 'use strict';
 
@@ -293,6 +326,28 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+'use strict';
+
+app.directive('alert', function (Alert) {
+    return {
+        templateUrl: 'alert.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope.getColour = Alert.getColour;
+            scope.getMessage = Alert.getMessage;
+            scope.getActive = Alert.getActive;
+            scope.setActive = Alert.setActive;
+            scope.switchActive = Alert.switchActive;
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -345,28 +400,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
-app.directive('alert', function (Alert) {
-    return {
-        templateUrl: 'alert.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope.getColour = Alert.getColour;
-            scope.getMessage = Alert.getMessage;
-            scope.getActive = Alert.getActive;
-            scope.setActive = Alert.setActive;
-            scope.switchActive = Alert.switchActive;
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articleShareItem', function (API, State, Helper) {
     return {
         templateUrl: 'article-share.html',
@@ -399,6 +432,40 @@ app.directive('footItem', function (State) {
                 isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+app.directive('groupItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'group.html',
+        scope: { heading: '&', ids: '&', horizontal: "&" },
+        link: function link(scope, element, attrs) {
+
+            var articles = [];
+
+            var init = function init() {
+                console.log('ids', scope.ids());
+                _.each(scope.ids(), function (id, index) {
+                    return API.getPost(id).then(function (response) {
+                        console.log('group', id);
+                        articles.push(response);
+                        element.find('.fi').addClass('active');
+                    });
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: function getArticles() {
+                    return articles;
+                },
+                getArticle: function getArticle(index) {
+                    return articles[index];
+                },
+                getDateString: Helper.getDateString
             });
         }
     };
@@ -443,38 +510,6 @@ app.directive('headerItem', function (State) {
     };
 });
 
-app.directive('groupItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'group.html',
-        scope: { heading: '&', ids: '&', horizontal: "&" },
-        link: function link(scope, element, attrs) {
-
-            var articles = [];
-
-            var init = function init() {
-                _.each(scope.ids(), function (id, index) {
-                    return API.getPost(id).then(function (response) {
-                        articles.push(response);
-                        element.find('.fi').addClass('active');
-                    });
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: function getArticles() {
-                    return articles;
-                },
-                getArticle: function getArticle(index) {
-                    return articles[index];
-                },
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('heroItem', function (API, State, Helper) {
@@ -482,7 +517,7 @@ app.directive('heroItem', function (API, State, Helper) {
         templateUrl: 'hero.html',
         scope: {
             heading: '&',
-            id: '&',
+            id: '@',
             image: '&',
             link: '&',
             summary: '&',
@@ -498,14 +533,14 @@ app.directive('heroItem', function (API, State, Helper) {
             };
 
             var init = function init() {
-                //console.log('post', scope.id());
-                if (scope.id() == undefined) return;
+                //console.log('Hero ID', scope.id);
+                if (scope.id == undefined) return;
 
-                API.getPost(scope.id()).then(function (response) {
+                API.getPost(scope.id).then(function (response) {
                     content = response;
-                    //console.log('post', response);
+                    //console.log('Hero post content:', content);
                     element.find('.fi').addClass('active');
-                    content.excerpt = content.excerpt.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+                    content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
                 });
             };
 
@@ -558,6 +593,52 @@ app.directive('latestItem', function (State, API, Helper) {
     };
 });
 
+'use strict';
+
+app.directive('share', function ($timeout, Helper) {
+    return {
+        templateUrl: 'share.html',
+        scope: {
+            link: '@',
+            header: '@'
+        },
+
+        link: function link(scope, element, attrs) {
+
+            console.log('sc', scope.summary);
+            console.log('sc', scope);
+            console.log('sc', attrs);
+
+            var random = _.random(0, 500);
+
+            var getReverseClass = function getReverseClass() {
+                return scope.reverse ? 'reverse' : '';
+            };
+
+            var getRandom = function getRandom() {
+                return random;
+            };
+
+            var init = function init() {
+                $timeout(function () {
+                    return scope.ready = true;
+                }, _.random(500));
+                $timeout(function () {
+                    return scope.ready2 = true;
+                }, _.random(500));
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getReverseClass: getReverseClass,
+                getRandom: getRandom
+
+            });
+        }
+    };
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) {
 
     var content, featured, related, relatedIds, image, tags;
@@ -568,19 +649,22 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
         _.each(content.terms.post_tag, function (tag, index) {
             return string += tag.slug + ',';
         });
+        console.log('random a');
 
         if (string != "") {
             API.getPostsByTag(string).then(function (response) {
+                console.log('random 1', response);
                 related = _.shuffle(response);
                 relatedIds = _.take(_.map(related, function (article) {
-                    return article.ID;
+                    console.log('related ids', article);return article.ID;
                 }), 3);
             });
         } else {
             API.getRandomPosts(string).then(function (response) {
+                console.log('random 2', response);
                 related = _.shuffle(response);
                 relatedIds = _.take(_.map(related, function (article) {
-                    return article.ID;
+                    console.log('related ids', article);return article.ID;
                 }), 3);
             });
         }
@@ -651,52 +735,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-'use strict';
-
-app.directive('share', function ($timeout, Helper) {
-    return {
-        templateUrl: 'share.html',
-        scope: {
-            link: '@',
-            header: '@'
-        },
-
-        link: function link(scope, element, attrs) {
-
-            console.log('sc', scope.summary);
-            console.log('sc', scope);
-            console.log('sc', attrs);
-
-            var random = _.random(0, 500);
-
-            var getReverseClass = function getReverseClass() {
-                return scope.reverse ? 'reverse' : '';
-            };
-
-            var getRandom = function getRandom() {
-                return random;
-            };
-
-            var init = function init() {
-                $timeout(function () {
-                    return scope.ready = true;
-                }, _.random(500));
-                $timeout(function () {
-                    return scope.ready2 = true;
-                }, _.random(500));
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getReverseClass: getReverseClass,
-                getRandom: getRandom
-
-            });
-        }
-    };
-});
-
 app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
@@ -728,10 +766,10 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
             $element.find('[screen]').addClass('active');
         });
         API.getPostsByTag("labour").then(function (response) {
-            return tags = response;
+            console.log('tags, ids:', response);return tags = response;
         });
         API.getPostsByCat("international").then(function (response) {
-            return international = response;
+            console.log('international, ids:', response);return international = response;
         });
         API.getPostsByCat("politics").then(function (response) {
             return politics = response;
@@ -764,7 +802,7 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
         },
         getIds: function getIds(array, amount) {
             return _.take(_.map(array, function (item) {
-                return item.ID;
+                return item.id;
             }), 3);
         },
         getContent: function getContent() {
@@ -775,36 +813,6 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
-        }
-    });
-});
-
-app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
-
-    var content;
-
-    var init = function init() {
-        API.getPostsByCat($stateParams.cat).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getArticle: function getArticle(index) {
-            return content[index];
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(_.rest(content), content.length / 4)[index];
         }
     });
 });
@@ -858,6 +866,36 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
     _.extend($scope, {
         getTerms: function getTerms() {
             return terms;
+        }
+    });
+});
+
+app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByCat($stateParams.cat).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getArticle: function getArticle(index) {
+            return content[index];
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(_.rest(content), content.length / 4)[index];
         }
     });
 });
