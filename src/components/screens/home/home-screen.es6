@@ -1,8 +1,9 @@
-app.controller('HomeScreen', ($element, $timeout, API, $scope) => {
+app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading) => {
 
     var content, tags, international, politics, religion, culture;
 
     var init = () => {
+        Loading.setActive(true);
         API.getHome().then((response) => {
             content = response;
             console.log('content', content);

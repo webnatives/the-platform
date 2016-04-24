@@ -2,12 +2,26 @@
     <div template="hero">
         <div class="hero fi">
             <a class="box red" ng-href="{{getDateString(getContent())}}">
-                <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}');height:{{getHeight()}}px">
+                <div class="hero-image"
+                     style="height:{{getHeight()}}px"
+                >
+                    <div class="image-holder">
+                        <div
+                                class="image-img"
+                                style="background-image:url('{{$root.getImage(getContent())}}')"
+                        ></div>
+                    </div>
+
                     <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
                 </div>
 
-                <div class="tag" ng-if="!$root.getImage(getContent())" ng-bind-html="$root.getCat(getContent())"></div>
-                <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
+                <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>
+                <h2 ng-show="!getContent()" class="blokk" style="color: #333">
+                    Lorem ipsum er e!
+                </h2>
+                <p ng-show="!getContent()" class="blokk" style="color: #999">
+                    Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
+                </p>
                 <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
                 <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
 

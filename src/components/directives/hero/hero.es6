@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('heroItem', (API, State, Helper) => ({
+app.directive('heroItem', (API, State, Helper, Loading, $timeout, $rootScope) => ({
     templateUrl: 'hero.html',
     scope: {
         heading: '&',
@@ -22,11 +22,19 @@ app.directive('heroItem', (API, State, Helper) => ({
             if (scope.id == undefined) return;
 
             API.getPost(scope.id).then((response) => {
+                Loading.setActive(false);
                 content = response;
                 //console.log('Hero post content:', content);
                 element.find('.fi').addClass('active');
                 content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+
+                $("<img/>")
+                    .on('load', function() { console.log('image:', $rootScope.getImage(content)); element.find('.image-holder').addClass('active') })
+                    .on('error', function() { console.log("error loading image"); })
+                    .attr("src", $rootScope.getImage(content))
+                ;
             });
+
         };
 
         init();

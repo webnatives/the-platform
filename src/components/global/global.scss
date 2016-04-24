@@ -2,12 +2,12 @@ $body: #333;
 $blue: #1b65ae;
 $green: #97bc41;
 $red: #b40305;
-$red: #be3234;
+//$red: #be3234;
 $orange: #b67e2c;
 $purple: #704ab6;
 
 $primary: #316ac3;
-$primary: #be3234;
+$primary: $red;
 
 body {
   //  background: lighten(saturate($primary, 30%), 30%);
@@ -73,7 +73,7 @@ hr {
   padding: 20px;
   //border-top:3px solid $body;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  transition: .2s;
+  transition: .4s;
   margin-bottom: 20px;
   will-change: transform;
   color: inherit;
@@ -147,18 +147,24 @@ hr {
   font-size: 10px;
 }
 
+.blokk {
+
+  font-family:'BLOKKNeue-Regular';
+  //color: #999;
+}
+
 .fi {
-  opacity: 0;
-  will-change: opcaity;
-  transition: 0.4s;
-  transition-delay: 0.1s;
-  visibility: hidden;
-  transform: translateY(50px);
+  //opacity: 0;
+  //will-change: opacity;
+  //transition: 1.5s;
+  //transition-delay: 0.5s;
+  //visibility: hidden;
+  //transform: translateY(50px);
 
   &.active {
-    transform: translateY(0px);
-    opacity: 1;
-    visibility: visible;
+    //transform: translateY(0px);
+    //opacity: 1;
+    //visibility: visible;
   }
 }
 
@@ -297,7 +303,9 @@ textarea {
   padding: 20px 0 0;
   padding-top: 153px;
   opacity: 0;
-  transition: .2s;
+  //transition: 2s;
+  transition: 0.6s;
+  transition-delay: 0.3s;
   display: block;
   will-change: opacity;
   overflow-x: hidden;
@@ -395,6 +403,35 @@ textarea {
   margin: -20px -20px 20px;
   //margin-bottom: 15px;
   position: relative;
+  overflow: hidden;
+
+  .image-holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    //background: red;
+    background-position: center;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 1s;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  .image-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    //background: red;
+    background-position: center;
+    background-size: cover;
+  }
 
   @media (max-width: 767px) {
     margin: -10px -10px 10px;

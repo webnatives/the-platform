@@ -1,8 +1,9 @@
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
 
     var resolve = {
-        timeout($timeout) {
+        timeout($timeout, Loading) {
             $('[screen]').removeClass('active');
+            Loading.setActive(true);
             //$('.loading-logo').addClass('active');
             return $timeout(300);
         }

@@ -31,6 +31,21 @@
     <link rel="stylesheet" href="/public/lib.css"/>
     <link rel="stylesheet" href="/public/app.css"/>
 
+    <style type="text/css" media="screen, print">
+
+        @font-face {
+            font-family: 'BLOKKNeue-Regular';
+            src: url('/public/fonts/BLOKKRegular/webfonts/BLOKKNeue-Regular.eot');
+        }
+
+        @font-face {
+            font-family: 'BLOKKNeue-Regular';
+            src: url('/public/fonts/BLOKKNeue-Regular/webfonts/BLOKKNeue-Regular.woff') format('woff'),
+            url('/public/fonts/BLOKKNeue-Regular/webfonts/BLOKKNeue-Regular.svg#BLOKKNeue-Regular') format('svg');
+        }
+
+    </style>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
 <body data-ng-app="app">
@@ -38,7 +53,7 @@
 <!--<script>-->
     <!--var content = <--%- JSON.stringify(content) %>;-->
 <!--</script>-->
-
+<loading-item></loading-item>
 
 <div ui-view></div>
 

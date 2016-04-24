@@ -18,8 +18,9 @@ app.directive('ngEnter', function () {
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
-        timeout: function timeout($timeout) {
+        timeout: function timeout($timeout, Loading) {
             $('[screen]').removeClass('active');
+            Loading.setActive(true);
             //$('.loading-logo').addClass('active');
             return $timeout(300);
         }
@@ -301,6 +302,47 @@ app.service('Helper', function ($rootScope, $http, $sce) {
 });
 'use strict';
 
+app.service('Loading', function ($timeout, $rootScope) {
+
+    var active = false,
+        currentMessage = 0;
+
+    var messages = ['Spinning up the hamster...', 'Shovelling coal into the server...'
+    //'Please wait and enjoy the elevator music...',
+    //'Loading humorous message, please wait...'
+    ];
+
+    var randMsg = function randMsg() {
+        currentMessage = _.random(0, messages.length - 1);
+    };
+
+    var setActive = function setActive(flag) {
+        active = flag == undefined ? !active : flag;
+        if (active) randMsg();
+    };
+
+    var init = function init() {
+        randMsg();
+    };
+
+    init();
+
+    var pub = {
+        getActive: function getActive() {
+            return active;
+        },
+        setActive: setActive,
+        randMsg: randMsg,
+        getMessage: function getMessage() {
+            return messages[currentMessage];
+        }
+    };
+
+    _.extend($rootScope, pub);
+    _.extend(this, pub);
+});
+'use strict';
+
 app.factory('State', function ($rootScope, $sce) {
 
     var title = 'Content Types';
@@ -400,6 +442,23 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
+        }
+    };
+});
+
+'use strict';
+
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -416,23 +475,6 @@ app.directive('footItem', function (State) {
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
         }
     };
 });
@@ -512,7 +554,7 @@ app.directive('headerItem', function (State) {
 
 'use strict';
 
-app.directive('heroItem', function (API, State, Helper) {
+app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
     return {
         templateUrl: 'hero.html',
         scope: {
@@ -537,10 +579,17 @@ app.directive('heroItem', function (API, State, Helper) {
                 if (scope.id == undefined) return;
 
                 API.getPost(scope.id).then(function (response) {
+                    Loading.setActive(false);
                     content = response;
                     //console.log('Hero post content:', content);
                     element.find('.fi').addClass('active');
                     content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
+
+                    $("<img/>").on('load', function () {
+                        console.log('image:', $rootScope.getImage(content));element.find('.image-holder').addClass('active');
+                    }).on('error', function () {
+                        console.log("error loading image");
+                    }).attr("src", $rootScope.getImage(content));
                 });
             };
 
@@ -559,35 +608,21 @@ app.directive('heroItem', function (API, State, Helper) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API, Helper) {
+app.directive('loadingItem', function (Loading) {
     return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
+        templateUrl: 'loading-item.html',
+        scope: {},
         link: function link(scope, element, attrs) {
 
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
+            var init = function init() {};
 
             init();
 
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
             });
         }
     };
@@ -639,66 +674,40 @@ app.directive('share', function ($timeout, Helper) {
     };
 });
 
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+'use strict';
 
-    var content, tags, international, politics, religion, culture;
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
 
-    var init = function init() {
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            console.log('tags, ids:', response);return tags = response;
-        });
-        API.getPostsByCat("international").then(function (response) {
-            console.log('international, ids:', response);return international = response;
-        });
-        API.getPostsByCat("politics").then(function (response) {
-            return politics = response;
-        });
-        API.getPostsByCat("culture").then(function (response) {
-            return culture = response;
-        });
-        API.getPostsByCat("spirituality").then(function (response) {
-            return religion = response;
-        });
-    };
+            var articles,
+                amount = scope.amount() || 3;
 
-    init();
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
 
-    _.extend($scope, {
-        getInternational: function getInternational() {
-            return international;
-        },
-        getPolitics: function getPolitics() {
-            return politics;
-        },
-        getCulture: function getCulture() {
-            return culture;
-        },
-        getReligion: function getReligion() {
-            return religion;
-        },
-        getTags: function getTags() {
-            return tags;
-        },
-        getIds: function getIds(array, amount) {
-            return _.take(_.map(array, function (item) {
-                return item.id;
-            }), 3);
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
+            });
         }
-    });
+    };
 });
 
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) {
@@ -797,6 +806,89 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
+app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading) {
+
+    var content, tags, international, politics, religion, culture;
+
+    var init = function init() {
+        Loading.setActive(true);
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            console.log('tags, ids:', response);return tags = response;
+        });
+        API.getPostsByCat("international").then(function (response) {
+            console.log('international, ids:', response);return international = response;
+        });
+        API.getPostsByCat("politics").then(function (response) {
+            return politics = response;
+        });
+        API.getPostsByCat("culture").then(function (response) {
+            return culture = response;
+        });
+        API.getPostsByCat("spirituality").then(function (response) {
+            return religion = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getInternational: function getInternational() {
+            return international;
+        },
+        getPolitics: function getPolitics() {
+            return politics;
+        },
+        getCulture: function getCulture() {
+            return culture;
+        },
+        getReligion: function getReligion() {
+            return religion;
+        },
+        getTags: function getTags() {
+            return tags;
+        },
+        getIds: function getIds(array, amount) {
+            return _.take(_.map(array, function (item) {
+                return item.id;
+            }), 3);
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
+});
+
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -830,13 +922,13 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
 
     var init = function init() {
         $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
             return terms = response.data;
         });
     };
@@ -876,26 +968,6 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
-        }
-    });
-});
-
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
         }
     });
 });

@@ -32,7 +32,7 @@ module.exports = {
             url: `${API}posts?filter[name]=${req.params.slug}&_embed`,
             json: true
         }, function (e, r, body) {
-            console.log('postPage', body[0]);
+            console.log(`${API}posts?filter[name]=${req.params.slug}&_embed`, 'postPage', body[0]);
 
             var data = _.extend(standardData, {
                 title: body[0].title.rendered + " | The Platform",
