@@ -643,9 +643,6 @@ textarea {
       background: white;
       color: #b40305; }
 
-[template=hero] {
-  cursor: pointer; }
-
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
 
@@ -685,6 +682,68 @@ textarea {
     @media (max-width: 767px) {
       [template=latest] .latest .latest-preview .preview-image {
         margin: -10px 0px -10px -10px; } }
+
+[template=hero] {
+  cursor: pointer; }
+
+[template=loading] .loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  text-align: center;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: white;
+  font-weight: 900;
+  transition: 1s;
+  visibility: hidden; }
+  [template=loading] .loading .loading-text {
+    transition: 0.4s;
+    position: relative;
+    top: -50px;
+    opacity: 0; }
+  [template=loading] .loading .loading-icon {
+    transition: 0.6s;
+    transition-delay: 1s;
+    position: relative;
+    bottom: -40px;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #eee;
+    border-bottom: 0;
+    color: #b40305;
+    line-height: 40px;
+    height: 40px;
+    width: 50px;
+    text-align: center;
+    border-radius: 3px 3px 0 0; }
+    [template=loading] .loading .loading-icon .fa {
+      height: 40px;
+      line-height: 40px; }
+  [template=loading] .loading.active {
+    opacity: 1;
+    transition: 0.4s;
+    visibility: visible; }
+    [template=loading] .loading.active .loading-text, [template=loading] .loading.active .loading-icon {
+      transition-delay: 0s;
+      bottom: 0px;
+      opacity: 1; }
 
 [template=share] {
   margin: 30px auto;
@@ -756,59 +815,3 @@ textarea {
   100% {
     -webkit-transform: scale(0.9);
             transform: scale(0.9); } }
-
-[template=loading] .loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-content: center;
-      -ms-flex-line-pack: center;
-          align-content: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: flex-end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  text-align: center;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  color: white;
-  font-weight: 900;
-  transition: 1s;
-  visibility: hidden; }
-  [template=loading] .loading .loading-text {
-    transition: 0.4s;
-    position: relative;
-    top: -50px;
-    opacity: 0; }
-  [template=loading] .loading .loading-icon {
-    transition: 0.6s;
-    transition-delay: 1s;
-    position: relative;
-    bottom: -40px;
-    opacity: 0;
-    background: #9b0304;
-    line-height: 40px;
-    height: 40px;
-    width: 50px;
-    text-align: center;
-    border-radius: 3px 3px 0 0; }
-    [template=loading] .loading .loading-icon .fa {
-      height: 40px;
-      line-height: 40px; }
-  [template=loading] .loading.active {
-    opacity: 1;
-    transition: 0.4s;
-    visibility: visible; }
-    [template=loading] .loading.active .loading-text, [template=loading] .loading.active .loading-icon {
-      transition-delay: 0s;
-      bottom: 0px;
-      opacity: 1; }

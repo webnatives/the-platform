@@ -272,6 +272,35 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="latest.html">
+    <div template="latest">
+        <div class="latest fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading()}}</h2>
+
+                <div>
+                    <div class="latest-preview" ng-repeat="article in getArticles()">
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{$root.getTitle(article)}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
@@ -304,33 +333,18 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="latest.html">
-    <div template="latest">
-        <div class="latest fi">
-            <div class="box large">
+<script type="text/ng-template" id="loading-item.html">
+    <div template="loading">
+        <div class="loading" ng-class="{active:getActive()}">
+            <!--<div class="loading-text">{{getMessage()}}</div>-->
 
-                <h2 class="box-header">{{heading()}}</h2>
-
-                <div>
-                    <div class="latest-preview" ng-repeat="article in getArticles()">
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{$root.getTitle(article)}}</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
+            <div class="loading-icon">
+                <i class="fa fa-spin fa-cog"></i>
 
             </div>
-        </div>
+            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
 
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="share.html">
@@ -375,20 +389,6 @@
 
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="loading-item.html">
-    <div template="loading">
-        <div class="loading" ng-class="{active:getActive()}">
-            <!--<div class="loading-text">{{getMessage()}}</div>-->
-
-            <div class="loading-icon">
-                <i class="fa fa-spin fa-cog"></i>
-
-            </div>
-            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -744,6 +744,49 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="topic-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -782,49 +825,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
             </div>
 
         </div>
