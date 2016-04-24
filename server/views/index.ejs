@@ -82,25 +82,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -144,6 +125,25 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
+
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -348,6 +348,124 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="home-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-xs-12">
+                </div>
+                <div class="col-md-8 col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).ID}}"
+                            height="350"
+                    ></hero-item>
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(1).ID"
+                            ></article-preview-item>
+
+                            <article-preview-item
+                                    ng-if="getContent()"
+                                    id="getArticle(2).ID"
+                            ></article-preview-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="{{getArticle(3).ID}}"
+                                    height="132"
+                            ></hero-item>
+                        </div>
+                        <div class="col-xs-12">
+                            <hero-item
+                                    ng-if="getContent()"
+                                    id="{{getArticle(4).ID}}"
+                                    height="361"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <latest-item
+                            heading="'Latest Articles'"
+                            amount="10"
+                    ></latest-item>
+                </div>
+
+                <div class="col-xs-12">
+
+                    <div class="box subscribe">
+                        <p>Stay updated with every article</p>
+
+                        <div class="row">
+                            <div class="col-xs-7 col-sm-8">
+                                <input type="text" placeholder="Email Address">
+                            </div>
+                            <div class="col-xs-5 col-sm-4">
+                                <div class="butn">Subscribe</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="section-title">#labour</div>
+                </div>
+
+
+                <div class="col-sm-4 col-xs-12"
+                     ng-repeat="article in getTags() track by $index"
+                     ng-if="$index < 3"
+                >
+                    <hero-item
+                            id="{{article.id}}"
+                            height="150"
+                    ></hero-item>
+                </div>
+
+                <div class="col-xs-12">
+
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getInternational()">
+                    <group-item
+                            heading="'International'"
+                            ids="getIds(getInternational(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getPolitics()">
+                    <group-item
+                            heading="'Politics'"
+                            ids="getIds(getPolitics(), 3)"
+                            horizontal="false"
+                    ></group-item>
+                </div>
+                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">-->
+                    <!--<group-item-->
+                            <!--heading="'Culture'"-->
+                            <!--ids="getIds(getCulture(), 3)"-->
+                            <!--horizontal="false"-->
+                    <!--&gt;</group-item>-->
+                <!--</div>-->
+                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">-->
+                    <!--<group-item-->
+                            <!--heading="'Religion'"-->
+                            <!--ids="getIds(getReligion(), 3)"-->
+                            <!--horizontal="false"-->
+                    <!--&gt;</group-item>-->
+                <!--</div>-->
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="article-screen.html">
     <div screen class="article-screen">
         <div class="container">
@@ -473,7 +591,7 @@
 
 
         <!--<article-share-item></article-share-item>-->
-        <share ng-if="getSlug()" header="{{getContent().title}}" link="{{getSlug()}}"></share>
+        <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>
 
         <div class="container">
             <div class="row">
@@ -503,6 +621,38 @@
                             id="{{article.id}}"
                             height="250"
                     ></hero-item>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="article.ID"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="article.ID"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -551,145 +701,40 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="home-screen.html">
+<script type="text/ng-template" id="topic-screen.html">
     <div screen style="background: #f7f7f7">
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 col-xs-12">
-                </div>
-                <div class="col-md-8 col-xs-12">
+                <div class="col-xs-12">
                     <hero-item
                             ng-if="getContent()"
-                            id="{{getArticle(0).ID}}"
+                            id="{{getArticle(0).id}}"
                             height="350"
                     ></hero-item>
+                </div>
+                <div class="col-xs-12">
                     <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(1).ID"
-                            ></article-preview-item>
 
-                            <article-preview-item
-                                    ng-if="getContent()"
-                                    id="getArticle(2).ID"
-                            ></article-preview-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="{{getArticle(3).ID}}"
-                                    height="132"
-                            ></hero-item>
-                        </div>
-                        <div class="col-xs-12">
-                            <hero-item
-                                    ng-if="getContent()"
-                                    id="{{getArticle(4).ID}}"
-                                    height="361"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-xs-12">
-                    <latest-item
-                            heading="'Latest Articles'"
-                            amount="10"
-                    ></latest-item>
-                </div>
-
-                <div class="col-xs-12">
-
-                    <div class="box subscribe">
-                        <p>Stay updated with every article</p>
-
-                        <div class="row">
-                            <div class="col-xs-7 col-sm-8">
-                                <input type="text" placeholder="Email Address">
-                            </div>
-                            <div class="col-xs-5 col-sm-4">
-                                <div class="butn">Subscribe</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-12">
-                    <div class="section-title">#labour</div>
-                </div>
-
-
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="{{article.id}}"
-                            height="150"
-                    ></hero-item>
-                </div>
-
-                <div class="col-xs-12">
-
-                </div>
-
-                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getInternational()">
-                    <group-item
-                            heading="'International'"
-                            ids="getIds(getInternational(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getPolitics()">
-                    <group-item
-                            heading="'Politics'"
-                            ids="getIds(getPolitics(), 3)"
-                            horizontal="false"
-                    ></group-item>
-                </div>
-                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">-->
-                    <!--<group-item-->
-                            <!--heading="'Culture'"-->
-                            <!--ids="getIds(getCulture(), 3)"-->
-                            <!--horizontal="false"-->
-                    <!--&gt;</group-item>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">-->
-                    <!--<group-item-->
-                            <!--heading="'Religion'"-->
-                            <!--ids="getIds(getReligion(), 3)"-->
-                            <!--horizontal="false"-->
-                    <!--&gt;</group-item>-->
-                <!--</div>-->
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-7 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="article.ID"
-                                    height="300"
+                                    id="{{article.id}}"
+                                    height="200"
                             ></hero-item>
                         </div>
-                        <div class="col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-5 col-xs-12">
                             <hero-item
                                     ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="article.ID"
-                                    height="300"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
                             ></hero-item>
                         </div>
                     </div>
@@ -737,51 +782,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

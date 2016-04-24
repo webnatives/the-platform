@@ -123,7 +123,7 @@
 
 
         <!--<article-share-item></article-share-item>-->
-        <share ng-if="getSlug()" header="{{getContent().title}}" link="{{getSlug()}}"></share>
+        <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>
 
         <div class="container">
             <div class="row">

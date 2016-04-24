@@ -400,23 +400,6 @@ app.directive('articlePreviewItem', function (State, API) {
 
 'use strict';
 
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
-'use strict';
-
 app.directive('footItem', function (State) {
     return {
         templateUrl: 'foot.html',
@@ -433,6 +416,23 @@ app.directive('footItem', function (State) {
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
         }
     };
 });
@@ -639,6 +639,68 @@ app.directive('share', function ($timeout, Helper) {
     };
 });
 
+app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
+
+    var content, tags, international, politics, religion, culture;
+
+    var init = function init() {
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            console.log('tags, ids:', response);return tags = response;
+        });
+        API.getPostsByCat("international").then(function (response) {
+            console.log('international, ids:', response);return international = response;
+        });
+        API.getPostsByCat("politics").then(function (response) {
+            return politics = response;
+        });
+        API.getPostsByCat("culture").then(function (response) {
+            return culture = response;
+        });
+        API.getPostsByCat("spirituality").then(function (response) {
+            return religion = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getInternational: function getInternational() {
+            return international;
+        },
+        getPolitics: function getPolitics() {
+            return politics;
+        },
+        getCulture: function getCulture() {
+            return culture;
+        },
+        getReligion: function getReligion() {
+            return religion;
+        },
+        getTags: function getTags() {
+            return tags;
+        },
+        getIds: function getIds(array, amount) {
+            return _.take(_.map(array, function (item) {
+                return item.id;
+            }), 3);
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper) {
 
     var content, featured, related, relatedIds, image, tags;
@@ -735,88 +797,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
-app.controller('HomeScreen', function ($element, $timeout, API, $scope) {
-
-    var content, tags, international, politics, religion, culture;
-
-    var init = function init() {
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            console.log('tags, ids:', response);return tags = response;
-        });
-        API.getPostsByCat("international").then(function (response) {
-            console.log('international, ids:', response);return international = response;
-        });
-        API.getPostsByCat("politics").then(function (response) {
-            return politics = response;
-        });
-        API.getPostsByCat("culture").then(function (response) {
-            return culture = response;
-        });
-        API.getPostsByCat("spirituality").then(function (response) {
-            return religion = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getInternational: function getInternational() {
-            return international;
-        },
-        getPolitics: function getPolitics() {
-            return politics;
-        },
-        getCulture: function getCulture() {
-            return culture;
-        },
-        getReligion: function getReligion() {
-            return religion;
-        },
-        getTags: function getTags() {
-            return tags;
-        },
-        getIds: function getIds(array, amount) {
-            return _.take(_.map(array, function (item) {
-                return item.id;
-            }), 3);
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
-        }
-    });
-});
-
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -850,13 +830,13 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var terms;
 
     var init = function init() {
         $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
             return terms = response.data;
         });
     };
@@ -896,6 +876,26 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });
