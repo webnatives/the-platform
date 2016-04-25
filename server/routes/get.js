@@ -10,8 +10,8 @@ var standardData = {
     title: "The Platform | Challenging opinions on current affairs and culture.",
     ogTitle: "A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.",
     ogSiteName: "The Platform",
-    ogUrl: "http://www.the-platform.org.uk",
-    ogImage: "http://www.the-platform.org.uk/wp-content/themes/Nuke/images/logo_white.png",
+    ogUrl: "http://platformonline.uk",
+    ogImage: "http://platformonline.uk/wp-content/themes/Nuke/images/logo_white.png",
     ogDescription: "A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.",
     ogType: "website"
 };
