@@ -87,14 +87,11 @@
                         <article-preview-item
                                 ng-repeat="article in getFeatured() track by $index"
                                 ng-if="$index != 0 && $index < 3"
-                                id="getFeaturedArticle($index).id"
+                                id="getFeaturedArticle($index).ID"
                                 height="150"
                         ></article-preview-item>
 
                         <hr>
-
-                        {{getRelatedIds()}}
-                        hello
 
                         <group-item
                                 heading="'Related Posts'"

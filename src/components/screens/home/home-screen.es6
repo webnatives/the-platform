@@ -20,6 +20,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading) => {
     init();
 
     _.extend($scope, {
+        getPostsByTag: API.getPostsByTag,
         getInternational: () => international,
         getPolitics: () => politics,
         getCulture: () => culture,
