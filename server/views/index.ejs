@@ -63,6 +63,44 @@
         <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
     </div>
 </script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id()}}">
+        <div class="article-preview fi">
+            <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
+                <div class="row">
+                    <!--<div ng-if="$root.getImage(getContent())">-->
+                        <div class="col-xs-5">
+                            <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')"></div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div>
+                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                                <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
+
+                                <h3 ng-show="!getContent()" class="blokk" style="color: #333">
+                                    Lorem ipsum er e bid!
+                                </h3>
+                            </div>
+                        </div>
+                    <!--</div>-->
+                    <!--<div ng-if="!$root.getImage(getContent())">-->
+                        <!--<div class="col-xs-12">-->
+                            <!--<div>-->
+                                <!--<div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
+                                <!--<h3 ng-bind-html="$root.getTitle(getContent())"></h3>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+
+                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
+
+            </a>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-share.html">
     <div template="article-share">
         <div class="container">
@@ -127,41 +165,16 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id()}}">
-        <div class="article-preview fi">
-            <a class="box" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
-                <div class="row">
-                    <!--<div ng-if="$root.getImage(getContent())">-->
-                        <div class="col-xs-5">
-                            <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')"></div>
-                        </div>
-                        <div class="col-xs-7">
-                            <div>
-                                <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                                <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
-
-                                <h3 ng-show="!getContent()" class="blokk" style="color: #333">
-                                    Lorem ipsum er e bid!
-                                </h3>
-                            </div>
-                        </div>
-                    <!--</div>-->
-                    <!--<div ng-if="!$root.getImage(getContent())">-->
-                        <!--<div class="col-xs-12">-->
-                            <!--<div>-->
-                                <!--<div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>-->
-                                <!--<h3 ng-bind-html="$root.getTitle(getContent())"></h3>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
+<script type="text/ng-template" id="comments-item.html">
+    <div template="comments">
+        <div class="container">
+            <div class="comments">
+                <div class="box">
+                    <div id="disqus_thread"></div>
                 </div>
-
-                <!--<p>New film by Sarah Gavron is deeply moving but gender inequality remains rife in a multitude of modern societies</p>-->
-
-            </a>
+            </div>
         </div>
+
 
     </div>
 </script>
@@ -407,7 +420,17 @@
 
                         <h1 class="article-header" ng-bind-html="$root.getTitle(getContent())"></h1>
 
-                        <!--<div style="height: 20px"></div>-->
+                        <div class="clearfix" style="height: 60px;margin-top: -30px;padding: 0 10px;">
+                            <p class="start" style="font-weight: bold">
+                                {{getDate()}}
+
+                                <span class="pull-right article-social">
+                                    <i class="fa fa-twitter"></i>
+                                    <i class="fa fa-facebook"></i>
+                                </span>
+                            </p>
+
+                        </div>
 
                         <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}')">
                             <div class="tag">Culture</div>
@@ -428,16 +451,6 @@
 
                         <div class="article-content">
 
-                            <p class="start" style="font-weight: bold">
-                                {{getDate()}}
-
-                                <span class="pull-right article-social">
-                                    <i class="fa fa-twitter"></i>
-                                    <i class="fa fa-facebook"></i>
-                                </span>
-                            </p>
-
-
                             <p ng-if="getContent().acf.summary">
                                 <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
@@ -449,6 +462,7 @@
 
                     </div>
                     <div class="col-md-4 col-xs-12">
+                        <hr class="visible-xs">
                         <div class="section-title start">
                             About The Author
                         </div>
@@ -475,22 +489,23 @@
                             </div>
                         </div>
 
-                        <div class="section-title">Featured Posts</div>
-                        <hero-item
-                                ng-if="getFeaturedArticle(0)"
-                                id="{{getFeaturedArticle(0).ID}}"
-                                height="150"
-                        ></hero-item>
-                        <article-preview-item
-                                ng-repeat="article in getFeatured() track by $index"
-                                ng-if="$index != 0 && $index < 3"
-                                id="getFeaturedArticle($index).ID"
-                                height="150"
-                        ></article-preview-item>
+                        <!--<div class="section-title">Featured Posts</div>-->
+                        <!--<hero-item-->
+                                <!--ng-if="getFeaturedArticle(0)"-->
+                                <!--id="{{getFeaturedArticle(0).ID}}"-->
+                                <!--height="150"-->
+                        <!--&gt;</hero-item>-->
+                        <!--<article-preview-item-->
+                                <!--ng-repeat="article in getFeatured() track by $index"-->
+                                <!--ng-if="$index != 0 && $index < 3"-->
+                                <!--id="getFeaturedArticle($index).ID"-->
+                                <!--height="150"-->
+                        <!--&gt;</article-preview-item>-->
 
-                        <hr>
+                        <!--<hr>-->
 
                         <group-item
+                                class="hidden-xs"
                                 heading="'Related Posts'"
                                 ng-if="getRelatedIds()"
                                 ids="getRelatedIds()"
@@ -498,9 +513,9 @@
 
                         <hr>
 
-                        <latest-item
-                                heading="'Latest Posts'"
-                        ></latest-item>
+                        <!--<latest-item-->
+                                <!--heading="'Latest Posts'"-->
+                        <!--&gt;</latest-item>-->
 
                         <!--<div class="section-title">Related Posts</div>-->
 
@@ -518,6 +533,12 @@
 
         <!--<article-share-item></article-share-item>-->
         <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>
+
+
+        <div class="container">
+            <hr>
+        </div>
+        <comments-item ng-if="getContent()" article="getContent()"></comments-item>
 
         <div class="container">
             <div class="row">
@@ -548,6 +569,46 @@
                             height="250"
                     ></hero-item>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -786,46 +847,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
             </div>
 
         </div>

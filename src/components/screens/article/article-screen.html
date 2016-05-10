@@ -10,7 +10,17 @@
 
                         <h1 class="article-header" ng-bind-html="$root.getTitle(getContent())"></h1>
 
-                        <!--<div style="height: 20px"></div>-->
+                        <div class="clearfix" style="height: 60px;margin-top: -30px;padding: 0 10px;">
+                            <p class="start" style="font-weight: bold">
+                                {{getDate()}}
+
+                                <span class="pull-right article-social">
+                                    <i class="fa fa-twitter"></i>
+                                    <i class="fa fa-facebook"></i>
+                                </span>
+                            </p>
+
+                        </div>
 
                         <div class="hero-image" ng-show="$root.getImage(getContent())" style="background-image: url('{{$root.getImage(getContent())}}')">
                             <div class="tag">Culture</div>
@@ -31,16 +41,6 @@
 
                         <div class="article-content">
 
-                            <p class="start" style="font-weight: bold">
-                                {{getDate()}}
-
-                                <span class="pull-right article-social">
-                                    <i class="fa fa-twitter"></i>
-                                    <i class="fa fa-facebook"></i>
-                                </span>
-                            </p>
-
-
                             <p ng-if="getContent().acf.summary">
                                 <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
 
@@ -52,6 +52,7 @@
 
                     </div>
                     <div class="col-md-4 col-xs-12">
+                        <hr class="visible-xs">
                         <div class="section-title start">
                             About The Author
                         </div>
@@ -78,22 +79,23 @@
                             </div>
                         </div>
 
-                        <div class="section-title">Featured Posts</div>
-                        <hero-item
-                                ng-if="getFeaturedArticle(0)"
-                                id="{{getFeaturedArticle(0).ID}}"
-                                height="150"
-                        ></hero-item>
-                        <article-preview-item
-                                ng-repeat="article in getFeatured() track by $index"
-                                ng-if="$index != 0 && $index < 3"
-                                id="getFeaturedArticle($index).ID"
-                                height="150"
-                        ></article-preview-item>
+                        <!--<div class="section-title">Featured Posts</div>-->
+                        <!--<hero-item-->
+                                <!--ng-if="getFeaturedArticle(0)"-->
+                                <!--id="{{getFeaturedArticle(0).ID}}"-->
+                                <!--height="150"-->
+                        <!--&gt;</hero-item>-->
+                        <!--<article-preview-item-->
+                                <!--ng-repeat="article in getFeatured() track by $index"-->
+                                <!--ng-if="$index != 0 && $index < 3"-->
+                                <!--id="getFeaturedArticle($index).ID"-->
+                                <!--height="150"-->
+                        <!--&gt;</article-preview-item>-->
 
-                        <hr>
+                        <!--<hr>-->
 
                         <group-item
+                                class="hidden-xs"
                                 heading="'Related Posts'"
                                 ng-if="getRelatedIds()"
                                 ids="getRelatedIds()"
@@ -101,9 +103,9 @@
 
                         <hr>
 
-                        <latest-item
-                                heading="'Latest Posts'"
-                        ></latest-item>
+                        <!--<latest-item-->
+                                <!--heading="'Latest Posts'"-->
+                        <!--&gt;</latest-item>-->
 
                         <!--<div class="section-title">Related Posts</div>-->
 
@@ -121,6 +123,12 @@
 
         <!--<article-share-item></article-share-item>-->
         <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>
+
+
+        <div class="container">
+            <hr>
+        </div>
+        <comments-item ng-if="getContent()" article="getContent()"></comments-item>
 
         <div class="container">
             <div class="row">
