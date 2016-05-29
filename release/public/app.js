@@ -433,37 +433,6 @@ app.directive('articleShareItem', function (API, State, Helper) {
     };
 });
 
-app.directive('commentsItem', function ($timeout, Helper) {
-    return {
-        templateUrl: 'comments-item.html',
-        scope: {
-            article: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {
-                console.log('comment:', scope.article);
-                var disqus_config = function disqus_config() {
-                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-
-                var d = document,
-                    s = d.createElement('script');
-
-                s.src = '//platformonlineuk.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            };
-
-            init();
-
-            scope = _.assign(scope, {});
-        }
-    };
-});
-
 app.directive('authorPreviewItem', function () {
     return {
         templateUrl: 'author-preview.html',
@@ -494,6 +463,37 @@ app.directive('authorPreviewItem', function () {
                     return author;
                 }
             });
+        }
+    };
+});
+
+app.directive('commentsItem', function ($timeout, Helper) {
+    return {
+        templateUrl: 'comments-item.html',
+        scope: {
+            article: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {
+                console.log('comment:', scope.article);
+                var disqus_config = function disqus_config() {
+                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                var d = document,
+                    s = d.createElement('script');
+
+                s.src = '//platformonlineuk.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            };
+
+            init();
+
+            scope = _.assign(scope, {});
         }
     };
 });
@@ -530,28 +530,6 @@ app.directive('flexItem', function () {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -581,6 +559,28 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
