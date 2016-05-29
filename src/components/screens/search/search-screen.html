@@ -1,0 +1,45 @@
+<script type="text/ng-template" id="search-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>

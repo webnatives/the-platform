@@ -59,6 +59,23 @@
 <div ui-view></div>
 
 <header-item></header-item>
+<script type="text/ng-template" id="alert.html">
+    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
+        <div class="alert-box">
+            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
+            <!--<div class="box-header">-->
+                <!--&lt;!&ndash;Alert&ndash;&gt;-->
+            <!--</div>-->
+            <div class="box-content">
+                <p>{{alert.getContent()}}</p>
+
+                <div class="butn block">Got it!</div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -97,23 +114,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="alert.html">
-    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
-        <div class="alert-box">
-            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
-            <!--<div class="box-header">-->
-                <!--&lt;!&ndash;Alert&ndash;&gt;-->
-            <!--</div>-->
-            <div class="box-content">
-                <p>{{alert.getContent()}}</p>
-
-                <div class="butn block">Got it!</div>
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="article-share.html">
     <div template="article-share">
         <div class="container">
@@ -127,6 +127,19 @@
 
 
 
+            </div>
+        </div>
+
+
+    </div>
+</script>
+<script type="text/ng-template" id="comments-item.html">
+    <div template="comments">
+        <div class="container">
+            <div class="comments">
+                <div class="box">
+                    <div id="disqus_thread"></div>
+                </div>
             </div>
         </div>
 
@@ -148,19 +161,6 @@
             </flex-item>
 
         </a>
-    </div>
-</script>
-<script type="text/ng-template" id="comments-item.html">
-    <div template="comments">
-        <div class="container">
-            <div class="comments">
-                <div class="box">
-                    <div id="disqus_thread"></div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </script>
 <script type="text/ng-template" id="flex.html">
@@ -754,6 +754,51 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="search-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

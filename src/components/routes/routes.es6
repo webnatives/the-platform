@@ -32,6 +32,12 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             controller: "TagScreen",
             resolve: resolve
         })
+        .state('search', {
+            url: "/search/:query",
+            templateUrl: "search-screen.html",
+            controller: "SearchScreen",
+            resolve: resolve
+        })
         .state('tagList', {
             url: "/tag-list",
             templateUrl: "tag-list-screen.html",

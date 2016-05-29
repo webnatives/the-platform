@@ -15,21 +15,6 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -60,6 +45,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: "tag-screen.html",
         controller: "TagScreen",
         resolve: resolve
+    }).state('search', {
+        url: "/search/:query",
+        templateUrl: "search-screen.html",
+        controller: "SearchScreen",
+        resolve: resolve
     }).state('tagList', {
         url: "/tag-list",
         templateUrl: "tag-list-screen.html",
@@ -79,6 +69,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -164,6 +169,12 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getPostsBySearch = function getPostsBySearch(query) {
+        return $http.get(API_URL + 'posts/s/' + query).then(function (response) {
+            return response.data;
+        });
+    };
+
     var getPostsByTag = function getPostsByTag(tag) {
         return $http.get(API_URL + 'posts/tag/' + tag).then(function (response) {
             return response.data;
@@ -207,6 +218,7 @@ app.factory('API', function ($rootScope, $http) {
         getPost: getPost,
         getAuthor: getAuthor,
         getPostBySlug: getPostBySlug,
+        getPostsBySearch: getPostsBySearch,
         getPosts: getPosts,
         getRandomPosts: getRandomPosts,
         getPostsByCat: getPostsByCat,
@@ -334,6 +346,26 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -384,26 +416,6 @@ app.directive('articlePreviewItem', function (State, API) {
     };
 });
 
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('articleShareItem', function (API, State, Helper) {
@@ -417,6 +429,37 @@ app.directive('articleShareItem', function (API, State, Helper) {
             init();
 
             scope = _.extend(scope, {});
+        }
+    };
+});
+
+app.directive('commentsItem', function ($timeout, Helper) {
+    return {
+        templateUrl: 'comments-item.html',
+        scope: {
+            article: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {
+                console.log('comment:', scope.article);
+                var disqus_config = function disqus_config() {
+                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                var d = document,
+                    s = d.createElement('script');
+
+                s.src = '//platformonlineuk.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            };
+
+            init();
+
+            scope = _.assign(scope, {});
         }
     };
 });
@@ -451,37 +494,6 @@ app.directive('authorPreviewItem', function () {
                     return author;
                 }
             });
-        }
-    };
-});
-
-app.directive('commentsItem', function ($timeout, Helper) {
-    return {
-        templateUrl: 'comments-item.html',
-        scope: {
-            article: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {
-                console.log('comment:', scope.article);
-                var disqus_config = function disqus_config() {
-                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-
-                var d = document,
-                    s = d.createElement('script');
-
-                s.src = '//platformonlineuk.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            };
-
-            init();
-
-            scope = _.assign(scope, {});
         }
     };
 });
@@ -961,6 +973,36 @@ app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $st
     _.extend($scope, {
         getTerms: function getTerms() {
             return terms;
+        }
+    });
+});
+
+app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsBySearch($stateParams.query).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getArticle: function getArticle(index) {
+            return content[index];
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(_.rest(content), content.length / 4)[index];
         }
     });
 });

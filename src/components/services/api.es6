@@ -25,6 +25,8 @@ app.factory('API', function ($rootScope, $http) {
 
     var getPostsByCat = (cat) => $http.get(`${API_URL}posts/cat/${cat}`).then(response => response.data);
 
+    var getPostsBySearch = (query) => $http.get(`${API_URL}posts/s/${query}`).then(response => response.data);
+
     var getPostsByTag = (tag) => $http.get(`${API_URL}posts/tag/${tag}`).then(response => response.data);
 
     var getCollections = () => {
@@ -56,6 +58,7 @@ app.factory('API', function ($rootScope, $http) {
         getPost: getPost,
         getAuthor,
         getPostBySlug,
+        getPostsBySearch,
         getPosts: getPosts,
         getRandomPosts: getRandomPosts,
         getPostsByCat: getPostsByCat,
