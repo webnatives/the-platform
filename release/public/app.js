@@ -15,6 +15,21 @@ app.directive('ngEnter', function () {
         });
     };
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -64,90 +79,34 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+app.service('Alert', function () {
+    var visible = false,
+        content = "";
 
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
+    var show = function show(text) {
+        console.log('showing');
+        visible = true;
+        content = text;
     };
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
+    var init = function init() {};
 
     init();
+
+    return {
+        isVisible: function isVisible() {
+            return visible;
+        },
+        hide: function hide() {
+            return visible = false;
+        },
+        show: show,
+        getContent: function getContent() {
+            return content;
+        }
+    };
 });
 
-'use strict';
-
-app.factory('Alert', function ($timeout, $rootScope) {
-
-    //var active = false,
-    //    message = false,
-    //    colour = "",
-    //    timeout;
-    //
-    //var showSuccess = (msg) => {
-    //    showError(msg);
-    //    colour = "";
-    //};
-    //
-    //var showMessage = (msg) => {
-    //    showError(msg);
-    //    colour = "primary";
-    //};
-    //
-    //var showError = (msg) => {
-    //    colour = "red";
-    //    setActive(true);
-    //    message = msg;
-    //    $timeout.cancel(timeout);
-    //    timeout = $timeout(() => setActive(false), 5000);
-    //};
-    //
-    //var getColour = () => {
-    //    return colour;
-    //};
-    //
-    //var getMessage = () => {
-    //    return message;
-    //};
-    //
-    //var getActive = () => {
-    //    return active;
-    //};
-    //
-    //var setActive = (flag) => {
-    //    active = flag;
-    //};
-    //
-    //var switchActive = () => {
-    //    active = !active;
-    //};
-    //
-    //var init = () => {
-    //
-    //};
-    //
-    //init();
-    //
-    //$rootScope.Alert = {
-    //    showMessage: showMessage,
-    //    showError: showError
-    //};
-    //
-    //return {
-    //    showMessage: showMessage,
-    //    showError: showError,
-    //    getMessage: getMessage,
-    //    getColour: getColour,
-    //    getActive: getActive,
-    //    setActive: setActive,
-    //    showSuccess: showSuccess,
-    //    switchActive: switchActive
-    //};
-});
 'use strict';
 
 app.factory('API', function ($rootScope, $http) {
@@ -165,6 +124,12 @@ app.factory('API', function ($rootScope, $http) {
 
     var getHome = function getHome() {
         return $http.get(API_URL + 'home').then(function (response) {
+            return response.data;
+        });
+    };
+
+    var getAuthor = function getAuthor(id) {
+        return $http.get(API_URL + 'author/' + id).then(function (response) {
             return response.data;
         });
     };
@@ -240,6 +205,7 @@ app.factory('API', function ($rootScope, $http) {
         login: login,
         getHome: getHome,
         getPost: getPost,
+        getAuthor: getAuthor,
         getPostBySlug: getPostBySlug,
         getPosts: getPosts,
         getRandomPosts: getRandomPosts,
@@ -370,28 +336,6 @@ app.factory('State', function ($rootScope, $sce) {
 });
 'use strict';
 
-app.directive('alert', function (Alert) {
-    return {
-        templateUrl: 'alert.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope.getColour = Alert.getColour;
-            scope.getMessage = Alert.getMessage;
-            scope.getActive = Alert.getActive;
-            scope.setActive = Alert.setActive;
-            scope.switchActive = Alert.switchActive;
-        }
-    };
-});
-
-'use strict';
-
 app.directive('articlePreviewItem', function (State, API) {
     return {
         templateUrl: 'article-preview.html',
@@ -440,6 +384,26 @@ app.directive('articlePreviewItem', function (State, API) {
     };
 });
 
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articleShareItem', function (API, State, Helper) {
@@ -457,23 +421,35 @@ app.directive('articleShareItem', function (API, State, Helper) {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
+app.directive('authorPreviewItem', function () {
     return {
-        templateUrl: 'foot.html',
-        scope: {},
+        templateUrl: 'author-preview.html',
+        controllerAs: 'author',
+        bindToController: true,
+        scope: {
+            authorId: '@'
+        },
+        controller: function controller($scope, $element, State, API) {
+            var _this = this;
 
-        link: function link(scope, element, attrs) {
+            console.log('authorId', this);
 
-            var init = function init() {};
+            var author;
+
+            var init = function init() {
+                API.getAuthor(_this.authorId).then(function (response) {
+                    author = response;
+
+                    console.log('author response', response);
+                });
+            };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+            _.extend(this, {
+                getAuthor: function getAuthor() {
+                    return author;
+                }
             });
         }
     };
@@ -506,6 +482,60 @@ app.directive('commentsItem', function ($timeout, Helper) {
             init();
 
             scope = _.assign(scope, {});
+        }
+    };
+});
+
+app.directive('flexItem', function () {
+    return {
+        templateUrl: 'flex.html',
+        controllerAs: 'flex',
+        bindToController: true,
+        transclude: true,
+        scope: {
+            row: '=',
+            wrap: '=',
+            gap: '='
+        },
+        controller: function controller($element, $timeout) {
+
+            var flexClass = {
+                "flex-row": this.row || false,
+                "flex-wrap": this.wrap || false,
+                "flex-gap": this.gap || false
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                getFlexClass: function getFlexClass() {
+                    return flexClass;
+                }
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
         }
     };
 });
@@ -838,29 +868,13 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
-app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading) {
+app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
     var content, tags, international, politics, religion, culture;
+
+    var subscribe = function subscribe() {
+        Alert.show("Thanks for subscribing!");
+    };
 
     var init = function init() {
         Loading.setActive(true);
@@ -889,6 +903,7 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading)
     init();
 
     _.extend($scope, {
+        subscribe: subscribe,
         getPostsByTag: API.getPostsByTag,
         getInternational: function getInternational() {
             return international;
@@ -918,6 +933,34 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading)
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
+                return response.replace('<!-- ngg_resource_manager_marker -->', '');
+            } }).then(function (response) {
+
+            Loading.setActive(false);
+            console.log(response);
+            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
+            console.log(terms);
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });

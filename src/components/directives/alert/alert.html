@@ -1,5 +1,17 @@
 <script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
+    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
+        <div class="alert-box">
+            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
+            <!--<div class="box-header">-->
+                <!--&lt;!&ndash;Alert&ndash;&gt;-->
+            <!--</div>-->
+            <div class="box-content">
+                <p>{{alert.getContent()}}</p>
+
+                <div class="butn block">Got it!</div>
+            </div>
+        </div>
+
+
     </div>
 </script>

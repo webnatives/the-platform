@@ -29,8 +29,14 @@
       //background: lighten($red, 0%);
       //border-bottom: 3px solid white;
       background: darken($red, 3%);
-      height: 3px;
+      //background: rgba(255,255,255,0.);
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      height: 30px;
+      line-height: 30px;
       transition: .3s;
+      text-align: right;
 
       @media (max-width: 767px) {
         height: 0;
@@ -64,9 +70,11 @@
         background: darken($red, 3%);
         border-radius: 0 0 4px 4px;
         position: absolute;
-        right: 150px;
+        right: 15px;
         top: 0;
         height: 40px;
+        //width: 40px;
+        text-align: center;
         line-height: 40px;
         padding: 0 10px;
         color: white;
@@ -79,8 +87,8 @@
         }
 
         i.fa {
-          padding: 0 10px;
-          font-size: 20px;
+          //padding: 0 10px;
+          font-size: 13px;
         }
       }
     }
@@ -109,7 +117,7 @@
       background-position: center left;
       background-size: cover;
       top: 5px;
-      left: 15px;
+      left: 5px;
       height: 60px;
       width: 60px;
       transition: .3s;
@@ -128,20 +136,20 @@
     .logo-text {
       color: white;
       text-transform: uppercase;
-      letter-spacing: 5px;
+      letter-spacing: 3px;
       font-size: 20px;
       font-weight: 100;
       line-height: 70px;
       position: absolute;
-      left: 95px;
+      left: 80px;
       transition: .3s;
       cursor: pointer;
 
       @media (max-width: 767px) {
-        left: 65px;
+        left: 55px;
         height: 50px;
         line-height: 50px;
-        font-size: 16px;
+        font-size: 12px;
       }
     }
 
@@ -158,14 +166,18 @@
       overflow-y: hidden;
       background: darken($red, 4%);
       height: 100px;
+      padding-right: 100px;
 
+      @media (max-width: 767px) {
+        padding-right: 40px;
+      }
     }
 
     .item {
       flex-basis: auto; /* default value */
       flex: 0 1 auto;
-      height: 40px;
-      line-height: 30px;
+      height: 100px;
+      line-height: 26px;
       text-align: center;
       color: white;
       transition: .3s;
@@ -178,11 +190,28 @@
       min-width: min-content;
       white-space: nowrap;
 
+      @media (max-width: 767px) {
+        font-size: 12px;
+        padding: 8px 10px 7px;
+      }
+
+      &.item-search {
+        position: absolute;
+        right: 15px;
+        width: 100px;
+        padding-right: 0;
+        padding-left: 0;
+        text-align: center;
+
+        @media (max-width: 767px) {
+          width: 40px;
+        }
+      }
 
 
 
       .fa {
-        font-size: 150%;
+        font-size: 16px;
       }
 
       &:hover {

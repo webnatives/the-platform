@@ -1,6 +1,10 @@
-app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading) => {
+app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) => {
 
     var content, tags, international, politics, religion, culture;
+
+    var subscribe = () => {
+        Alert.show("Thanks for subscribing!")
+    };
 
     var init = () => {
         Loading.setActive(true);
@@ -14,12 +18,12 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading) => {
         API.getPostsByCat("politics").then((response) => politics = response);
         API.getPostsByCat("culture").then((response) => culture = response);
         API.getPostsByCat("spirituality").then((response) => religion = response);
-
     };
 
     init();
 
     _.extend($scope, {
+        subscribe,
         getPostsByTag: API.getPostsByTag,
         getInternational: () => international,
         getPolitics: () => politics,

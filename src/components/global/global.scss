@@ -30,7 +30,7 @@ body {
   line-height: 1.7;
   max-width: 100%;
 
-  font-size: 14px;
+  font-size: 12px;
 
   @media (max-width: 767px) {
     font-size: 14px;
@@ -464,7 +464,7 @@ textarea {
   }
 
   .article-screen & {
-    height: 500px;
+    height: 400px;
 
     @media (max-width: 767px) {
       height: 150px;

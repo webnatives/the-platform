@@ -1,0 +1,24 @@
+author-preview-item {
+
+  .author-img {
+    height: 60px;
+    width: 60px;
+    max-width: 60px;
+    border-radius: 100%;
+
+    background-size: cover;
+    background-position: center;
+    margin-right: 15px !important;
+  }
+
+  .author-name {
+    line-height: 60px;
+
+    h2 {
+      line-height: inherit;
+      //font-weight: 100;
+      font-size: 14px;
+    }
+  }
+
+}

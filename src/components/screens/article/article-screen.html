@@ -50,76 +50,74 @@
                     </div>
 
 
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <hr class="visible-xs">
+                    <div class="section-title start">
+                        About The Author
                     </div>
-                    <div class="col-md-4 col-xs-12">
-                        <hr class="visible-xs">
-                        <div class="section-title start">
-                            About The Author
-                        </div>
 
-                        <div class="box">
-                            <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
-                            <hr ng-if="getContent().author.description">
-                            <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="section-title">
-                            Subscribe
-                        </div>
+                    <author-preview-item
+                            ng-if="getContent().author"
+                            author-id="{{getContent().author}}"
 
-                        <div class="box subscribe">
-                            <p>Stay updated with every article</p>
-                            <div class="row">
-                                <div class="col-xs-7">
-                                    <input type="text" placeholder="Email Address">
-                                </div>
-                                <div class="col-xs-5">
-                                    <div class="butn">Subscribe</div>
-                                </div>
+                    ></author-preview-item>
+
+                    <div class="clearfix"></div>
+                    <div class="section-title">
+                        Subscribe
+                    </div>
+
+                    <div class="box subscribe">
+                        <p>Stay updated with every article</p>
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <input type="text" placeholder="Email Address">
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="butn">Subscribe</div>
                             </div>
                         </div>
-
-                        <!--<div class="section-title">Featured Posts</div>-->
-                        <!--<hero-item-->
-                                <!--ng-if="getFeaturedArticle(0)"-->
-                                <!--id="{{getFeaturedArticle(0).ID}}"-->
-                                <!--height="150"-->
-                        <!--&gt;</hero-item>-->
-                        <!--<article-preview-item-->
-                                <!--ng-repeat="article in getFeatured() track by $index"-->
-                                <!--ng-if="$index != 0 && $index < 3"-->
-                                <!--id="getFeaturedArticle($index).ID"-->
-                                <!--height="150"-->
-                        <!--&gt;</article-preview-item>-->
-
-                        <!--<hr>-->
-
-                        <group-item
-                                class="hidden-xs"
-                                heading="'Related Posts'"
-                                ng-if="getRelatedIds()"
-                                ids="getRelatedIds()"
-                        ></group-item>
-
-                        <hr>
-
-                        <!--<latest-item-->
-                                <!--heading="'Latest Posts'"-->
-                        <!--&gt;</latest-item>-->
-
-                        <!--<div class="section-title">Related Posts</div>-->
-
-                        <!--<article-preview-item-->
-                        <!--ng-repeat="article in getRelated() track by $index"-->
-                        <!--ng-if="$index < 3"-->
-                        <!--id="article.ID"-->
-                        <!--&gt;</article-preview-item>-->
                     </div>
 
+                    <!--<div class="section-title">Featured Posts</div>-->
+                    <!--<hero-item-->
+                    <!--ng-if="getFeaturedArticle(0)"-->
+                    <!--id="{{getFeaturedArticle(0).ID}}"-->
+                    <!--height="150"-->
+                    <!--&gt;</hero-item>-->
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getFeatured() track by $index"-->
+                    <!--ng-if="$index != 0 && $index < 3"-->
+                    <!--id="getFeaturedArticle($index).ID"-->
+                    <!--height="150"-->
+                    <!--&gt;</article-preview-item>-->
 
+                    <!--<hr>-->
+
+                    <group-item
+                            class="hidden-xs"
+                            heading="'Related Posts'"
+                            ng-if="getRelatedIds()"
+                            ids="getRelatedIds()"
+                    ></group-item>
+
+                    <hr>
+
+                    <!--<latest-item-->
+                    <!--heading="'Latest Posts'"-->
+                    <!--&gt;</latest-item>-->
+
+                    <!--<div class="section-title">Related Posts</div>-->
+
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getRelated() track by $index"-->
+                    <!--ng-if="$index < 3"-->
+                    <!--id="article.ID"-->
+                    <!--&gt;</article-preview-item>-->
+                </div>
             </div>
         </div>
-
 
         <!--<article-share-item></article-share-item>-->
         <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>

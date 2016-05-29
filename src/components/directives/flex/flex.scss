@@ -1,0 +1,230 @@
+flex-item {
+  display: flex;
+  flex: 1 0 auto;
+
+  .flex {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    &.flex-wrap {
+      flex-wrap: wrap;
+    }
+
+    &.flex-row {
+      flex-direction: row;
+    }
+
+    &.flex-gap {
+      margin-top: 15px;
+    }
+
+    > div {
+      display: flex;
+      flex: 1;
+      margin-right: 1px;
+      margin-top: 1px;
+    }
+
+    .flex-label {
+      line-height: 40px;
+      line-height: 14px;
+      background: rgba(255, 255, 255, 1.9);
+      color: $body;
+      padding: 13px 15px;
+      font-weight: 500;
+      //text-transform: uppercase;
+      margin-right: 1px;
+    }
+
+    .flex-img {
+      flex: 0 0 40px;
+      line-height: 40px;
+      width: 40px;
+      background-size: cover;
+      background-position: center;
+      margin-right: 1px;
+    }
+
+    .flex-content {
+      line-height: 14px;
+      background: rgba(255, 255, 255, 1.9);
+      padding: 13px 15px;
+      //color: $primary;
+      font-weight: 500;
+      //text-transform: uppercase;
+      margin-right: 1px;
+      white-space: nowrap;
+      display: block;
+
+      //@include mobile {
+      //  padding: 13px 10px;
+      //}
+
+      &.strong {
+        font-weight: bold;
+      }
+
+      &.red {
+        background: $primary;
+        color: white;
+      }
+
+      &.yellow {
+        background: $primary;
+        color: white;
+      }
+
+      &.blue {
+        background: $primary;
+        color: white;
+      }
+
+      &.green {
+        background: $primary;
+        color: white;
+      }
+
+      &.black {
+        background: $body;
+        color: white;
+      }
+    }
+
+    .flex-tag {
+      flex: 0 1 auto;
+      //line-height: 40px;
+      line-height: 14px;
+      //height: 40px;
+      background: transparentize($body, 0.6);
+      color: white;
+      font-weight: 500;
+      //text-transform: uppercase;
+      white-space: nowrap;
+      padding: 13px 15px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: .3s;
+
+      //@include mobile {
+      //  padding: 13px 10px;
+      //}
+
+      &:hover {
+        background: transparentize($body, 0.4);
+      }
+
+      &.active {
+        background: $body;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .flex-heading {
+      //line-height: 40px;
+      line-height: 14px;
+      //height: 40px;
+      background: $body;
+      color: white;
+      font-weight: 500;
+      //text-transform: uppercase;
+      white-space: nowrap;
+      padding: 13px 15px;
+
+      //@include mobile {
+      //  padding: 13px 10px;
+      //}
+    }
+
+    .flex-butn {
+      flex: 0 1 auto;
+      line-height: 14px;
+      background: $body;
+      padding: 13px 15px;
+      color: white;
+      font-weight: 500;
+      //text-transform: uppercase;
+      margin-right: 1px;
+      //border-right: $primary 3px solid;
+      //border-right: $primary 3px solid;
+      white-space: nowrap;
+      //font-family: monospace;
+      //border: 3px solid #444;
+      cursor: pointer;
+
+      &.blue {
+        background: $primary;
+        //border: 3px solid darken($primary, 0.2);
+        color: white;
+      }
+
+      &.green {
+        background: $primary;
+        //border: 3px solid darken($primary, 10%);
+        color: white;
+      }
+    }
+
+    .flex-stat {
+      flex: 0 1 auto;
+      line-height: 14px;
+      background: $body;
+      padding: 13px 15px;
+      color: white;
+      font-weight: 500;
+      //text-transform: uppercase;
+      margin-right: 1px;
+      border-right: $primary 3px solid;
+      //border-right: $primary 3px solid;
+      white-space: nowrap;
+      //font-family: monospace;
+      display: block;
+
+      //@include mobile {
+      //  padding: 13px 10px;
+      //}
+
+      &.strong {
+        font-weight: bold;
+      }
+
+      &.dark {
+        border-right: darken($body, 10%) 3px solid;;
+        background: $body;
+        color: white;
+      }
+
+      &.white {
+        border-right: solid darken(#fff, 10%) 3px;
+        background: white;
+        color: $body;
+      }
+
+      &.blue {
+        border-right: darken($primary, 10%) 3px solid;;
+        background: $primary;
+        color: white;
+      }
+
+      &.green {
+        border-right: darken($primary, 10%) 3px solid;;
+        background: $primary;
+        color: white;
+      }
+
+      &.yellow {
+        border-right: darken($primary, 10%) 3px solid;;
+        background: $primary;
+        color: white;
+      }
+
+      &.flush {
+        border: none;
+      }
+    }
+  }
+}

@@ -54,15 +54,11 @@
     <!--var content = <--%- JSON.stringify(content) %>;-->
 <!--</script>-->
 <loading-item></loading-item>
+<alert-item></alert-item>
 
 <div ui-view></div>
 
 <header-item></header-item>
-<script type="text/ng-template" id="alert.html">
-    <div template="alert">
-        <div class="alert-message {{getColour()}}" ng-class="{active:getActive()}" ng-click="setActive(false)" ng-bind="getMessage()"></div>
-    </div>
-</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -101,6 +97,23 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="alert.html">
+    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
+        <div class="alert-box">
+            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
+            <!--<div class="box-header">-->
+                <!--&lt;!&ndash;Alert&ndash;&gt;-->
+            <!--</div>-->
+            <div class="box-content">
+                <p>{{alert.getContent()}}</p>
+
+                <div class="butn block">Got it!</div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-share.html">
     <div template="article-share">
         <div class="container">
@@ -118,6 +131,40 @@
         </div>
 
 
+    </div>
+</script>
+<script type="text/ng-template" id="author-preview.html">
+    <div class="author-preview">
+        <a class="box">
+            <flex-item row="true">
+                <div class="author-img" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
+                <div>
+                    <div class="author-name">
+                        <h2>{{author.getAuthor().name}}</h2>
+
+                    </div>
+                </div>
+
+            </flex-item>
+
+        </a>
+    </div>
+</script>
+<script type="text/ng-template" id="comments-item.html">
+    <div template="comments">
+        <div class="container">
+            <div class="comments">
+                <div class="box">
+                    <div id="disqus_thread"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -163,19 +210,6 @@
             </div>
 
         </div>
-    </div>
-</script>
-<script type="text/ng-template" id="comments-item.html">
-    <div template="comments">
-        <div class="container">
-            <div class="comments">
-                <div class="box">
-                    <div id="disqus_thread"></div>
-                </div>
-            </div>
-        </div>
-
-
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -252,36 +286,45 @@
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
             <div class="helper-bar">
-                <div class="container"></div>
+                <div class="container">
+                    About | Writers' Guidelines | Join | Platform Updates
+                </div>
             </div>
 
             <div class="top-bar">
-                <div class="logo" ui-sref="home"></div>
-                <div class="logo-text" ui-sref="home">The Platform</div>
+                <div class="container" style="position: relative">
+                    <div class="logo" ui-sref="home"></div>
+                    <div class="logo-text" ui-sref="home">The Platform</div>
 
-                <div class="silent-bar">
-                    <i class="fa fa-search"></i>
+                    <!--<div class="silent-bar">-->
+                        <!--<i class="fa fa-search"></i>-->
+                        <!--&nbsp; Search-->
+                    <!--</div>-->
+
+                    <!--<div class="social hidden-xs">-->
+                        <!--<i class="fa fa-twitter"></i>-->
+                        <!--<i class="fa fa-facebook"></i>-->
+                        <!--<i class="fa fa-envelope"></i>-->
+                    <!--</div>-->
                 </div>
 
-                <div class="social hidden-xs">
-                    <i class="fa fa-twitter"></i>
-                    <i class="fa fa-facebook"></i>
-                    <i class="fa fa-envelope"></i>
-                </div>
             </div>
 
             <div class="bottom-bar">
-                <div class="container">
+                <div class="container" style="position: relative">
                     <div class="menu-items">
                         <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
                         <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
-                        <div class="item" ui-sref="topic({cat:'politics'})">Politics</div>
-                        <div class="item" ui-sref="topic({cat:'spirituality'})">Religion</div>
-                        <div class="item" ui-sref="topic({cat:'international'})">International</div>
+                        <div class="item" ui-sref="topic({cat:'politics-and-society'})">Politics & Society</div>
+                        <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
+                        <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
                         <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
-                        <div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>
-                        <div class="item">Writers' Guidelines</div>
-                        <div class="item">About</div>
+
+                        <div class="item active item-search" ui-sref="search"><i class="fa fa-search"></i>
+                            <span class="hidden-xs">&nbsp; Search</span></div>
+                        <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
+                        <!--<div class="item">Writers' Guidelines</div>-->
+                        <!--<div class="item">About</div>-->
                     </div>
                 </div>
             </div>
@@ -460,76 +503,74 @@
                     </div>
 
 
+                </div>
+                <div class="col-md-4 col-xs-12">
+                    <hr class="visible-xs">
+                    <div class="section-title start">
+                        About The Author
                     </div>
-                    <div class="col-md-4 col-xs-12">
-                        <hr class="visible-xs">
-                        <div class="section-title start">
-                            About The Author
-                        </div>
 
-                        <div class="box">
-                            <h2><a ng-bind-html="$root.html(getContent().author.name)"></a></h2>
-                            <hr ng-if="getContent().author.description">
-                            <p ng-if="getContent().author.description" ng-bind-html="$root.html(getContent().author.description)"></p>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="section-title">
-                            Subscribe
-                        </div>
+                    <author-preview-item
+                            ng-if="getContent().author"
+                            author-id="{{getContent().author}}"
 
-                        <div class="box subscribe">
-                            <p>Stay updated with every article</p>
-                            <div class="row">
-                                <div class="col-xs-7">
-                                    <input type="text" placeholder="Email Address">
-                                </div>
-                                <div class="col-xs-5">
-                                    <div class="butn">Subscribe</div>
-                                </div>
+                    ></author-preview-item>
+
+                    <div class="clearfix"></div>
+                    <div class="section-title">
+                        Subscribe
+                    </div>
+
+                    <div class="box subscribe">
+                        <p>Stay updated with every article</p>
+                        <div class="row">
+                            <div class="col-xs-7">
+                                <input type="text" placeholder="Email Address">
+                            </div>
+                            <div class="col-xs-5">
+                                <div class="butn">Subscribe</div>
                             </div>
                         </div>
-
-                        <!--<div class="section-title">Featured Posts</div>-->
-                        <!--<hero-item-->
-                                <!--ng-if="getFeaturedArticle(0)"-->
-                                <!--id="{{getFeaturedArticle(0).ID}}"-->
-                                <!--height="150"-->
-                        <!--&gt;</hero-item>-->
-                        <!--<article-preview-item-->
-                                <!--ng-repeat="article in getFeatured() track by $index"-->
-                                <!--ng-if="$index != 0 && $index < 3"-->
-                                <!--id="getFeaturedArticle($index).ID"-->
-                                <!--height="150"-->
-                        <!--&gt;</article-preview-item>-->
-
-                        <!--<hr>-->
-
-                        <group-item
-                                class="hidden-xs"
-                                heading="'Related Posts'"
-                                ng-if="getRelatedIds()"
-                                ids="getRelatedIds()"
-                        ></group-item>
-
-                        <hr>
-
-                        <!--<latest-item-->
-                                <!--heading="'Latest Posts'"-->
-                        <!--&gt;</latest-item>-->
-
-                        <!--<div class="section-title">Related Posts</div>-->
-
-                        <!--<article-preview-item-->
-                        <!--ng-repeat="article in getRelated() track by $index"-->
-                        <!--ng-if="$index < 3"-->
-                        <!--id="article.ID"-->
-                        <!--&gt;</article-preview-item>-->
                     </div>
 
+                    <!--<div class="section-title">Featured Posts</div>-->
+                    <!--<hero-item-->
+                    <!--ng-if="getFeaturedArticle(0)"-->
+                    <!--id="{{getFeaturedArticle(0).ID}}"-->
+                    <!--height="150"-->
+                    <!--&gt;</hero-item>-->
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getFeatured() track by $index"-->
+                    <!--ng-if="$index != 0 && $index < 3"-->
+                    <!--id="getFeaturedArticle($index).ID"-->
+                    <!--height="150"-->
+                    <!--&gt;</article-preview-item>-->
 
+                    <!--<hr>-->
+
+                    <group-item
+                            class="hidden-xs"
+                            heading="'Related Posts'"
+                            ng-if="getRelatedIds()"
+                            ids="getRelatedIds()"
+                    ></group-item>
+
+                    <hr>
+
+                    <!--<latest-item-->
+                    <!--heading="'Latest Posts'"-->
+                    <!--&gt;</latest-item>-->
+
+                    <!--<div class="section-title">Related Posts</div>-->
+
+                    <!--<article-preview-item-->
+                    <!--ng-repeat="article in getRelated() track by $index"-->
+                    <!--ng-if="$index < 3"-->
+                    <!--id="article.ID"-->
+                    <!--&gt;</article-preview-item>-->
+                </div>
             </div>
         </div>
-
 
         <!--<article-share-item></article-share-item>-->
         <share ng-if="getSlug()" header="{{$root.getTitle(getContent())}}" link="{{getSlug()}}"></share>
@@ -569,46 +610,6 @@
                             height="250"
                     ></hero-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -674,7 +675,7 @@
                                 <input type="text" placeholder="Email Address">
                             </div>
                             <div class="col-xs-5 col-sm-4">
-                                <div class="butn">Subscribe</div>
+                                <div class="butn" ng-click="subscribe()">Subscribe</div>
                             </div>
                         </div>
                     </div>
@@ -713,20 +714,46 @@
                             horizontal="false"
                     ></group-item>
                 </div>
-                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getCulture()">-->
-                    <!--<group-item-->
-                            <!--heading="'Culture'"-->
-                            <!--ids="getIds(getCulture(), 3)"-->
-                            <!--horizontal="false"-->
-                    <!--&gt;</group-item>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6 col-md-3 col-xs-12" ng-if="getReligion()">-->
-                    <!--<group-item-->
-                            <!--heading="'Religion'"-->
-                            <!--ids="getIds(getReligion(), 3)"-->
-                            <!--horizontal="false"-->
-                    <!--&gt;</group-item>-->
-                <!--</div>-->
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
             </div>
 
         </div>

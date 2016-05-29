@@ -1,22 +1,18 @@
-'use strict';
+app.directive('alertItem', () => ({
+    templateUrl: 'alert.html',
+    controllerAs: 'alert',
+    scope: {},
+    controller: function (Alert) {
 
-app.directive('alert', (Alert) => {
-    return {
-        templateUrl: 'alert.html',
-        scope: {},
+        var init = () => {
+        };
 
-        link(scope, element, attrs) {
+        init();
 
-            var init = () => {
-            };
-
-            init();
-
-            scope.getColour = Alert.getColour;
-            scope.getMessage = Alert.getMessage;
-            scope.getActive = Alert.getActive;
-            scope.setActive = Alert.setActive;
-            scope.switchActive = Alert.switchActive;
-        }
+        _.extend(this, {
+            isVisible: Alert.isVisible,
+            hide: Alert.hide,
+            getContent: Alert.getContent
+        });
     }
-});
+}));
