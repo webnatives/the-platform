@@ -36,8 +36,10 @@
                         <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
                         <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
 
-                        <div class="item active item-search" ui-sref="search"><i class="fa fa-search"></i>
-                            <span class="hidden-xs">&nbsp; Search</span></div>
+                        <div class="item active item-search" ng-click="showSearch()">
+                            <i class="fa fa-search"></i>
+                            <span class="hidden-xs">&nbsp; Search</span>
+                        </div>
                         <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
                         <!--<div class="item">Writers' Guidelines</div>-->
                         <!--<div class="item">About</div>-->

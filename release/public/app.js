@@ -69,21 +69,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -319,6 +304,31 @@ app.service('Loading', function ($timeout, $rootScope) {
     _.extend($rootScope, pub);
     _.extend(this, pub);
 });
+app.service('Search', function ($timeout) {
+    var visible = false;
+
+    var show = function show() {
+        visible = true;
+        $timeout(function () {
+            return $('.search-box input').focus();
+        }, 100);
+    };
+
+    var init = function init() {};
+
+    init();
+
+    return {
+        isVisible: function isVisible() {
+            return visible;
+        },
+        hide: function hide() {
+            return visible = false;
+        },
+        show: show
+    };
+});
+
 'use strict';
 
 app.factory('State', function ($rootScope, $sce) {
@@ -346,24 +356,19 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
 
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
-            });
-        }
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
     };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
 });
 
 'use strict';
@@ -411,6 +416,26 @@ app.directive('articlePreviewItem', function (State, API) {
                 getDate: function getDate(format) {
                     return _getDate().format(format);
                 }
+            });
+        }
+    };
+});
+
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
             });
         }
     };
@@ -530,6 +555,28 @@ app.directive('flexItem', function () {
     };
 });
 
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -566,29 +613,7 @@ app.directive('groupItem', function (State, API, Helper) {
 
 'use strict';
 
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('headerItem', function (State) {
+app.directive('headerItem', function (State, Search) {
     return {
         templateUrl: 'header.html',
         scope: {},
@@ -615,6 +640,7 @@ app.directive('headerItem', function (State) {
             init();
 
             scope = _.extend(scope, {
+                showSearch: Search.show,
                 isMenuVisible: function isMenuVisible() {
                     return menuVisible;
                 },
@@ -681,6 +707,28 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
 
 'use strict';
 
+app.directive('loadingItem', function (Loading) {
+    return {
+        templateUrl: 'loading-item.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('latestItem', function (State, API, Helper) {
     return {
         templateUrl: 'latest.html',
@@ -715,23 +763,28 @@ app.directive('latestItem', function (State, API, Helper) {
     };
 });
 
-'use strict';
-
-app.directive('loadingItem', function (Loading) {
+app.directive('searchItem', function () {
     return {
-        templateUrl: 'loading-item.html',
+        templateUrl: 'search.html',
+        controllerAs: 'search',
         scope: {},
-        link: function link(scope, element, attrs) {
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+            };
 
             var init = function init() {};
 
             init();
 
-            _.extend(scope, {
-                getActive: Loading.getActive,
-                setActive: Loading.setActive,
-                randMsg: Loading.randMsg,
-                getMessage: Loading.getMessage
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
             });
         }
     };
@@ -977,15 +1030,23 @@ app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $st
     });
 });
 
-app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams) {
+app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
-    var content;
+    var content,
+        query = $stateParams.query;
 
     var init = function init() {
+        if (!$stateParams.query) {
+            content = false;
+            Loading.setActive(false);
+            $state.go('home');
+            return;
+        }
         API.getPostsBySearch($stateParams.query).then(function (response) {
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');
+            Loading.setActive(false);
         });
     };
 
@@ -997,6 +1058,9 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
         },
         getContent: function getContent() {
             return content;
+        },
+        getQuery: function getQuery() {
+            return query;
         },
         getFeaturedArticles: function getFeaturedArticles() {
             return content;

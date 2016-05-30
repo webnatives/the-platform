@@ -1,0 +1,16 @@
+<script type="text/ng-template" id="search.html">
+    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+
+        <div class="search-box" ng-click="$event.stopPropagation()">
+            <flex-item row="true">
+                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
+                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+
+            </flex-item>
+
+        </div>
+
+
+
+    </div>
+</script>

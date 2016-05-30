@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('headerItem', (State) => ({
+app.directive('headerItem', (State, Search) => ({
     templateUrl: 'header.html',
     scope: {},
 
@@ -25,6 +25,7 @@ app.directive('headerItem', (State) => ({
         init();
 
         scope = _.extend(scope, {
+            showSearch: Search.show,
             isMenuVisible: () => menuVisible,
             toggleMenu: State.toggleMenu,
             getTitle: State.getTitle

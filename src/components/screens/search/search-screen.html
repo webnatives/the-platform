@@ -2,6 +2,12 @@
     <div screen style="background: #f7f7f7">
 
         <div class="container">
+
+            <h1>Results for: {{getQuery()}}</h1>
+
+            <!--{{getContent()}}-->
+            <div ng-if="!getContent().length">No Results Found</div>
+
             <div class="row">
                 <div class="col-xs-12">
                     <hero-item
@@ -10,6 +16,8 @@
                             height="350"
                     ></hero-item>
                 </div>
+
+
                 <div class="col-xs-12">
                     <div class="row">
 
