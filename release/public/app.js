@@ -169,6 +169,12 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getPostsByAuthor = function getPostsByAuthor(author_id) {
+        return $http.get(API_URL + 'posts/author/' + author_id).then(function (response) {
+            return response.data;
+        });
+    };
+
     var getPostsBySearch = function getPostsBySearch(query) {
         return $http.get(API_URL + 'posts/s/' + query).then(function (response) {
             return response.data;
@@ -217,6 +223,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getAuthor: getAuthor,
+        getPostsByAuthor: getPostsByAuthor,
         getPostBySlug: getPostBySlug,
         getPostsBySearch: getPostsBySearch,
         getPosts: getPosts,
@@ -458,6 +465,51 @@ app.directive('articleShareItem', function (API, State, Helper) {
     };
 });
 
+app.directive('authorPreviewItem', function () {
+    return {
+        templateUrl: 'author-preview.html',
+        controllerAs: 'author',
+        bindToController: true,
+        scope: {
+            authorId: '@'
+        },
+        controller: function controller($scope, $element, State, API) {
+            var _this = this;
+
+            console.log('authorId', this);
+
+            var author, articles;
+
+            var init = function init() {
+                API.getAuthor(_this.authorId).then(function (response) {
+                    author = response;
+
+                    console.log('author response', response);
+                });
+
+                API.getPostsByAuthor(_this.authorId).then(function (response) {
+                    articles = response;
+
+                    console.log('author articles', articles);
+                });
+            };
+
+            init();
+
+            _.extend(this, {
+                getAuthor: function getAuthor() {
+                    return author;
+                },
+                getArticles: function getArticles() {
+                    return articles.map(function (article) {
+                        return article.id;
+                    });
+                }
+            });
+        }
+    };
+});
+
 app.directive('commentsItem', function ($timeout, Helper) {
     return {
         templateUrl: 'comments-item.html',
@@ -485,40 +537,6 @@ app.directive('commentsItem', function ($timeout, Helper) {
             init();
 
             scope = _.assign(scope, {});
-        }
-    };
-});
-
-app.directive('authorPreviewItem', function () {
-    return {
-        templateUrl: 'author-preview.html',
-        controllerAs: 'author',
-        bindToController: true,
-        scope: {
-            authorId: '@'
-        },
-        controller: function controller($scope, $element, State, API) {
-            var _this = this;
-
-            console.log('authorId', this);
-
-            var author;
-
-            var init = function init() {
-                API.getAuthor(_this.authorId).then(function (response) {
-                    author = response;
-
-                    console.log('author response', response);
-                });
-            };
-
-            init();
-
-            _.extend(this, {
-                getAuthor: function getAuthor() {
-                    return author;
-                }
-            });
         }
     };
 });
@@ -653,6 +671,42 @@ app.directive('headerItem', function (State, Search) {
 
 'use strict';
 
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    //element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
     return {
         templateUrl: 'hero.html',
@@ -699,42 +753,6 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                     return content;
                 },
                 getHeight: getHeight,
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    //element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
                 getDateString: Helper.getDateString
             });
         }
@@ -1002,34 +1020,6 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
-                return response.replace('<!-- ngg_resource_manager_marker -->', '');
-            } }).then(function (response) {
-
-            Loading.setActive(false);
-            console.log(response);
-            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
-            console.log(terms);
-        }, function (response) {
-            console.log(response);
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1100,6 +1090,34 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
         },
         getArticle: function getArticle(index) {
             return content[index];
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
+                return response.replace('<!-- ngg_resource_manager_marker -->', '');
+            } }).then(function (response) {
+
+            Loading.setActive(false);
+            console.log(response);
+            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
+            console.log(terms);
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });

@@ -134,6 +134,36 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="author-preview.html">
+    <div class="author-preview">
+        <a class="box">
+            <flex-item>
+                <flex-item row="true">
+                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
+                    <div class="author-img" ng-show="author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().acf.profile_pic.url}}')"></div>
+                    <div>
+                        <div class="author-name">
+                            <h2>{{author.getAuthor().name}}</h2>
+
+                        </div>
+                    </div>
+
+                </flex-item>
+
+                <div style="margin-top: 15px" ng-show="author.getAuthor().description">{{author.getAuthor().description}}</div>
+
+            </flex-item>
+        </a>
+
+        <h3>More from {{author.getAuthor().name}}</h3>
+        <div style="height: 10px"></div>
+        <group-item
+                heading=""
+                ng-if="author.getArticles().length"
+                ids="author.getArticles()"
+        ></group-item>
+    </div>
+</script>
 <script type="text/ng-template" id="comments-item.html">
     <div template="comments">
         <div class="container">
@@ -145,23 +175,6 @@
         </div>
 
 
-    </div>
-</script>
-<script type="text/ng-template" id="author-preview.html">
-    <div class="author-preview">
-        <a class="box">
-            <flex-item row="true">
-                <div class="author-img" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
-                <div>
-                    <div class="author-name">
-                        <h2>{{author.getAuthor().name}}</h2>
-
-                    </div>
-                </div>
-
-            </flex-item>
-
-        </a>
     </div>
 </script>
 <script type="text/ng-template" id="flex.html">
@@ -217,7 +230,7 @@
     <div template="group" ids="{{ids}}">
         <div class="group fi">
             <div class="box large">
-                <h2 class="box-header" ng-bind="heading()"></h2>
+                <h2 class="box-header" ng-if="heading()" ng-bind="heading()"></h2>
 
                 <div ng-if="!horizontal()">
                     <div class="group-preview" ng-repeat="article in getArticles()">
@@ -336,6 +349,35 @@
         </div>
     </div>
 </script>
+<script type="text/ng-template" id="latest.html">
+    <div template="latest">
+        <div class="latest fi">
+            <div class="box large">
+
+                <h2 class="box-header">{{heading()}}</h2>
+
+                <div>
+                    <div class="latest-preview" ng-repeat="article in getArticles()">
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                            <div class="col-xs-4">
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                            </div>
+                            <div class="col-xs-8">
+                                <div>
+                                    <div class="tag">{{article.terms.category[0].name}}</div>
+                                    <h3>{{$root.getTitle(article)}}</h3>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
@@ -364,35 +406,6 @@
                 <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
 
             </a>
-        </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="latest.html">
-    <div template="latest">
-        <div class="latest fi">
-            <div class="box large">
-
-                <h2 class="box-header">{{heading()}}</h2>
-
-                <div>
-                    <div class="latest-preview" ng-repeat="article in getArticles()">
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
-                            </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{$root.getTitle(article)}}</h3>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-            </div>
         </div>
 
     </div>
@@ -741,46 +754,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="search-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -859,6 +832,46 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
             </div>
 
         </div>

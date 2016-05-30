@@ -2,7 +2,7 @@
     <div template="group" ids="{{ids}}">
         <div class="group fi">
             <div class="box large">
-                <h2 class="box-header" ng-bind="heading()"></h2>
+                <h2 class="box-header" ng-if="heading()" ng-bind="heading()"></h2>
 
                 <div ng-if="!horizontal()">
                     <div class="group-preview" ng-repeat="article in getArticles()">

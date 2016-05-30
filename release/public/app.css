@@ -521,7 +521,13 @@ author-preview-item .author-img {
   margin-right: 15px !important; }
 
 author-preview-item .author-name {
-  line-height: 60px; }
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 60px; }
   author-preview-item .author-name h2 {
     line-height: inherit;
     font-size: 14px; }
@@ -929,9 +935,6 @@ flex-item {
       background: white;
       color: #b40305; }
 
-[template=hero] {
-  cursor: pointer; }
-
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
 
@@ -971,6 +974,9 @@ flex-item {
     @media (max-width: 767px) {
       [template=latest] .latest .latest-preview .preview-image {
         margin: -10px 0px -10px -10px; } }
+
+[template=hero] {
+  cursor: pointer; }
 
 [template=loading] .loading {
   position: fixed;
@@ -1121,6 +1127,7 @@ search-item {
         color: white; }
     @media (max-width: 767px) {
       [template=share] .share-float {
+        display: none;
         width: 100%; }
         [template=share] .share-float .butn {
           float: left;

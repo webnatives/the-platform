@@ -8,7 +8,7 @@ app.directive('authorPreviewItem', () => ({
     controller($scope, $element, State, API) {
         console.log('authorId', this);
 
-        var author;
+        var author, articles;
 
         var init = () => {
             API.getAuthor(this.authorId).then((response) => {
@@ -16,12 +16,19 @@ app.directive('authorPreviewItem', () => ({
 
                 console.log('author response', response);
             });
+
+            API.getPostsByAuthor(this.authorId).then((response) => {
+                articles = response;
+
+                console.log('author articles', articles);
+            });
         };
 
         init();
 
         _.extend(this, {
-            getAuthor: () => author
+            getAuthor: () => author,
+            getArticles: () => articles.map(article => article.id)
         });
     }
 }));

@@ -12,7 +12,9 @@ author-preview-item {
   }
 
   .author-name {
-    line-height: 60px;
+    display: flex;
+    align-items: center;
+    height: 60px;
 
     h2 {
       line-height: inherit;

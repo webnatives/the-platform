@@ -1,17 +1,30 @@
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview">
         <a class="box">
-            <flex-item row="true">
-                <div class="author-img" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
-                <div>
-                    <div class="author-name">
-                        <h2>{{author.getAuthor().name}}</h2>
+            <flex-item>
+                <flex-item row="true">
+                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
+                    <div class="author-img" ng-show="author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().acf.profile_pic.url}}')"></div>
+                    <div>
+                        <div class="author-name">
+                            <h2>{{author.getAuthor().name}}</h2>
 
+                        </div>
                     </div>
-                </div>
+
+                </flex-item>
+
+                <div style="margin-top: 15px" ng-show="author.getAuthor().description">{{author.getAuthor().description}}</div>
 
             </flex-item>
-
         </a>
+
+        <h3>More from {{author.getAuthor().name}}</h3>
+        <div style="height: 10px"></div>
+        <group-item
+                heading=""
+                ng-if="author.getArticles().length"
+                ids="author.getArticles()"
+        ></group-item>
     </div>
 </script>

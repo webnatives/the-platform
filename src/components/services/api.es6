@@ -25,6 +25,8 @@ app.factory('API', function ($rootScope, $http) {
 
     var getPostsByCat = (cat) => $http.get(`${API_URL}posts/cat/${cat}`).then(response => response.data);
 
+    var getPostsByAuthor = (author_id) => $http.get(`${API_URL}posts/author/${author_id}`).then(response => response.data);
+
     var getPostsBySearch = (query) => $http.get(`${API_URL}posts/s/${query}`).then(response => response.data);
 
     var getPostsByTag = (tag) => $http.get(`${API_URL}posts/tag/${tag}`).then(response => response.data);
@@ -57,6 +59,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getAuthor,
+        getPostsByAuthor,
         getPostBySlug,
         getPostsBySearch,
         getPosts: getPosts,
