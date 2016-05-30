@@ -134,19 +134,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="comments-item.html">
-    <div template="comments">
-        <div class="container">
-            <div class="comments">
-                <div class="box">
-                    <div id="disqus_thread"></div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview">
         <a class="box">
@@ -162,6 +149,23 @@
             </flex-item>
 
         </a>
+    </div>
+</script>
+<script type="text/ng-template" id="comments-item.html">
+    <div template="comments">
+        <div class="container">
+            <div class="comments">
+                <div class="box">
+                    <div id="disqus_thread"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -279,10 +283,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
-    </div>
-</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -313,6 +313,12 @@
 
             <div class="bottom-bar">
                 <div class="container" style="position: relative">
+
+                    <div class="item active item-search" ng-click="showSearch()">
+                        <i class="fa fa-search"></i>
+                        <span class="hidden-xs">&nbsp; Search</span>
+                    </div>
+
                     <div class="menu-items">
                         <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
                         <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
@@ -320,11 +326,6 @@
                         <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
                         <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
                         <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
-
-                        <div class="item active item-search" ng-click="showSearch()">
-                            <i class="fa fa-search"></i>
-                            <span class="hidden-xs">&nbsp; Search</span>
-                        </div>
                         <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
                         <!--<div class="item">Writers' Guidelines</div>-->
                         <!--<div class="item">About</div>-->
@@ -833,6 +834,38 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="tag-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -910,38 +943,6 @@
                                     ng-repeat="article in getContentHalf(2) track by $index"
                                     id="{{article.id}}"
                                     height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
                             ></hero-item>
                         </div>
                     </div>

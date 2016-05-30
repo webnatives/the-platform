@@ -577,46 +577,6 @@ app.directive('footItem', function (State) {
     };
 });
 
-'use strict';
-
-app.directive('headerItem', function (State, Search) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                showSearch: Search.show,
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -707,6 +667,68 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
 
 'use strict';
 
+app.directive('headerItem', function (State, Search) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                showSearch: Search.show,
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('loadingItem', function (Loading) {
+    return {
+        templateUrl: 'loading-item.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('latestItem', function (State, API, Helper) {
     return {
         templateUrl: 'latest.html',
@@ -736,28 +758,6 @@ app.directive('latestItem', function (State, API, Helper) {
             scope = _.assign(scope, {
                 getArticles: getArticles,
                 getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('loadingItem', function (Loading) {
-    return {
-        templateUrl: 'loading-item.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(scope, {
-                getActive: Loading.getActive,
-                setActive: Loading.setActive,
-                randMsg: Loading.randMsg,
-                getMessage: Loading.getMessage
             });
         }
     };
@@ -834,6 +834,75 @@ app.directive('share', function ($timeout, Helper) {
             });
         }
     };
+});
+
+app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
+
+    var content, tags, international, politics, religion, culture;
+
+    var subscribe = function subscribe() {
+        Alert.show("Thanks for subscribing!");
+    };
+
+    var init = function init() {
+        Loading.setActive(true);
+        API.getHome().then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+        });
+        API.getPostsByTag("labour").then(function (response) {
+            console.log('tags, ids:', response);return tags = response;
+        });
+        API.getPostsByCat("international").then(function (response) {
+            console.log('international, ids:', response);return international = response;
+        });
+        API.getPostsByCat("politics").then(function (response) {
+            return politics = response;
+        });
+        API.getPostsByCat("culture").then(function (response) {
+            return culture = response;
+        });
+        API.getPostsByCat("spirituality").then(function (response) {
+            return religion = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        subscribe: subscribe,
+        getPostsByTag: API.getPostsByTag,
+        getInternational: function getInternational() {
+            return international;
+        },
+        getPolitics: function getPolitics() {
+            return politics;
+        },
+        getCulture: function getCulture() {
+            return culture;
+        },
+        getReligion: function getReligion() {
+            return religion;
+        },
+        getTags: function getTags() {
+            return tags;
+        },
+        getIds: function getIds(array, amount) {
+            return _.take(_.map(array, function (item) {
+                return item.id;
+            }), 3);
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content.acf.featuredArticles;
+        },
+        getArticle: function getArticle(index) {
+            return content.acf.featuredArticles[index].article;
+        }
+    });
 });
 
 app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stateParams, $sce, $http, Helper, $rootScope) {
@@ -929,75 +998,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
         getFeaturedArticle: getFeaturedArticle,
         getContentHalf: function getContentHalf(index) {
             return _.chunk(content, content.length / 2)[index];
-        }
-    });
-});
-
-app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
-
-    var content, tags, international, politics, religion, culture;
-
-    var subscribe = function subscribe() {
-        Alert.show("Thanks for subscribing!");
-    };
-
-    var init = function init() {
-        Loading.setActive(true);
-        API.getHome().then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("labour").then(function (response) {
-            console.log('tags, ids:', response);return tags = response;
-        });
-        API.getPostsByCat("international").then(function (response) {
-            console.log('international, ids:', response);return international = response;
-        });
-        API.getPostsByCat("politics").then(function (response) {
-            return politics = response;
-        });
-        API.getPostsByCat("culture").then(function (response) {
-            return culture = response;
-        });
-        API.getPostsByCat("spirituality").then(function (response) {
-            return religion = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        subscribe: subscribe,
-        getPostsByTag: API.getPostsByTag,
-        getInternational: function getInternational() {
-            return international;
-        },
-        getPolitics: function getPolitics() {
-            return politics;
-        },
-        getCulture: function getCulture() {
-            return culture;
-        },
-        getReligion: function getReligion() {
-            return religion;
-        },
-        getTags: function getTags() {
-            return tags;
-        },
-        getIds: function getIds(array, amount) {
-            return _.take(_.map(array, function (item) {
-                return item.id;
-            }), 3);
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content.acf.featuredArticles;
-        },
-        getArticle: function getArticle(index) {
-            return content.acf.featuredArticles[index].article;
         }
     });
 });
