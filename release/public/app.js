@@ -15,21 +15,6 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -84,6 +69,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -371,6 +371,26 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -416,26 +436,6 @@ app.directive('articlePreviewItem', function (State, API) {
                 getDate: function getDate(format) {
                     return _getDate().format(format);
                 }
-            });
-        }
-    };
-});
-
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
             });
         }
     };
@@ -523,28 +523,6 @@ app.directive('commentsItem', function ($timeout, Helper) {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('flexItem', function () {
     return {
         templateUrl: 'flex.html',
@@ -577,35 +555,23 @@ app.directive('flexItem', function () {
     };
 });
 
-app.directive('groupItem', function (State, API, Helper) {
+'use strict';
+
+app.directive('footItem', function (State) {
     return {
-        templateUrl: 'group.html',
-        scope: { heading: '&', ids: '&', horizontal: "&" },
+        templateUrl: 'foot.html',
+        scope: {},
+
         link: function link(scope, element, attrs) {
 
-            var articles = [];
-
-            var init = function init() {
-                console.log('ids', scope.ids());
-                _.each(scope.ids(), function (id, index) {
-                    return API.getPost(id).then(function (response) {
-                        console.log('group', id);
-                        articles.push(response);
-                        element.find('.fi').addClass('active');
-                    });
-                });
-            };
+            var init = function init() {};
 
             init();
 
             scope = _.assign(scope, {
-                getArticles: function getArticles() {
-                    return articles;
-                },
-                getArticle: function getArticle(index) {
-                    return articles[index];
-                },
-                getDateString: Helper.getDateString
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -651,36 +617,34 @@ app.directive('headerItem', function (State, Search) {
     };
 });
 
-'use strict';
-
-app.directive('latestItem', function (State, API, Helper) {
+app.directive('groupItem', function (State, API, Helper) {
     return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
+        templateUrl: 'group.html',
+        scope: { heading: '&', ids: '&', horizontal: "&" },
         link: function link(scope, element, attrs) {
 
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
+            var articles = [];
 
             var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    //element.find('.fi').addClass('active');
+                console.log('ids', scope.ids());
+                _.each(scope.ids(), function (id, index) {
+                    return API.getPost(id).then(function (response) {
+                        console.log('group', id);
+                        articles.push(response);
+                        element.find('.fi').addClass('active');
+                    });
                 });
             };
 
             init();
 
             scope = _.assign(scope, {
-                getArticles: getArticles,
+                getArticles: function getArticles() {
+                    return articles;
+                },
+                getArticle: function getArticle(index) {
+                    return articles[index];
+                },
                 getDateString: Helper.getDateString
             });
         }
@@ -735,6 +699,42 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                     return content;
                 },
                 getHeight: getHeight,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    //element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
                 getDateString: Helper.getDateString
             });
         }

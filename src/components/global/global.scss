@@ -25,6 +25,8 @@ body {
   font-smoothing: antialiased;
   font-smooth: always;
 
+  -webkit-overflow-scrolling: touch;
+
   font-size: 14px;
   font-weight: 300;
   line-height: 1.7;
@@ -342,6 +344,8 @@ textarea {
   overflow-x: hidden;
   max-width: 100%;
   //background: #eee;
+
+  -webkit-overflow-scrolling: touch;
 
   &.active {
     opacity: 1;
