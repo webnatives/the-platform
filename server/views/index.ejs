@@ -115,25 +115,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
         <div class="box">
@@ -164,6 +145,25 @@
                     ids="author.getArticles()"
             ></group-item>
         </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
 
     </div>
 </script>
@@ -222,6 +222,60 @@
                         <i class="fa fa-twitter"></i>
                         <i class="fa fa-facebook"></i>
                         <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="header.html">
+    <div template="header">
+        <div class="header" ng-class="{active:isMenuVisible()}">
+            <div class="helper-bar">
+                <div class="container">
+                    <span ui-sref="authors({page:1})" style="cursor: pointer">Authors</span> |
+                    About | Writers' Guidelines | Join | Platform Updates
+                </div>
+            </div>
+
+            <div class="top-bar">
+                <div class="container" style="position: relative">
+                    <div class="logo" ui-sref="home"></div>
+                    <div class="logo-text" ui-sref="home">The Platform</div>
+
+                    <!--<div class="silent-bar">-->
+                        <!--<i class="fa fa-search"></i>-->
+                        <!--&nbsp; Search-->
+                    <!--</div>-->
+
+                    <!--<div class="social hidden-xs">-->
+                        <!--<i class="fa fa-twitter"></i>-->
+                        <!--<i class="fa fa-facebook"></i>-->
+                        <!--<i class="fa fa-envelope"></i>-->
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+            <div class="bottom-bar">
+                <div class="container" style="position: relative">
+
+                    <div class="item active item-search" ng-click="showSearch()">
+                        <i class="fa fa-search"></i>
+                        <span class="hidden-xs">&nbsp; Search</span>
+                    </div>
+
+                    <div class="menu-items">
+                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
+                        <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
+                        <div class="item" ui-sref="topic({cat:'politics-and-society'})">Politics & Society</div>
+                        <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
+                        <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
+                        <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
+                        <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
+                        <!--<div class="item">Writers' Guidelines</div>-->
+                        <!--<div class="item">About</div>-->
                     </div>
                 </div>
             </div>
@@ -297,60 +351,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="header.html">
-    <div template="header">
-        <div class="header" ng-class="{active:isMenuVisible()}">
-            <div class="helper-bar">
-                <div class="container">
-                    <span ui-sref="authors({page:1})" style="cursor: pointer">Authors</span> |
-                    About | Writers' Guidelines | Join | Platform Updates
-                </div>
-            </div>
-
-            <div class="top-bar">
-                <div class="container" style="position: relative">
-                    <div class="logo" ui-sref="home"></div>
-                    <div class="logo-text" ui-sref="home">The Platform</div>
-
-                    <!--<div class="silent-bar">-->
-                        <!--<i class="fa fa-search"></i>-->
-                        <!--&nbsp; Search-->
-                    <!--</div>-->
-
-                    <!--<div class="social hidden-xs">-->
-                        <!--<i class="fa fa-twitter"></i>-->
-                        <!--<i class="fa fa-facebook"></i>-->
-                        <!--<i class="fa fa-envelope"></i>-->
-                    <!--</div>-->
-                </div>
-
-            </div>
-
-            <div class="bottom-bar">
-                <div class="container" style="position: relative">
-
-                    <div class="item active item-search" ng-click="showSearch()">
-                        <i class="fa fa-search"></i>
-                        <span class="hidden-xs">&nbsp; Search</span>
-                    </div>
-
-                    <div class="menu-items">
-                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
-                        <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
-                        <div class="item" ui-sref="topic({cat:'politics-and-society'})">Politics & Society</div>
-                        <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
-                        <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
-                        <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
-                        <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
-                        <!--<div class="item">Writers' Guidelines</div>-->
-                        <!--<div class="item">About</div>-->
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="hero.html">
@@ -654,41 +654,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="authors-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-
-            <div class="pull-right butn" ui-sref="authors({page: getNextPage()})"><i class="fa fa-caret-right"></i>
-            </div>
-            <div class="pull-right butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
-                <i class="fa fa-caret-left"></i></div>
-            <h1>Our Authors</h1>
-
-            <div style="margin: 0 -10px">
-                <flex-item row="true" wrap="true">
-                    <author-preview-item
-                            ng-repeat="author in getAuthors()"
-                            small="true"
-                            author="author"
-                    ></author-preview-item>
-                </flex-item>
-                <div class="clearfix" style="padding: 0 10px 20px">
-                    <div class="pull-right butn" ui-sref="authors({page: getNextPage()})">
-                        <i class="fa fa-caret-right"></i></div>
-                    <div class="pull-left butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
-                        <i class="fa fa-caret-left"></i></div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -793,6 +758,41 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="authors-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            <div class="pull-right butn" ui-sref="authors({page: getNextPage()})"><i class="fa fa-caret-right"></i>
+            </div>
+            <div class="pull-right butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                <i class="fa fa-caret-left"></i></div>
+            <h1>Our Authors</h1>
+
+            <div style="margin: 0 -10px">
+                <flex-item row="true" wrap="true">
+                    <author-preview-item
+                            ng-repeat="author in getAuthors()"
+                            small="true"
+                            author="author"
+                    ></author-preview-item>
+                </flex-item>
+                <div class="clearfix" style="padding: 0 10px 20px">
+                    <div class="pull-right butn" ui-sref="authors({page: getNextPage()})">
+                        <i class="fa fa-caret-right"></i></div>
+                    <div class="pull-left butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                        <i class="fa fa-caret-left"></i></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="image-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -886,38 +886,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="tag-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -954,6 +922,38 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
