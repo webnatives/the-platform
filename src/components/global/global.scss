@@ -342,6 +342,8 @@ textarea {
   display: block;
   will-change: opacity;
   overflow-x: hidden;
+  overflow-y:auto;
+  max-height: 100vh;
   max-width: 100%;
   //background: #eee;
 
