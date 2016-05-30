@@ -3,7 +3,9 @@ app.directive('authorPreviewItem', () => ({
     controllerAs: 'author',
     bindToController: true,
     scope: {
-        authorId: '@'
+        author: '=',
+        authorId: '@',
+        small: '='
     },
     controller($scope, $element, State, API) {
         console.log('authorId', this);
@@ -11,17 +13,26 @@ app.directive('authorPreviewItem', () => ({
         var author, articles;
 
         var init = () => {
-            API.getAuthor(this.authorId).then((response) => {
-                author = response;
+            if (this.authorId) {
+                API.getAuthor(this.authorId).then((response) => {
+                    author = response;
 
-                console.log('author response', response);
-            });
+                    console.log('author response', response);
+                });
+            } else {
+                author = this.author;
+            }
 
-            API.getPostsByAuthor(this.authorId).then((response) => {
-                articles = response;
+            if (!this.small) {
+                API.getPostsByAuthor(this.authorId).then((response) => {
+                    articles = response;
 
-                console.log('author articles', articles);
-            });
+                    console.log('author articles', articles);
+                });
+            }
+
+
+
         };
 
         init();

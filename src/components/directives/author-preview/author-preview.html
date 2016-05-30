@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="author-preview.html">
-    <div class="author-preview">
-        <a class="box">
+    <div class="author-preview" ng-class="{small:author.small}">
+        <div class="box">
             <flex-item>
                 <flex-item row="true">
                     <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
@@ -14,17 +14,20 @@
 
                 </flex-item>
 
-                <div style="margin-top: 15px" ng-show="author.getAuthor().description">{{author.getAuthor().description}}</div>
+                <div style="margin-top: 15px" class="author-desc" ng-show="author.getAuthor().description">{{author.getAuthor().description}}</div>
 
             </flex-item>
-        </a>
+        </div>
 
-        <h3>More from {{author.getAuthor().name}}</h3>
-        <div style="height: 10px"></div>
-        <group-item
-                heading=""
-                ng-if="author.getArticles().length"
-                ids="author.getArticles()"
-        ></group-item>
+        <div ng-if="!author.small">
+            <h3>More from {{author.getAuthor().name}}</h3>
+            <div style="height: 10px"></div>
+            <group-item
+                    heading=""
+                    ng-if="author.getArticles().length"
+                    ids="author.getArticles()"
+            ></group-item>
+        </div>
+
     </div>
 </script>

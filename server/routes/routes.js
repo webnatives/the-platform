@@ -12,6 +12,7 @@ module.exports = {
         app.get('/api/home', apicache('1 day'), Get.home);
         app.get('/api/post/:id', apicache('1 day'), Get.post);
         app.get('/api/author/:id', apicache('1 day'), Get.author);
+        app.get('/api/authors/:page', apicache('1 day'), Get.authors);
         app.get('/api/post/slug/:slug', apicache('1 day'), Get.postBySlug);
         app.get('/api/posts/cat/:cat', apicache('1 day'), Get.postsByCat);
         app.get('/api/posts/tag/:tag', apicache('1 day'), Get.postsByTag);

@@ -90,7 +90,7 @@ hr {
   will-change: transform;
   color: inherit;
 
-  &:hover {
+  &:active {
     text-decoration: none;
     color: inherit;
   }
@@ -126,7 +126,7 @@ hr {
     }
   }
 
-  &:hover {
+  &:active {
     transform: translateY(-5px);
 
     &.large {
@@ -139,7 +139,7 @@ hr {
   }
 
   &.nohover {
-    &:hover {
+    &:active {
       transform: translateY(0px);
     }
   }
@@ -426,8 +426,9 @@ textarea {
   text-align: center;
   cursor: pointer;
   transition: .3s;
+  padding: 0 20px;
 
-  &:hover {
+  &:active {
     background: lighten($red, 5%);
   }
 }

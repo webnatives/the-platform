@@ -1,0 +1,35 @@
+<script type="text/ng-template" id="authors-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            <div class="pull-right butn" ui-sref="authors({page: getNextPage()})"><i class="fa fa-caret-right"></i>
+            </div>
+            <div class="pull-right butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                <i class="fa fa-caret-left"></i></div>
+            <h1>Our Authors</h1>
+
+            <div style="margin: 0 -10px">
+                <flex-item row="true" wrap="true">
+                    <author-preview-item
+                            ng-repeat="author in getAuthors()"
+                            small="true"
+                            author="author"
+                    ></author-preview-item>
+                </flex-item>
+                <div class="clearfix" style="padding: 0 10px 20px">
+                    <div class="pull-right butn" ui-sref="authors({page: getNextPage()})">
+                        <i class="fa fa-caret-right"></i></div>
+                    <div class="pull-left butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                        <i class="fa fa-caret-left"></i></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>

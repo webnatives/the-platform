@@ -45,6 +45,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: "tag-screen.html",
         controller: "TagScreen",
         resolve: resolve
+    }).state('authors', {
+        url: "/authors/:page",
+        templateUrl: "authors-screen.html",
+        controller: "AuthorsScreen",
+        resolve: resolve
     }).state('search', {
         url: "/search/:query",
         templateUrl: "search-screen.html",
@@ -139,6 +144,12 @@ app.factory('API', function ($rootScope, $http) {
         });
     };
 
+    var getAuthors = function getAuthors(page) {
+        return $http.get(API_URL + 'authors/' + page).then(function (response) {
+            return response.data;
+        });
+    };
+
     var getPost = function getPost(id) {
         return $http.get(API_URL + 'post/' + id).then(function (response) {
             return response.data;
@@ -223,6 +234,7 @@ app.factory('API', function ($rootScope, $http) {
         getHome: getHome,
         getPost: getPost,
         getAuthor: getAuthor,
+        getAuthors: getAuthors,
         getPostsByAuthor: getPostsByAuthor,
         getPostBySlug: getPostBySlug,
         getPostsBySearch: getPostsBySearch,
@@ -471,7 +483,9 @@ app.directive('authorPreviewItem', function () {
         controllerAs: 'author',
         bindToController: true,
         scope: {
-            authorId: '@'
+            author: '=',
+            authorId: '@',
+            small: '='
         },
         controller: function controller($scope, $element, State, API) {
             var _this = this;
@@ -481,17 +495,23 @@ app.directive('authorPreviewItem', function () {
             var author, articles;
 
             var init = function init() {
-                API.getAuthor(_this.authorId).then(function (response) {
-                    author = response;
+                if (_this.authorId) {
+                    API.getAuthor(_this.authorId).then(function (response) {
+                        author = response;
 
-                    console.log('author response', response);
-                });
+                        console.log('author response', response);
+                    });
+                } else {
+                    author = _this.author;
+                }
 
-                API.getPostsByAuthor(_this.authorId).then(function (response) {
-                    articles = response;
+                if (!_this.small) {
+                    API.getPostsByAuthor(_this.authorId).then(function (response) {
+                        articles = response;
 
-                    console.log('author articles', articles);
-                });
+                        console.log('author articles', articles);
+                    });
+                }
             };
 
             init();
@@ -671,42 +691,6 @@ app.directive('headerItem', function (State, Search) {
 
 'use strict';
 
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    //element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
     return {
         templateUrl: 'hero.html',
@@ -753,6 +737,42 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                     return content;
                 },
                 getHeight: getHeight,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    //element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
                 getDateString: Helper.getDateString
             });
         }
@@ -951,6 +971,47 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
+app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
+
+    var authors,
+        page = $stateParams.page || 1;
+
+    var load = function load() {
+        API.getAuthors(page).then(function (response) {
+            authors = response;
+            Loading.setActive(false);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    var getNextPage = function getNextPage(amount) {
+        //page += amount
+    };
+
+    var init = function init() {
+        load();
+    };
+
+    init();
+
+    _.extend($scope, {
+        getAuthors: function getAuthors() {
+            return authors;
+        },
+        getNextPage: function getNextPage() {
+            return page * 1 + 1;
+        },
+        getLastPage: function getLastPage() {
+            return page * 1 - 1;
+        },
+        getAuthorIds: function getAuthorIds() {
+            return authors.map(function (author) {
+                return author.id;
+            });
+        }
+    });
+});
+
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
     var content, tags, international, politics, religion, culture;
@@ -1016,6 +1077,34 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
+                return response.replace('<!-- ngg_resource_manager_marker -->', '');
+            } }).then(function (response) {
+
+            Loading.setActive(false);
+            console.log(response);
+            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
+            console.log(terms);
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });
@@ -1090,34 +1179,6 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
         },
         getArticle: function getArticle(index) {
             return content[index];
-        }
-    });
-});
-
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
-                return response.replace('<!-- ngg_resource_manager_marker -->', '');
-            } }).then(function (response) {
-
-            Loading.setActive(false);
-            console.log(response);
-            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
-            console.log(terms);
-        }, function (response) {
-            console.log(response);
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
         }
     });
 });

@@ -82,6 +82,11 @@ module.exports = {
         json: true
     }, (e, r, body) => res.send(body)),
 
+    authors: (req, res) => request.get({
+        url: `${API}users/?per_page=50&page=${req.params.page}`,
+        json: true
+    }, (e, r, body) => res.send(body)),
+
     postBySlug(req, res) {
         request.get({
             url: `${API}posts?filter[name]=${req.params.slug}&_embed`,
