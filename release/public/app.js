@@ -391,6 +391,26 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -441,22 +461,19 @@ app.directive('articlePreviewItem', function (State, API) {
     };
 });
 
-app.directive('alertItem', function () {
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
     return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
+        templateUrl: 'article-share.html',
         scope: {},
-        controller: function controller(Alert) {
+        link: function link(scope, element, attrs) {
 
             var init = function init() {};
 
             init();
 
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
-            });
+            scope = _.extend(scope, {});
         }
     };
 });
@@ -510,23 +527,6 @@ app.directive('authorPreviewItem', function () {
                     });
                 }
             });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
         }
     };
 });
@@ -596,37 +596,19 @@ app.directive('flexItem', function () {
 
 'use strict';
 
-app.directive('headerItem', function (State, Search) {
+app.directive('footItem', function (State) {
     return {
-        templateUrl: 'header.html',
+        templateUrl: 'foot.html',
         scope: {},
 
         link: function link(scope, element, attrs) {
 
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
+            var init = function init() {};
 
             init();
 
-            scope = _.extend(scope, {
-                showSearch: Search.show,
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -663,6 +645,46 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('headerItem', function (State, Search) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                showSearch: Search.show,
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -717,28 +739,6 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                 },
                 getHeight: getHeight,
                 getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };
