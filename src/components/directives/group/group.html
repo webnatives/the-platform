@@ -12,7 +12,10 @@
                         <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
                             <div ng-if="$root.getImage(article)">
                                 <div class="col-xs-4">
-                                    <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                                    <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                        <span class="when-posted">{{$root.getWhen(article)}}</span>
+                                    </div>
                                 </div>
                                 <div class="col-xs-8">
                                     <div>
@@ -40,7 +43,10 @@
                             <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
                                 <a ng-if="$root.getImage(article)" ng-href="{{getDateString(article)}}">
                                     <div class="col-xs-4">
-                                        <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                                        <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                            <span class="when-posted">{{$root.getWhen(article)}}</span>
+                                        </div>
                                     </div>
                                     <div class="col-xs-8">
                                         <div>

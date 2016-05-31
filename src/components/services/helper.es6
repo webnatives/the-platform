@@ -14,6 +14,8 @@ app.service('Helper', function ($rootScope, $http, $sce) {
 
     let getImage = (content) => content && content._embedded ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
 
+    let getWhen = (content) => content ? moment(content.date).fromNow() : "";
+
     let getTitle = (content) => content ? $sce.trustAsHtml(content.title.rendered) : undefined;
 
     let getSummary = (content) => content ? $sce.trustAsHtml(content.acf.summary) : undefined;
@@ -25,6 +27,7 @@ app.service('Helper', function ($rootScope, $http, $sce) {
     let getCat = (content) => content ? $sce.trustAsHtml(content._embedded['wp:term'][0][0].name) : undefined;
 
     let expose = {
+        getWhen,
         getDateString,
         getImage,
         getTitle,

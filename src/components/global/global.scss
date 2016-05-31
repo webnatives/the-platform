@@ -89,8 +89,14 @@ hr {
   margin-bottom: 20px;
   will-change: transform;
   color: inherit;
+  text-decoration: none !important;
 
-  &:active {
+  &:active, &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &:hover {
     text-decoration: none;
     color: inherit;
   }
@@ -143,6 +149,18 @@ hr {
       transform: translateY(0px);
     }
   }
+}
+
+.when-posted {
+  background: transparentize(black, 0.3);
+  color: white;
+  padding: 0 10px;
+  line-height: 20px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: bold;
+  font-size: 10px;
 }
 
 .tag {

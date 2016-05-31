@@ -74,21 +74,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -264,6 +249,10 @@ app.service('Helper', function ($rootScope, $http, $sce) {
         return content && content._embedded ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
     };
 
+    var getWhen = function getWhen(content) {
+        return content ? moment(content.date).fromNow() : "";
+    };
+
     var getTitle = function getTitle(content) {
         return content ? $sce.trustAsHtml(content.title.rendered) : undefined;
     };
@@ -285,6 +274,7 @@ app.service('Helper', function ($rootScope, $http, $sce) {
     };
 
     var expose = {
+        getWhen: getWhen,
         getDateString: getDateString,
         getImage: getImage,
         getTitle: getTitle,
@@ -391,24 +381,19 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
 
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
-            });
-        }
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
     };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
 });
 
 'use strict';
@@ -461,6 +446,26 @@ app.directive('articlePreviewItem', function (State, API) {
     };
 });
 
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articleShareItem', function (API, State, Helper) {
@@ -474,6 +479,37 @@ app.directive('articleShareItem', function (API, State, Helper) {
             init();
 
             scope = _.extend(scope, {});
+        }
+    };
+});
+
+app.directive('commentsItem', function ($timeout, Helper) {
+    return {
+        templateUrl: 'comments-item.html',
+        scope: {
+            article: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {
+                console.log('comment:', scope.article);
+                var disqus_config = function disqus_config() {
+                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                var d = document,
+                    s = d.createElement('script');
+
+                s.src = '//platformonlineuk.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            };
+
+            init();
+
+            scope = _.assign(scope, {});
         }
     };
 });
@@ -527,37 +563,6 @@ app.directive('authorPreviewItem', function () {
                     });
                 }
             });
-        }
-    };
-});
-
-app.directive('commentsItem', function ($timeout, Helper) {
-    return {
-        templateUrl: 'comments-item.html',
-        scope: {
-            article: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {
-                console.log('comment:', scope.article);
-                var disqus_config = function disqus_config() {
-                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-
-                var d = document,
-                    s = d.createElement('script');
-
-                s.src = '//platformonlineuk.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            };
-
-            init();
-
-            scope = _.assign(scope, {});
         }
     };
 });
@@ -973,47 +978,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
-
-    var authors,
-        page = $stateParams.page || 1;
-
-    var load = function load() {
-        API.getAuthors(page).then(function (response) {
-            authors = response;
-            Loading.setActive(false);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    var getNextPage = function getNextPage(amount) {
-        //page += amount
-    };
-
-    var init = function init() {
-        load();
-    };
-
-    init();
-
-    _.extend($scope, {
-        getAuthors: function getAuthors() {
-            return authors;
-        },
-        getNextPage: function getNextPage() {
-            return page * 1 + 1;
-        },
-        getLastPage: function getLastPage() {
-            return page * 1 - 1;
-        },
-        getAuthorIds: function getAuthorIds() {
-            return authors.map(function (author) {
-                return author.id;
-            });
-        }
-    });
-});
-
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
     var content, tags, international, politics, religion, culture;
@@ -1079,6 +1043,47 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
         },
         getArticle: function getArticle(index) {
             return content.acf.featuredArticles[index].article;
+        }
+    });
+});
+
+app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
+
+    var authors,
+        page = $stateParams.page || 1;
+
+    var load = function load() {
+        API.getAuthors(page).then(function (response) {
+            authors = response;
+            Loading.setActive(false);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    var getNextPage = function getNextPage(amount) {
+        //page += amount
+    };
+
+    var init = function init() {
+        load();
+    };
+
+    init();
+
+    _.extend($scope, {
+        getAuthors: function getAuthors() {
+            return authors;
+        },
+        getNextPage: function getNextPage() {
+            return page * 1 + 1;
+        },
+        getLastPage: function getLastPage() {
+            return page * 1 - 1;
+        },
+        getAuthorIds: function getAuthorIds() {
+            return authors.map(function (author) {
+                return author.id;
+            });
         }
     });
 });

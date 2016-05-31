@@ -9,7 +9,10 @@
                     <div class="latest-preview" ng-repeat="article in getArticles()">
                         <a class="row" ng-href="{{getDateString(article)}}">
                             <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')"></div>
+                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                    <span class="when-posted">{{$root.getWhen(article)}}</span>
+                                </div>
                             </div>
                             <div class="col-xs-8">
                                 <div>

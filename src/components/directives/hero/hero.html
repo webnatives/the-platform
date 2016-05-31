@@ -13,6 +13,7 @@
                     </div>
 
                     <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
+                    <span class="when-posted">{{$root.getWhen(getContent())}}</span>
                 </div>
 
                 <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>

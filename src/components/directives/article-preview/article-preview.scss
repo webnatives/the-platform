@@ -29,6 +29,17 @@
     }
   }
 
+  .preview-content {
+    display: flex;
+    align-items: center;
+    height: 110px;
+    margin: -10px 0;
+
+    @media (max-width: 767px) {
+      margin: 0;
+    }
+  }
+
   h3 {
     padding-bottom: 0;
   }
