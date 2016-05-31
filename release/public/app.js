@@ -461,23 +461,6 @@ app.directive('alertItem', function () {
     };
 });
 
-'use strict';
-
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
 app.directive('authorPreviewItem', function () {
     return {
         templateUrl: 'author-preview.html',
@@ -527,6 +510,23 @@ app.directive('authorPreviewItem', function () {
                     });
                 }
             });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
         }
     };
 });
@@ -596,19 +596,37 @@ app.directive('flexItem', function () {
 
 'use strict';
 
-app.directive('footItem', function (State) {
+app.directive('headerItem', function (State, Search) {
     return {
-        templateUrl: 'foot.html',
+        templateUrl: 'header.html',
         scope: {},
 
         link: function link(scope, element, attrs) {
 
-            var init = function init() {};
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
 
             init();
 
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
+            scope = _.extend(scope, {
+                showSearch: Search.show,
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -706,37 +724,19 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
 
 'use strict';
 
-app.directive('headerItem', function (State, Search) {
+app.directive('footItem', function (State) {
     return {
-        templateUrl: 'header.html',
+        templateUrl: 'foot.html',
         scope: {},
 
         link: function link(scope, element, attrs) {
 
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
+            var init = function init() {};
 
             init();
 
-            scope = _.extend(scope, {
-                showSearch: Search.show,
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
             });
@@ -802,6 +802,34 @@ app.directive('loadingItem', function (Loading) {
     };
 });
 
+app.directive('searchItem', function () {
+    return {
+        templateUrl: 'search.html',
+        controllerAs: 'search',
+        scope: {},
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+                $('.search-box input').blur();
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('share', function ($timeout, Helper) {
@@ -843,34 +871,6 @@ app.directive('share', function ($timeout, Helper) {
                 getReverseClass: getReverseClass,
                 getRandom: getRandom
 
-            });
-        }
-    };
-});
-
-app.directive('searchItem', function () {
-    return {
-        templateUrl: 'search.html',
-        controllerAs: 'search',
-        scope: {},
-        controller: function controller(Search, $scope, $state) {
-
-            var go = function go(query) {
-                if (!query) return;
-                $state.go('search', { query: query });
-                Search.hide();
-                $('.search-box input').blur();
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                go: go,
-                isVisible: Search.isVisible,
-                hide: Search.hide,
-                show: Search.show
             });
         }
     };
