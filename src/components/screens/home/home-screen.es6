@@ -14,8 +14,8 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) =
             $element.find('[screen]').addClass('active')
         });
         API.getPostsByTag("labour").then((response) => {console.log('tags, ids:', response); return tags = response});
-        API.getPostsByCat("international").then((response) => {console.log('international, ids:', response); return international = response});
-        API.getPostsByCat("politics").then((response) => politics = response);
+        API.getPostsByCat("world-universal-values").then((response) => {console.log('international, ids:', response); return international = response});
+        API.getPostsByCat("politics-and-society").then((response) => politics = response);
         API.getPostsByCat("culture").then((response) => culture = response);
         API.getPostsByCat("spirituality").then((response) => religion = response);
     };

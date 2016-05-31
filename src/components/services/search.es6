@@ -3,6 +3,7 @@ app.service('Search', ($timeout) => {
 
     var show = () => {
         visible = true;
+        $('.search-box input').val("");
         $timeout(() => $('.search-box input').focus(), 300);
     };
 
