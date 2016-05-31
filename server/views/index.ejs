@@ -79,6 +79,54 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="article-preview.html">
+    <div template="article-preview" scope-id="{{id()}}">
+        <div class="article-preview fi">
+            <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')">
+
+                            <span class="when-posted">{{$root.getWhen(getContent())}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="preview-content">
+                            <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
+                            <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
+
+                            <h3 ng-show="!getContent()" class="blokk" style="color: #333">
+                                Lorem ipsum er e bid!
+                            </h3>
+                        </div>
+                    </div>
+
+                </div>
+
+            </a>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
         <div class="box">
@@ -112,56 +160,66 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
+<script type="text/ng-template" id="comments-item.html">
+    <div template="comments">
         <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
+            <div class="comments">
+                <div class="box">
+                    <div id="disqus_thread"></div>
+                </div>
             </div>
         </div>
 
 
     </div>
 </script>
-<script type="text/ng-template" id="article-preview.html">
-    <div template="article-preview" scope-id="{{id()}}">
-        <div class="article-preview fi">
-            <a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">
-                <div class="row">
-                    <div class="col-xs-5">
-                        <div class="article-preview-image" style="background-image: url('{{$root.getImage(getContent())}}')">
-
-                            <span class="when-posted">{{$root.getWhen(getContent())}}</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-7">
-                        <div class="preview-content">
-                            <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
-                            <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
-
-                            <h3 ng-show="!getContent()" class="blokk" style="color: #333">
-                                Lorem ipsum er e bid!
-                            </h3>
-                        </div>
-                    </div>
-
-                </div>
-
-            </a>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="flex.html">
     <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
+    </div>
+</script>
+<script type="text/ng-template" id="foot.html">
+    <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>
+                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
+                </p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Writers</h2>
+                        <p>Writer's Guidelines</p>
+                        <p>User Guidelines</p>
+                        <p>Join</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>About</h2>
+                        <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
+                    </div>
+                </div>
+
+                <div class="foot-bottom">
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -238,64 +296,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="comments-item.html">
-    <div template="comments">
-        <div class="container">
-            <div class="comments">
-                <div class="box">
-                    <div id="disqus_thread"></div>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-</script>
-<script type="text/ng-template" id="foot.html">
-    <div template="foot">
-        <div class="foot-top">
-            <div class="container">
-                <p>
-                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
-                </p>
-            </div>
-        </div>
-
-        <div class="foot">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>Get In Touch</h2>
-                        <p>Subscribe</p>
-                        <p>Contact Us</p>
-                    </div>
-                </div>
-
-                <div class="foot-bottom">
-
-                    Copyright &copy; 2015 The Platform. All rights reserved.
-                    <div class="social pull-right">
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="header.html">
@@ -382,6 +382,36 @@
 
             </a>
         </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="loading-item.html">
+    <div template="loading">
+        <div class="loading" ng-class="{active:getActive()}">
+            <!--<div class="loading-text">{{getMessage()}}</div>-->
+
+            <div class="loading-icon">
+                <i class="fa fa-spin fa-cog"></i>
+
+            </div>
+            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="search.html">
+    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+
+        <div class="search-box" ng-click="$event.stopPropagation()">
+            <flex-item row="true">
+                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
+                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+
+            </flex-item>
+
+        </div>
+
+
 
     </div>
 </script>
@@ -627,34 +657,39 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="search.html">
-    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+<script type="text/ng-template" id="authors-screen.html">
+    <div screen style="background: #f7f7f7">
 
-        <div class="search-box" ng-click="$event.stopPropagation()">
-            <flex-item row="true">
-                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
-                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+        <div class="container">
 
-            </flex-item>
+            <div class="pull-right butn" ui-sref="authors({page: getNextPage()})"><i class="fa fa-caret-right"></i>
+            </div>
+            <div class="pull-right butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                <i class="fa fa-caret-left"></i></div>
+            <h1>Our Authors</h1>
 
-        </div>
+            <div style="margin: 0 -10px">
+                <flex-item row="true" wrap="true">
+                    <author-preview-item
+                            ng-repeat="author in getAuthors()"
+                            small="true"
+                            author="author"
+                    ></author-preview-item>
+                </flex-item>
+                <div class="clearfix" style="padding: 0 10px 20px">
+                    <div class="pull-right butn" ui-sref="authors({page: getNextPage()})">
+                        <i class="fa fa-caret-right"></i></div>
+                    <div class="pull-left butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
+                        <i class="fa fa-caret-left"></i></div>
 
-
-
-    </div>
-</script>
-<script type="text/ng-template" id="loading-item.html">
-    <div template="loading">
-        <div class="loading" ng-class="{active:getActive()}">
-            <!--<div class="loading-text">{{getMessage()}}</div>-->
-
-            <div class="loading-icon">
-                <i class="fa fa-spin fa-cog"></i>
+                </div>
 
             </div>
-            <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
+
 
         </div>
+
+        <foot-item></foot-item>
     </div>
 </script>
 <script type="text/ng-template" id="home-screen.html">
@@ -761,35 +796,40 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="authors-screen.html">
+<script type="text/ng-template" id="image-list-screen.html">
     <div screen style="background: #f7f7f7">
 
-        <div class="container">
+        <div class="container" style="min-height: 90vh;">
 
-            <div class="pull-right butn" ui-sref="authors({page: getNextPage()})"><i class="fa fa-caret-right"></i>
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
             </div>
-            <div class="pull-right butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
-                <i class="fa fa-caret-left"></i></div>
-            <h1>Our Authors</h1>
 
-            <div style="margin: 0 -10px">
-                <flex-item row="true" wrap="true">
-                    <author-preview-item
-                            ng-repeat="author in getAuthors()"
-                            small="true"
-                            author="author"
-                    ></author-preview-item>
-                </flex-item>
-                <div class="clearfix" style="padding: 0 10px 20px">
-                    <div class="pull-right butn" ui-sref="authors({page: getNextPage()})">
-                        <i class="fa fa-caret-right"></i></div>
-                    <div class="pull-left butn" ng-show="getLastPage()" ui-sref="authors({page: getLastPage()})" style="margin-right: 10px">
-                        <i class="fa fa-caret-left"></i></div>
 
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
                 </div>
 
             </div>
-
 
         </div>
 
@@ -849,46 +889,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="tag-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -910,6 +910,51 @@
                                     ng-repeat="article in getContentHalf(1) track by $index"
                                     id="{{article.id}}"
                                     height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="topic-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
                             ></hero-item>
                         </div>
                     </div>
@@ -957,51 +1002,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
