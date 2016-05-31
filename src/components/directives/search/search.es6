@@ -8,6 +8,7 @@ app.directive('searchItem', () => ({
             if (!query) return;
             $state.go('search', {query});
             Search.hide();
+            $('.search-box input').blur()
         };
 
         var init = () => {

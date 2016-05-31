@@ -77,25 +77,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -134,6 +115,25 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
         <div class="box">
@@ -167,6 +167,10 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
+    </div>
+</script>
 <script type="text/ng-template" id="comments-item.html">
     <div template="comments">
         <div class="container">
@@ -178,10 +182,6 @@
         </div>
 
 
-    </div>
-</script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -299,38 +299,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <a class="box red" ng-href="{{getDateString(getContent())}}">
-                <div class="hero-image"
-                     style="height:{{getHeight()}}px"
-                >
-                    <div class="image-holder">
-                        <div
-                                class="image-img"
-                                style="background-image:url('{{$root.getImage(getContent())}}')"
-                        ></div>
-                    </div>
-
-                    <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
-                </div>
-
-                <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>
-                <h2 ng-show="!getContent()" class="blokk" style="color: #333">
-                    Lorem ipsum er e!
-                </h2>
-                <p ng-show="!getContent()" class="blokk" style="color: #999">
-                    Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
-                </p>
-                <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
-                <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
-
-            </a>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -383,6 +351,38 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <a class="box red" ng-href="{{getDateString(getContent())}}">
+                <div class="hero-image"
+                     style="height:{{getHeight()}}px"
+                >
+                    <div class="image-holder">
+                        <div
+                                class="image-img"
+                                style="background-image:url('{{$root.getImage(getContent())}}')"
+                        ></div>
+                    </div>
+
+                    <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
+                </div>
+
+                <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>
+                <h2 ng-show="!getContent()" class="blokk" style="color: #333">
+                    Lorem ipsum er e!
+                </h2>
+                <p ng-show="!getContent()" class="blokk" style="color: #999">
+                    Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
+                </p>
+                <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
+                <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
+
+            </a>
+        </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="latest.html">

@@ -450,6 +450,34 @@ alert-item {
         -webkit-transform: translateY(0);
                 transform: translateY(0); }
 
+[template=article-preview] {
+  cursor: pointer; }
+  [template=article-preview] .article-preview-image {
+    height: 130px;
+    background: #f7f7f7;
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 0;
+    position: relative;
+    margin: -20px 0px -20px -20px; }
+    @media (max-width: 767px) {
+      [template=article-preview] .article-preview-image {
+        margin: -10px 0px -10px -10px; } }
+    [template=article-preview] .article-preview-image .tag {
+      height: 30px;
+      background: white;
+      background: rgba(255, 255, 255, 0.9);
+      position: absolute;
+      line-height: 30px;
+      bottom: 0;
+      left: 0;
+      padding: 0 20px;
+      margin: 0;
+      color: #333;
+      font-weight: 700; }
+  [template=article-preview] h3 {
+    padding-bottom: 0; }
+
 [template=article-share] {
   background: rgba(0, 0, 0, 0.1);
   padding: 0 50px;
@@ -488,34 +516,6 @@ alert-item {
   100% {
     -webkit-transform: scale(0.9);
     transform: scale(0.9); } }
-
-[template=article-preview] {
-  cursor: pointer; }
-  [template=article-preview] .article-preview-image {
-    height: 130px;
-    background: #f7f7f7;
-    background-position: center;
-    background-size: cover;
-    margin-bottom: 0;
-    position: relative;
-    margin: -20px 0px -20px -20px; }
-    @media (max-width: 767px) {
-      [template=article-preview] .article-preview-image {
-        margin: -10px 0px -10px -10px; } }
-    [template=article-preview] .article-preview-image .tag {
-      height: 30px;
-      background: white;
-      background: rgba(255, 255, 255, 0.9);
-      position: absolute;
-      line-height: 30px;
-      bottom: 0;
-      left: 0;
-      padding: 0 20px;
-      margin: 0;
-      color: #333;
-      font-weight: 700; }
-  [template=article-preview] h3 {
-    padding-bottom: 0; }
 
 author-preview-item {
   -webkit-flex: 1 0 200px;
@@ -783,9 +783,6 @@ flex-item {
       [template=group] .group .group-preview .preview-image {
         margin: -10px 0px -10px -10px; } }
 
-[template=hero] {
-  cursor: pointer; }
-
 [template=header] .header {
   top: 0;
   left: 0;
@@ -960,6 +957,9 @@ flex-item {
       color: white;
       background: white;
       color: #b40305; }
+
+[template=hero] {
+  cursor: pointer; }
 
 [template=latest] .latest h3, [template=latest] .latest h2 {
   color: black; }
