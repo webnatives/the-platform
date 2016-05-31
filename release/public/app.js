@@ -391,26 +391,6 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -456,6 +436,26 @@ app.directive('articlePreviewItem', function (State, API) {
                 getDate: function getDate(format) {
                     return _getDate().format(format);
                 }
+            });
+        }
+    };
+});
+
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
             });
         }
     };
@@ -531,6 +531,37 @@ app.directive('authorPreviewItem', function () {
     };
 });
 
+app.directive('commentsItem', function ($timeout, Helper) {
+    return {
+        templateUrl: 'comments-item.html',
+        scope: {
+            article: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {
+                console.log('comment:', scope.article);
+                var disqus_config = function disqus_config() {
+                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                var d = document,
+                    s = d.createElement('script');
+
+                s.src = '//platformonlineuk.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            };
+
+            init();
+
+            scope = _.assign(scope, {});
+        }
+    };
+});
+
 app.directive('flexItem', function () {
     return {
         templateUrl: 'flex.html',
@@ -559,37 +590,6 @@ app.directive('flexItem', function () {
                     return flexClass;
                 }
             });
-        }
-    };
-});
-
-app.directive('commentsItem', function ($timeout, Helper) {
-    return {
-        templateUrl: 'comments-item.html',
-        scope: {
-            article: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {
-                console.log('comment:', scope.article);
-                var disqus_config = function disqus_config() {
-                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-
-                var d = document,
-                    s = d.createElement('script');
-
-                s.src = '//platformonlineuk.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            };
-
-            init();
-
-            scope = _.assign(scope, {});
         }
     };
 });
@@ -652,46 +652,6 @@ app.directive('groupItem', function (State, API, Helper) {
 
 'use strict';
 
-app.directive('headerItem', function (State, Search) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                showSearch: Search.show,
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
 app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
     return {
         templateUrl: 'hero.html',
@@ -739,6 +699,46 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                 },
                 getHeight: getHeight,
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('headerItem', function (State, Search) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                showSearch: Search.show,
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -802,34 +802,6 @@ app.directive('loadingItem', function (Loading) {
     };
 });
 
-app.directive('searchItem', function () {
-    return {
-        templateUrl: 'search.html',
-        controllerAs: 'search',
-        scope: {},
-        controller: function controller(Search, $scope, $state) {
-
-            var go = function go(query) {
-                if (!query) return;
-                $state.go('search', { query: query });
-                Search.hide();
-                $('.search-box input').blur();
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                go: go,
-                isVisible: Search.isVisible,
-                hide: Search.hide,
-                show: Search.show
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('share', function ($timeout, Helper) {
@@ -871,6 +843,34 @@ app.directive('share', function ($timeout, Helper) {
                 getReverseClass: getReverseClass,
                 getRandom: getRandom
 
+            });
+        }
+    };
+});
+
+app.directive('searchItem', function () {
+    return {
+        templateUrl: 'search.html',
+        controllerAs: 'search',
+        scope: {},
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+                $('.search-box input').blur();
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
             });
         }
     };

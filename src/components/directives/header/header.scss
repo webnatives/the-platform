@@ -39,7 +39,9 @@
       text-align: right;
 
       @media (max-width: 767px) {
-        height: 0;
+        height: 20px;
+        line-height: 20px;
+        font-size: 10px;
       }
     }
 
