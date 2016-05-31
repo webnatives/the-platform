@@ -15,65 +15,21 @@ app.directive('ngEnter', function () {
         });
     };
 });
-app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
 
-    var resolve = {
-        timeout: function timeout($timeout, Loading) {
-            $('[screen]').removeClass('active');
-            Loading.setActive(true);
-            //$('.loading-logo').addClass('active');
-            return $timeout(300);
-        }
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
     };
 
-    // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise("/");
-
-    // Now set up the states
-    $stateProvider.state('home', {
-        url: "/",
-        templateUrl: "home-screen.html",
-        controller: "HomeScreen",
-        resolve: resolve
-    }).state('topic', {
-        url: "/topic/:cat",
-        templateUrl: "topic-screen.html",
-        controller: "TopicScreen",
-        resolve: resolve
-    }).state('tag', {
-        url: "/tag/:tag",
-        templateUrl: "tag-screen.html",
-        controller: "TagScreen",
-        resolve: resolve
-    }).state('authors', {
-        url: "/authors/:page",
-        templateUrl: "authors-screen.html",
-        controller: "AuthorsScreen",
-        resolve: resolve
-    }).state('search', {
-        url: "/search/:query",
-        templateUrl: "search-screen.html",
-        controller: "SearchScreen",
-        resolve: resolve
-    }).state('tagList', {
-        url: "/tag-list",
-        templateUrl: "tag-list-screen.html",
-        controller: "TagListScreen",
-        resolve: resolve
-    }).state('imageList', {
-        url: "/image-list/:page",
-        templateUrl: "image-list-screen.html",
-        controller: "ImageListScreen",
-        resolve: resolve
-    }).state('article', {
-        url: "/:year/:month/:date/:slug/?:id",
-        templateUrl: "article-screen.html",
-        controller: "ArticleScreen",
-        resolve: resolve
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
     });
 
-    $locationProvider.html5Mode(true);
+    init();
 });
+
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -381,71 +337,65 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
-'use strict';
-
-app.directive('articlePreviewItem', function (State, API) {
-    return {
-        templateUrl: 'article-preview.html',
-        scope: {
-            heading: '&',
-            id: '&',
-            image: '&',
-            link: '&',
-            summary: '&',
-            height: '&',
-            tag: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var content;
-
-            var _getDate = function _getDate() {
-                if (content) {
-                    return moment(content.date);
-                } else {
-                    return {};
-                }
-            };
-
-            var init = function init() {
-                //console.log('scope.id (article-preview)', scope.id());
-                if (scope.id() == undefined) return;
-                API.getPost(scope.id()).then(function (response) {
-                    content = response;
-                    console.log('post (article-preview)', response);
-                    element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                getContent: function getContent() {
-                    return content;
-                },
-                getDate: function getDate(format) {
-                    return _getDate().format(format);
-                }
-            });
+    var resolve = {
+        timeout: function timeout($timeout, Loading) {
+            $('[screen]').removeClass('active');
+            Loading.setActive(true);
+            //$('.loading-logo').addClass('active');
+            return $timeout(300);
         }
     };
-});
 
+    // For any unmatched url, redirect to /
+    $urlRouterProvider.otherwise("/");
+
+    // Now set up the states
+    $stateProvider.state('home', {
+        url: "/",
+        templateUrl: "home-screen.html",
+        controller: "HomeScreen",
+        resolve: resolve
+    }).state('topic', {
+        url: "/topic/:cat",
+        templateUrl: "topic-screen.html",
+        controller: "TopicScreen",
+        resolve: resolve
+    }).state('tag', {
+        url: "/tag/:tag",
+        templateUrl: "tag-screen.html",
+        controller: "TagScreen",
+        resolve: resolve
+    }).state('authors', {
+        url: "/authors/:page",
+        templateUrl: "authors-screen.html",
+        controller: "AuthorsScreen",
+        resolve: resolve
+    }).state('search', {
+        url: "/search/:query",
+        templateUrl: "search-screen.html",
+        controller: "SearchScreen",
+        resolve: resolve
+    }).state('tagList', {
+        url: "/tag-list",
+        templateUrl: "tag-list-screen.html",
+        controller: "TagListScreen",
+        resolve: resolve
+    }).state('imageList', {
+        url: "/image-list/:page",
+        templateUrl: "image-list-screen.html",
+        controller: "ImageListScreen",
+        resolve: resolve
+    }).state('article', {
+        url: "/:year/:month/:date/:slug/?:id",
+        templateUrl: "article-screen.html",
+        controller: "ArticleScreen",
+        resolve: resolve
+    });
+
+    $locationProvider.html5Mode(true);
+});
 app.directive('alertItem', function () {
     return {
         templateUrl: 'alert.html',
@@ -462,54 +412,6 @@ app.directive('alertItem', function () {
                 hide: Alert.hide,
                 getContent: Alert.getContent
             });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
-app.directive('commentsItem', function ($timeout, Helper) {
-    return {
-        templateUrl: 'comments-item.html',
-        scope: {
-            article: '='
-        },
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {
-                console.log('comment:', scope.article);
-                var disqus_config = function disqus_config() {
-                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
-                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                };
-
-                var d = document,
-                    s = d.createElement('script');
-
-                s.src = '//platformonlineuk.disqus.com/embed.js';
-
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            };
-
-            init();
-
-            scope = _.assign(scope, {});
         }
     };
 });
@@ -567,6 +469,73 @@ app.directive('authorPreviewItem', function () {
     };
 });
 
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
+        }
+    };
+});
+
+'use strict';
+
+app.directive('articlePreviewItem', function (State, API) {
+    return {
+        templateUrl: 'article-preview.html',
+        scope: {
+            heading: '&',
+            id: '&',
+            image: '&',
+            link: '&',
+            summary: '&',
+            height: '&',
+            tag: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var content;
+
+            var _getDate = function _getDate() {
+                if (content) {
+                    return moment(content.date);
+                } else {
+                    return {};
+                }
+            };
+
+            var init = function init() {
+                //console.log('scope.id (article-preview)', scope.id());
+                if (scope.id() == undefined) return;
+                API.getPost(scope.id()).then(function (response) {
+                    content = response;
+                    console.log('post (article-preview)', response);
+                    element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                getContent: function getContent() {
+                    return content;
+                },
+                getDate: function getDate(format) {
+                    return _getDate().format(format);
+                }
+            });
+        }
+    };
+});
+
 app.directive('flexItem', function () {
     return {
         templateUrl: 'flex.html',
@@ -594,28 +563,6 @@ app.directive('flexItem', function () {
                 getFlexClass: function getFlexClass() {
                     return flexClass;
                 }
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };
@@ -650,6 +597,59 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+app.directive('commentsItem', function ($timeout, Helper) {
+    return {
+        templateUrl: 'comments-item.html',
+        scope: {
+            article: '='
+        },
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {
+                console.log('comment:', scope.article);
+                var disqus_config = function disqus_config() {
+                    this.page.url = 'http://www.platformonline.uk/' + Helper.getDateString(article) + '/' + scope.article.slug; // Replace PAGE_URL with your page's canonical URL variable
+                    this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+                };
+
+                var d = document,
+                    s = d.createElement('script');
+
+                s.src = '//platformonlineuk.disqus.com/embed.js';
+
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            };
+
+            init();
+
+            scope = _.assign(scope, {});
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -780,56 +780,6 @@ app.directive('latestItem', function (State, API, Helper) {
             scope = _.assign(scope, {
                 getArticles: getArticles,
                 getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('loadingItem', function (Loading) {
-    return {
-        templateUrl: 'loading-item.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(scope, {
-                getActive: Loading.getActive,
-                setActive: Loading.setActive,
-                randMsg: Loading.randMsg,
-                getMessage: Loading.getMessage
-            });
-        }
-    };
-});
-
-app.directive('searchItem', function () {
-    return {
-        templateUrl: 'search.html',
-        controllerAs: 'search',
-        scope: {},
-        controller: function controller(Search, $scope, $state) {
-
-            var go = function go(query) {
-                if (!query) return;
-                $state.go('search', { query: query });
-                Search.hide();
-                $('.search-box input').blur();
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                go: go,
-                isVisible: Search.isVisible,
-                hide: Search.hide,
-                show: Search.show
             });
         }
     };
@@ -978,6 +928,56 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
+app.directive('searchItem', function () {
+    return {
+        templateUrl: 'search.html',
+        controllerAs: 'search',
+        scope: {},
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+                $('.search-box input').blur();
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('loadingItem', function (Loading) {
+    return {
+        templateUrl: 'loading-item.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
+            });
+        }
+    };
+});
+
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
     var content, tags, international, politics, religion, culture;
@@ -1088,34 +1088,6 @@ app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
-                return response.replace('<!-- ngg_resource_manager_marker -->', '');
-            } }).then(function (response) {
-
-            Loading.setActive(false);
-            console.log(response);
-            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
-            console.log(terms);
-        }, function (response) {
-            console.log(response);
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1153,6 +1125,34 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
+                return response.replace('<!-- ngg_resource_manager_marker -->', '');
+            } }).then(function (response) {
+
+            Loading.setActive(false);
+            console.log(response);
+            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
+            console.log(terms);
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });
