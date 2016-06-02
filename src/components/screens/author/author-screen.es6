@@ -1,12 +1,19 @@
 app.controller('AuthorScreen', ($element, $timeout, API, $scope, $stateParams, $state, Loading) => {
 
-    var author;
+    var author, articles;
 
     var load = () => {
         API.getAuthor($stateParams.author_id).then(response => {
+            console.log('author details', response);
             author = response;
             Loading.setActive(false);
-            $element.find('[screen]').addClass('active')
+            $element.find('[screen]').addClass('active');
+        });
+
+        API.getPostsByAuthor($stateParams.author_id).then(response => {
+            articles = response;
+
+            console.log('author articles', articles);
         });
     };
 
@@ -21,7 +28,9 @@ app.controller('AuthorScreen', ($element, $timeout, API, $scope, $stateParams, $
     init();
 
     _.extend($scope, {
-        getAuthor: () => author
+        getAuthor: () => author,
+        getArticles: () => articles,
+        getArticleIds: () => articles.map(article => article.id)
     })
 });
 

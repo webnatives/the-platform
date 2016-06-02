@@ -3,7 +3,22 @@
 
         <div class="container">
 
-            Author
+            <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
+            <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
+
+            <h1 style="line-height: 60px">{{getAuthor().name}}</h1>
+
+            <!--<hr>-->
+
+            <p ng-show="getAuthor().description">{{getAuthor().description}}</p>
+
+            <div style="height: 10px"></div>
+            <flex-item row="true" wrap="true" style="margin:0 -10px">
+                <hero-item ng-repeat="article in getArticles()" style="display: flex;flex: 1 0 300px; margin: 0 10px"
+                        id="{{article.id}}"
+                ></hero-item>
+            </flex-item>
+
 
 
         </div>
