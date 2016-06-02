@@ -38,6 +38,12 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             controller: "AuthorsScreen",
             resolve: resolve
         })
+        .state('author', {
+            url: "/author/:author_id",
+            templateUrl: "author-screen.html",
+            controller: "AuthorScreen",
+            resolve: resolve
+        })
         .state('search', {
             url: "/search/:query",
             templateUrl: "search-screen.html",
