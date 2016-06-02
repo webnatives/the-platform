@@ -6,7 +6,7 @@
 
                 <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
 
-                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                <a href="whatsapp://send?text={{header}}" data-action="{{link}}" style="background: #43d854;"><i class="fa fa-fw fa-whatsapp"></i></a>
 
                 <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
             </div>
@@ -28,7 +28,9 @@
                             <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
                         </div>
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                            <a class="butn light block visible-xs" target="_blank" href="whatsapp://send?text={{header}}" data-action="{{link}}" style="background: #43d854;"><i class="fa fa-fw fa-whatsapp"></i></a>
+
+                            <a class="butn light block hidden-xs" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
                         </div>
                         <div class="col-xs-3">
                             <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>

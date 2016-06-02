@@ -79,21 +79,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -401,6 +386,21 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.directive('alertItem', function () {
     return {
         templateUrl: 'alert.html',
@@ -880,7 +880,6 @@ app.directive('share', function ($timeout, Helper) {
             scope = _.assign(scope, {
                 getReverseClass: getReverseClass,
                 getRandom: getRandom
-
             });
         }
     };
@@ -983,6 +982,33 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
+app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
+
+    var author;
+
+    var load = function load() {
+        API.getAuthor($stateParams.author_id).then(function (response) {
+            author = response;
+            Loading.setActive(false);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    var getNextPage = function getNextPage(amount) {};
+
+    var init = function init() {
+        load();
+    };
+
+    init();
+
+    _.extend($scope, {
+        getAuthor: function getAuthor() {
+            return author;
+        }
+    });
+});
+
 app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var authors,
@@ -1024,33 +1050,6 @@ app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
-
-    var author;
-
-    var load = function load() {
-        API.getAuthor($stateParams.author_id).then(function (response) {
-            author = response;
-            Loading.setActive(false);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    var getNextPage = function getNextPage(amount) {};
-
-    var init = function init() {
-        load();
-    };
-
-    init();
-
-    _.extend($scope, {
-        getAuthor: function getAuthor() {
-            return author;
-        }
-    });
-});
-
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
     var content, tags, international, politics, religion, culture;
@@ -1066,8 +1065,8 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
             console.log('content', content);
             $element.find('[screen]').addClass('active');
         });
-        API.getPostsByTag("labour").then(function (response) {
-            console.log('tags, ids:', response);return tags = response;
+        API.getPostsByTag("london").then(function (response) {
+            console.log('tags, ids:', response);return tags = _.sampleSize(response, 3);
         });
         API.getPostsByCat("world-universal-values").then(function (response) {
             console.log('international, ids:', response);return international = response;
@@ -1267,7 +1266,7 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
             return content;
         },
         getContentHalf: function getContentHalf(index) {
-            return _.chunk(_.rest(content), content.length / 4)[index];
+            return _.chunk(_.tail(content), content.length / 4)[index];
         }
     });
 });

@@ -1,41 +1,38 @@
 'use strict';
 
-app.directive('share', ($timeout, Helper) => {
-    return {
-        templateUrl: 'share.html',
-        scope: {
-            link:'@',
-            header:'@'
-        },
+app.directive('share', ($timeout, Helper) => ({
+    templateUrl: 'share.html',
+    scope: {
+        link: '@',
+        header: '@'
+    },
 
-        link(scope, element, attrs) {
+    link(scope, element, attrs) {
 
-            console.log('sc',scope.summary);
-            console.log('sc',scope);
-            console.log('sc',attrs);
+        console.log('sc', scope.summary);
+        console.log('sc', scope);
+        console.log('sc', attrs);
 
-            var random = _.random(0, 500);
+        var random = _.random(0, 500);
 
-            var getReverseClass = () => {
-                return scope.reverse ? 'reverse' : '';
-            };
+        var getReverseClass = () => {
+            return scope.reverse ? 'reverse' : '';
+        };
 
-            var getRandom = () => {
-                return random;
-            };
+        var getRandom = () => {
+            return random;
+        };
 
-            var init = () => {
-                $timeout(() => scope.ready = true, _.random(500));
-                $timeout(() => scope.ready2 = true, _.random(500));
-            };
+        var init = () => {
+            $timeout(() => scope.ready = true, _.random(500));
+            $timeout(() => scope.ready2 = true, _.random(500));
+        };
 
-            init();
+        init();
 
-            scope = _.assign(scope, {
-                getReverseClass : getReverseClass,
-                getRandom : getRandom
-
-            });
-        }
+        scope = _.assign(scope, {
+            getReverseClass: getReverseClass,
+            getRandom: getRandom
+        });
     }
-});
+}));

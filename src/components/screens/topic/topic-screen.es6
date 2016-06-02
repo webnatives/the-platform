@@ -17,7 +17,7 @@ app.controller('TopicScreen', ($element, $timeout, API, $scope, $stateParams) =>
         getArticle: (index) => content[index],
         getContent: () => content,
         getFeaturedArticles: () => content,
-        getContentHalf: (index) => _.chunk(_.rest(content), content.length / 4)[index]
+        getContentHalf: (index) => _.chunk(_.tail(content), content.length / 4)[index]
     })
 });
 

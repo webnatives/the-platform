@@ -455,7 +455,7 @@
 
                 <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
 
-                <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                <a href="whatsapp://send?text={{header}}" data-action="{{link}}" style="background: #43d854;"><i class="fa fa-fw fa-whatsapp"></i></a>
 
                 <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
             </div>
@@ -477,7 +477,9 @@
                             <a class="butn light block" target="_blank" ng-href="http://twitter.com/share?url={{link}}&text={{header}} by @Platform_Blog" style="background: #55acee;"><i class="fa fa-fw fa-twitter"></i></a>
                         </div>
                         <div class="col-xs-3">
-                            <a class="butn light block" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
+                            <a class="butn light block visible-xs" target="_blank" href="whatsapp://send?text={{header}}" data-action="{{link}}" style="background: #43d854;"><i class="fa fa-fw fa-whatsapp"></i></a>
+
+                            <a class="butn light block hidden-xs" target="_blank" ng-href="https://plusone.google.com/_/+1/confirm?hl=en&url={{link}}" style="background: #dc4e41;"><i class="fa fa-fw fa-google-plus"></i></a>
                         </div>
                         <div class="col-xs-3">
                             <a class="butn light block" target="_blank" ng-href="mailto:?subject={{header}}&body={{link}}" style="background: #333;"><i class="fa fa-fw fa-envelope"></i></a>
@@ -504,7 +506,7 @@
                         <h1 class="article-header" ng-bind-html="$root.getTitle(getContent())"></h1>
 
                         <div class="clearfix" style="height: 60px;margin-top: -30px;padding: 0 10px;">
-                            <p class="start" style="font-weight: bold">
+                            <p class="start" style="font-weight: bold;font-size: 16px">
                                 {{getDate()}}
 
                                 <span class="pull-right article-social">
@@ -657,6 +659,19 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="author-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            Author
+
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="authors-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -685,19 +700,6 @@
                 </div>
 
             </div>
-
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="author-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-
-            Author
 
 
         </div>
@@ -770,7 +772,7 @@
                 </div>
 
                 <div class="col-xs-12">
-                    <div class="section-title">#labour</div>
+                    <div class="section-title">#london</div>
                 </div>
 
 

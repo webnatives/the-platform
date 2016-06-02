@@ -13,7 +13,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) =
             console.log('content', content);
             $element.find('[screen]').addClass('active')
         });
-        API.getPostsByTag("labour").then((response) => {console.log('tags, ids:', response); return tags = response});
+        API.getPostsByTag("london").then((response) => {console.log('tags, ids:', response); return tags = _.sampleSize(response, 3)});
         API.getPostsByCat("world-universal-values").then((response) => {console.log('international, ids:', response); return international = response});
         API.getPostsByCat("politics-and-society").then((response) => politics = response);
         API.getPostsByCat("culture").then((response) => culture = response);

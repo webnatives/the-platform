@@ -77,7 +77,7 @@ gulp.task('gen-lib-js', () =>
             'src/bower-components/jquery/dist/jquery.min.js',
             'src/bower-components/angular/angular.min.js',
             'src/bower-components/angular-ui-router/release/angular-ui-router.min.js',
-            'src/bower-components/lodash/lodash.min.js',
+            'src/bower-components/lodash/lodash.js',
             'src/bower-components/moment/moment.js',
             'src/bower-components/fastclick/lib/fastclick.js'
         ])
