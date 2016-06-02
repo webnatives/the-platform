@@ -132,7 +132,7 @@
         <div class="box">
             <flex-item>
                 <flex-item row="true">
-                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}})"></div>
+                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}}')"></div>
                     <div class="author-img" ng-show="author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().acf.profile_pic.url}}')"></div>
                     <div>
                         <div class="author-name">
@@ -175,51 +175,6 @@
 </script>
 <script type="text/ng-template" id="flex.html">
     <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
-    </div>
-</script>
-<script type="text/ng-template" id="foot.html">
-    <div template="foot">
-        <div class="foot-top">
-            <div class="container">
-                <p>
-                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
-                </p>
-            </div>
-        </div>
-
-        <div class="foot">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>Get In Touch</h2>
-                        <p>Subscribe</p>
-                        <p>Contact Us</p>
-                    </div>
-                </div>
-
-                <div class="foot-bottom">
-
-                    Copyright &copy; 2015 The Platform. All rights reserved.
-                    <div class="social pull-right">
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -296,6 +251,51 @@
             </div>
         </div>
 
+    </div>
+</script>
+<script type="text/ng-template" id="foot.html">
+    <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>
+                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
+                </p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Writers</h2>
+                        <p>Writer's Guidelines</p>
+                        <p>User Guidelines</p>
+                        <p>Join</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>About</h2>
+                        <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
+                    </div>
+                </div>
+
+                <div class="foot-bottom">
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="header.html">
@@ -936,49 +936,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="tag-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Tags...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <!--<div class="col-sm-3">-->
-                    <!--ID: <strong>{{term.ID}}</strong>-->
-                    <!--</div>-->
-                    <div class="col-sm-4">
-                        Name: <strong>{{term.name}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Slug: <strong>{{term.slug}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        Count: <strong>{{term.count}}</strong>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="topic-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -1017,6 +974,49 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Tags...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <!--<div class="col-sm-3">-->
+                    <!--ID: <strong>{{term.ID}}</strong>-->
+                    <!--</div>-->
+                    <div class="col-sm-4">
+                        Name: <strong>{{term.name}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Slug: <strong>{{term.slug}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        Count: <strong>{{term.count}}</strong>
+                    </div>
+                </div>
+
             </div>
 
         </div>
