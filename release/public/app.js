@@ -604,6 +604,28 @@ app.directive('flexItem', function () {
     };
 });
 
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -633,28 +655,6 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };
@@ -1205,26 +1205,6 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
     });
 });
 
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -1254,6 +1234,26 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
         },
         getArticle: function getArticle(index) {
             return content[index];
+        }
+    });
+});
+
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });

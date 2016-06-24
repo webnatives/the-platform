@@ -177,6 +177,51 @@
     <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
+<script type="text/ng-template" id="foot.html">
+    <div template="foot">
+        <div class="foot-top">
+            <div class="container">
+                <p>
+                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
+                </p>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h2>Writers</h2>
+                        <p>Writer's Guidelines</p>
+                        <p>User Guidelines</p>
+                        <p>Join</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>About</h2>
+                        <p>The Platform</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <h2>Get In Touch</h2>
+                        <p>Subscribe</p>
+                        <p>Contact Us</p>
+                    </div>
+                </div>
+
+                <div class="foot-bottom">
+
+                    Copyright &copy; 2015 The Platform. All rights reserved.
+                    <div class="social pull-right">
+                        <i class="fa fa-twitter"></i>
+                        <i class="fa fa-facebook"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="group.html">
     <div template="group" ids="{{ids}}">
         <div class="group fi">
@@ -253,51 +298,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="foot.html">
-    <div template="foot">
-        <div class="foot-top">
-            <div class="container">
-                <p>
-                    A groundbreaking commentary blog that provides a platform for challenging opinions on current affairs and culture.
-                </p>
-            </div>
-        </div>
-
-        <div class="foot">
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h2>Get In Touch</h2>
-                        <p>Subscribe</p>
-                        <p>Contact Us</p>
-                    </div>
-                </div>
-
-                <div class="foot-bottom">
-
-                    Copyright &copy; 2015 The Platform. All rights reserved.
-                    <div class="social pull-right">
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-envelope"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -338,6 +338,8 @@
                     <div class="menu-items">
                         <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
                         <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
+
+
                         <div class="item" ui-sref="topic({cat:'politics-and-society'})">Politics & Society</div>
                         <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
                         <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
@@ -919,6 +921,38 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="tag-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -955,38 +989,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
