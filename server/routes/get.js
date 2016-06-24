@@ -4,6 +4,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var request = require('request');
 var rp = require('request-promise');
+var apicache = require('apicache').options({ debug: true }).middleware;
 
 
 var standardData = {
@@ -47,6 +48,12 @@ module.exports = {
             res.render('index', data);
         })
 
+    },
+
+    clearCache(req, res) {
+        console.log('CLEARING CACHE');
+        require('apicache').clear();
+        res.redirect('/');
     },
 
     home(req, res) {

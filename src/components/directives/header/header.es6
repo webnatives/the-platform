@@ -14,6 +14,8 @@ app.directive('headerItem', (State, Search) => ({
             scope.$digest();
         };
 
+        var getMenuItems = () => State.getCustomData().menuCategories
+
         var events = () => {
             $(window).on('scroll', checkScroll);
         };
@@ -28,7 +30,8 @@ app.directive('headerItem', (State, Search) => ({
             showSearch: Search.show,
             isMenuVisible: () => menuVisible,
             toggleMenu: State.toggleMenu,
-            getTitle: State.getTitle
+            getTitle: State.getTitle,
+            getMenuItems
         });
     }
 }));

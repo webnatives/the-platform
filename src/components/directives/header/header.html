@@ -4,7 +4,10 @@
             <div class="helper-bar">
                 <div class="container">
                     <span ui-sref="authors({page:1})" style="cursor: pointer">Our Writers</span> |
-                    About | Writers' Guidelines | Join | Updates
+                    About |
+                    Guidelines |
+                    Join |
+                    <span ui-sref="topic({cat:'updates'})" style="cursor: pointer">Updates</span>
                 </div>
             </div>
 
@@ -37,16 +40,11 @@
 
                     <div class="menu-items">
                         <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
-                        <!--<div class="item" ui-sref="topic({cat:'features'})">Features</div>-->
-
-
-                        <div class="item" ui-sref="topic({cat:'politics-and-society'})">Politics & Society</div>
-                        <div class="item" ui-sref="topic({cat:'spirituality'})">Spirituality</div>
-                        <div class="item" ui-sref="topic({cat:'world-universal-values'})">World</div>
-                        <div class="item" ui-sref="topic({cat:'culture'})">Culture</div>
-                        <!--<div class="item" ui-sref="topic({cat:'updates'})">Platform Updates</div>-->
-                        <!--<div class="item">Writers' Guidelines</div>-->
-                        <!--<div class="item">About</div>-->
+                        <div class="item"
+                             ui-sref="topic({cat:item.slug})"
+                             ng-repeat="item in getMenuItems()"
+                             ng-bind-html="$root.html(item.name)"
+                        ></div>
                     </div>
                 </div>
             </div>

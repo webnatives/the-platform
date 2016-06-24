@@ -376,7 +376,9 @@ app.service('Search', function ($timeout) {
 
 'use strict';
 
-app.factory('State', function ($rootScope, $sce) {
+app.factory('State', function ($rootScope, $sce, API) {
+
+    var customData = {};
 
     var title = 'Content Types';
 
@@ -388,17 +390,35 @@ app.factory('State', function ($rootScope, $sce) {
         return title;
     };
 
-    $rootScope.html = $sce.trustAsHtml;
+    var getCustomData = function getCustomData() {
+        return customData;
+    };
 
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
+    var events = function events() {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $(document).scrollTop(0);
+        });
+    };
+
+    var init = function init() {
+        events();
+        API.getHome().then(function (response) {
+            customData = response.acf;
+            console.log('customData', customData);
+        });
+    };
+
+    init();
+
+    $rootScope.getCustomData = getCustomData;
+    $rootScope.html = $sce.trustAsHtml;
 
     return {
         isMenuVisible: '',
         toggleMenu: '',
         setTitle: setTitle,
-        getTitle: getTitle
+        getTitle: getTitle,
+        getCustomData: getCustomData
     };
 });
 app.directive('alertItem', function () {
@@ -678,6 +698,10 @@ app.directive('headerItem', function (State, Search) {
                 scope.$digest();
             };
 
+            var getMenuItems = function getMenuItems() {
+                return State.getCustomData().menuCategories;
+            };
+
             var events = function events() {
                 $(window).on('scroll', checkScroll);
             };
@@ -694,7 +718,8 @@ app.directive('headerItem', function (State, Search) {
                     return menuVisible;
                 },
                 toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
+                getTitle: State.getTitle,
+                getMenuItems: getMenuItems
             });
         }
     };

@@ -9,6 +9,7 @@ var Put = require('./put');
 
 module.exports = {
     init (app) {
+        app.get('/clear-cache', Get.clearCache);
         app.get('/api/home', apicache('1 day'), Get.home);
         app.get('/api/post/:id', apicache('1 day'), Get.post);
         app.get('/api/author/:id', apicache('1 day'), Get.author);

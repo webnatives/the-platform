@@ -1,6 +1,8 @@
 'use strict';
 
-app.factory('State', function ($rootScope, $sce) {
+app.factory('State', function ($rootScope, $sce, API) {
+
+    var customData = {};
 
     var title = 'Content Types';
 
@@ -8,16 +10,33 @@ app.factory('State', function ($rootScope, $sce) {
 
     var getTitle = () => title;
 
-    $rootScope.html = $sce.trustAsHtml;
+    var getCustomData = () => customData
 
-    $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
-        $(document).scrollTop(0);
-    });
+    var events = () => {
+        $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
+            $(document).scrollTop(0);
+        });
+    };
+
+    var init = () => {
+        events();
+        API.getHome().then(response => {
+            customData = response.acf;
+            console.log('customData', customData);
+        });
+
+    };
+
+    init();
+
+    $rootScope.getCustomData = getCustomData;
+    $rootScope.html = $sce.trustAsHtml;
 
     return {
         isMenuVisible: '',
         toggleMenu: '',
-        setTitle: setTitle,
-        getTitle: getTitle
+        setTitle,
+        getTitle,
+        getCustomData
     };
 });
