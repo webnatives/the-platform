@@ -266,7 +266,7 @@ app.service('Helper', function ($rootScope, $http, $sce) {
     };
 
     var getImage = function getImage(content) {
-        return content && content._embedded ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
+        return content && content._embedded && content._embedded['wp:featuredmedia'] ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
     };
 
     var getWhen = function getWhen(content) {
@@ -401,6 +401,26 @@ app.factory('State', function ($rootScope, $sce) {
         getTitle: getTitle
     };
 });
+app.directive('alertItem', function () {
+    return {
+        templateUrl: 'alert.html',
+        controllerAs: 'alert',
+        scope: {},
+        controller: function controller(Alert) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                isVisible: Alert.isVisible,
+                hide: Alert.hide,
+                getContent: Alert.getContent
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('articlePreviewItem', function (State, API) {
@@ -446,26 +466,6 @@ app.directive('articlePreviewItem', function (State, API) {
                 getDate: function getDate(format) {
                     return _getDate().format(format);
                 }
-            });
-        }
-    };
-});
-
-app.directive('alertItem', function () {
-    return {
-        templateUrl: 'alert.html',
-        controllerAs: 'alert',
-        scope: {},
-        controller: function controller(Alert) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                isVisible: Alert.isVisible,
-                hide: Alert.hide,
-                getContent: Alert.getContent
             });
         }
     };
@@ -604,28 +604,6 @@ app.directive('flexItem', function () {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('groupItem', function (State, API, Helper) {
     return {
         templateUrl: 'group.html',
@@ -655,6 +633,28 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -695,42 +695,6 @@ app.directive('headerItem', function (State, Search) {
                 },
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('latestItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'latest.html',
-        scope: {
-            heading: '&',
-            amount: '&'
-        },
-        link: function link(scope, element, attrs) {
-
-            var articles,
-                amount = scope.amount() || 3;
-
-            var getArticles = function getArticles() {
-                return _.take(articles, amount);
-            };
-
-            var init = function init() {
-                API.getPosts().then(function (response) {
-                    articles = response;
-                    console.log('latest (latest)', response);
-                    //element.find('.fi').addClass('active');
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: getArticles,
-                getDateString: Helper.getDateString
             });
         }
     };
@@ -790,6 +754,64 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
     };
 });
 
+'use strict';
+
+app.directive('latestItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'latest.html',
+        scope: {
+            heading: '&',
+            amount: '&'
+        },
+        link: function link(scope, element, attrs) {
+
+            var articles,
+                amount = scope.amount() || 3;
+
+            var getArticles = function getArticles() {
+                return _.take(articles, amount);
+            };
+
+            var init = function init() {
+                API.getPosts().then(function (response) {
+                    articles = response;
+                    console.log('latest (latest)', response);
+                    //element.find('.fi').addClass('active');
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: getArticles,
+                getDateString: Helper.getDateString
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('loadingItem', function (Loading) {
+    return {
+        templateUrl: 'loading-item.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(scope, {
+                getActive: Loading.getActive,
+                setActive: Loading.setActive,
+                randMsg: Loading.randMsg,
+                getMessage: Loading.getMessage
+            });
+        }
+    };
+});
+
 app.directive('searchItem', function () {
     return {
         templateUrl: 'search.html',
@@ -813,28 +835,6 @@ app.directive('searchItem', function () {
                 isVisible: Search.isVisible,
                 hide: Search.hide,
                 show: Search.show
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('loadingItem', function (Loading) {
-    return {
-        templateUrl: 'loading-item.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(scope, {
-                getActive: Loading.getActive,
-                setActive: Loading.setActive,
-                randMsg: Loading.randMsg,
-                getMessage: Loading.getMessage
             });
         }
     };
@@ -982,47 +982,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
-
-    var authors,
-        page = $stateParams.page || 1;
-
-    var load = function load() {
-        API.getAuthors(page).then(function (response) {
-            authors = response;
-            Loading.setActive(false);
-            $element.find('[screen]').addClass('active');
-        });
-    };
-
-    var getNextPage = function getNextPage(amount) {
-        //page += amount
-    };
-
-    var init = function init() {
-        load();
-    };
-
-    init();
-
-    _.extend($scope, {
-        getAuthors: function getAuthors() {
-            return authors;
-        },
-        getNextPage: function getNextPage() {
-            return page * 1 + 1;
-        },
-        getLastPage: function getLastPage() {
-            return page * 1 - 1;
-        },
-        getAuthorIds: function getAuthorIds() {
-            return authors.map(function (author) {
-                return author.id;
-            });
-        }
-    });
-});
-
 app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var author, articles;
@@ -1065,12 +1024,72 @@ app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $state
     });
 });
 
+app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
+
+    var authors,
+        page = $stateParams.page || 1;
+
+    var load = function load() {
+        API.getAuthors(page).then(function (response) {
+            authors = response;
+            Loading.setActive(false);
+            $element.find('[screen]').addClass('active');
+        });
+    };
+
+    var getNextPage = function getNextPage(amount) {
+        //page += amount
+    };
+
+    var init = function init() {
+        load();
+    };
+
+    init();
+
+    _.extend($scope, {
+        getAuthors: function getAuthors() {
+            return authors;
+        },
+        getNextPage: function getNextPage() {
+            return page * 1 + 1;
+        },
+        getLastPage: function getLastPage() {
+            return page * 1 - 1;
+        },
+        getAuthorIds: function getAuthorIds() {
+            return authors.map(function (author) {
+                return author.id;
+            });
+        }
+    });
+});
+
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert) {
 
-    var content, tags, international, politics, religion, culture;
+    var content,
+        tags,
+        international,
+        politics,
+        religion,
+        culture,
+        tag,
+        catPosts = [];
 
     var subscribe = function subscribe() {
         Alert.show("Thanks for subscribing!");
+    };
+
+    var getTagPosts = function getTagPosts() {
+        API.getPostsByTag(content.acf.featuredTag).then(function (response) {
+            return tags = _.sampleSize(response, 3);
+        });
+        content.acf.featuredCategories.forEach(function (cat) {
+            API.getPostsByCat(cat.slug).then(function (posts) {
+                catPosts.push(posts);
+                console.log('catPosts', catPosts);
+            });
+        });
     };
 
     var init = function init() {
@@ -1079,21 +1098,7 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
             content = response;
             console.log('content', content);
             $element.find('[screen]').addClass('active');
-        });
-        API.getPostsByTag("london").then(function (response) {
-            console.log('tags, ids:', response);return tags = _.sampleSize(response, 3);
-        });
-        API.getPostsByCat("world-universal-values").then(function (response) {
-            console.log('international, ids:', response);return international = response;
-        });
-        API.getPostsByCat("politics-and-society").then(function (response) {
-            return politics = response;
-        });
-        API.getPostsByCat("culture").then(function (response) {
-            return culture = response;
-        });
-        API.getPostsByCat("spirituality").then(function (response) {
-            return religion = response;
+            getTagPosts();
         });
     };
 
@@ -1102,17 +1107,14 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
     _.extend($scope, {
         subscribe: subscribe,
         getPostsByTag: API.getPostsByTag,
-        getInternational: function getInternational() {
-            return international;
+        getCatNames: function getCatNames() {
+            return content.acf.featuredCategories;
         },
-        getPolitics: function getPolitics() {
-            return politics;
+        getCatPosts: function getCatPosts() {
+            return catPosts;
         },
-        getCulture: function getCulture() {
-            return culture;
-        },
-        getReligion: function getReligion() {
-            return religion;
+        getTag: function getTag() {
+            return content.acf.featuredTag;
         },
         getTags: function getTags() {
             return tags;
@@ -1203,6 +1205,26 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
     });
 });
 
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
+});
+
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -1232,26 +1254,6 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
         },
         getArticle: function getArticle(index) {
             return content[index];
-        }
-    });
-});
-
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
         }
     });
 });

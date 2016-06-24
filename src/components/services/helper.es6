@@ -12,7 +12,7 @@ app.service('Helper', function ($rootScope, $http, $sce) {
         + "/" + article.slug + "/";
     };
 
-    let getImage = (content) => content && content._embedded ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
+    let getImage = (content) => content && content._embedded && content._embedded['wp:featuredmedia'] ? content._embedded['wp:featuredmedia'][0].source_url : undefined;
 
     let getWhen = (content) => content ? moment(content.date).fromNow() : "";
 

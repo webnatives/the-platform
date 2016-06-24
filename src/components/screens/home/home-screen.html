@@ -63,13 +63,13 @@
                 </div>
 
                 <div class="col-xs-12">
-                    <div class="section-title">#london</div>
+                    <div class="section-title" ng-if="getContent()">#{{getTag()}}</div>
                 </div>
 
 
                 <div class="col-sm-4 col-xs-12"
                      ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
+                     ng-if="getContent() && $index < 3"
                 >
                     <hero-item
                             id="{{article.id}}"
@@ -81,17 +81,17 @@
 
                 </div>
 
-                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getInternational()">
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getCatPosts()[0]">
                     <group-item
-                            heading="'World'"
-                            ids="getIds(getInternational(), 3)"
+                            heading="getCatNames()[0].slug"
+                            ids="getIds(getCatPosts()[0], 3)"
                             horizontal="false"
                     ></group-item>
                 </div>
-                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getPolitics()">
+                <div class="col-sm-6 col-md-6 col-xs-12" ng-if="getCatPosts()[1]">
                     <group-item
-                            heading="'Politics'"
-                            ids="getIds(getPolitics(), 3)"
+                            heading="getCatNames()[1].slug"
+                            ids="getIds(getCatPosts()[1], 3)"
                             horizontal="false"
                     ></group-item>
                 </div>

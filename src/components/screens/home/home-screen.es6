@@ -1,9 +1,19 @@
 app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) => {
 
-    var content, tags, international, politics, religion, culture;
+    var content, tags, international, politics, religion, culture, tag, catPosts = [];
 
     var subscribe = () => {
         Alert.show("Thanks for subscribing!")
+    };
+
+    var getTagPosts = () => {
+        API.getPostsByTag(content.acf.featuredTag).then((response) => tags = _.sampleSize(response, 3));
+        content.acf.featuredCategories.forEach(cat => {
+            API.getPostsByCat(cat.slug).then(posts => {
+                catPosts.push(posts);
+                console.log('catPosts', catPosts)
+            })
+        })
     };
 
     var init = () => {
@@ -11,13 +21,9 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) =
         API.getHome().then((response) => {
             content = response;
             console.log('content', content);
-            $element.find('[screen]').addClass('active')
+            $element.find('[screen]').addClass('active');
+            getTagPosts();
         });
-        API.getPostsByTag("london").then((response) => {console.log('tags, ids:', response); return tags = _.sampleSize(response, 3)});
-        API.getPostsByCat("world-universal-values").then((response) => {console.log('international, ids:', response); return international = response});
-        API.getPostsByCat("politics-and-society").then((response) => politics = response);
-        API.getPostsByCat("culture").then((response) => culture = response);
-        API.getPostsByCat("spirituality").then((response) => religion = response);
     };
 
     init();
@@ -25,10 +31,9 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert) =
     _.extend($scope, {
         subscribe,
         getPostsByTag: API.getPostsByTag,
-        getInternational: () => international,
-        getPolitics: () => politics,
-        getCulture: () => culture,
-        getReligion: () => religion,
+        getCatNames: () => content.acf.featuredCategories,
+        getCatPosts: () => catPosts,
+        getTag: () => content.acf.featuredTag,
         getTags: () => tags,
         getIds: (array, amount) => _.take(_.map(array, (item) => item.id), 3),
         getContent: () => content,

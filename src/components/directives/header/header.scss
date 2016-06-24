@@ -137,29 +137,23 @@
 
     .logo-text {
       color: white;
-      //text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 50px;
+      text-transform: uppercase;
+      //letter-spacing: 3px;
+      font-size: 33px;
       font-weight: 100;
       line-height: 70px;
       position: absolute;
       left: 80px;
       transition: .3s;
       cursor: pointer;
-
-
-      font-family: 'Pacifico', cursive;
-
-      font-family: 'Special Elite', cursive;
-
-      font-family: 'Ceviche One', cursive;
+      font-family: 'Hind Vadodara', sans-serif;
 
 
       @media (max-width: 767px) {
         left: 55px;
         height: 50px;
         line-height: 50px;
-        font-size: 30px;
+        font-size: 20px;
       }
     }
 
