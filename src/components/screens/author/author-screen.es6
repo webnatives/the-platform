@@ -8,6 +8,8 @@ app.controller('AuthorScreen', ($element, $timeout, API, $scope, $stateParams, $
             author = response;
             Loading.setActive(false);
             $element.find('[screen]').addClass('active');
+
+            document.title = `${author.name} | The Platform Online`;
         });
 
         API.getPostsByAuthor($stateParams.author_id).then(response => {

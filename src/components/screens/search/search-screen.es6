@@ -9,6 +9,11 @@ app.controller('SearchScreen', ($element, $timeout, API, $scope, $stateParams, $
             $state.go('home');
             return;
         }
+
+        document.title = `Search Results for: ${$stateParams.query} | The Platform Online`;
+        ga('set', 'page', window.location.pathname);
+        ga('send', 'pageview');
+
         API.getPostsBySearch($stateParams.query).then((response) => {
             content = response;
             console.log('content', content);

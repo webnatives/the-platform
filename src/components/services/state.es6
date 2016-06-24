@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('State', function ($rootScope, $sce, API) {
+app.factory('State', function ($rootScope, $sce, API, $timeout) {
 
     var customData = {};
 
@@ -10,11 +10,13 @@ app.factory('State', function ($rootScope, $sce, API) {
 
     var getTitle = () => title;
 
-    var getCustomData = () => customData
+    var getCustomData = () => customData;
 
     var events = () => {
         $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
             $(document).scrollTop(0);
+            $timeout(() => {
+            }, 350);
         });
     };
 

@@ -6,7 +6,11 @@ app.controller('TagScreen', ($element, $timeout, API, $scope, $stateParams, $htt
         API.getPostsByTag($stateParams.tag).then((response) => {
             content = response;
             console.log('content', content);
-            $element.find('[screen]').addClass('active')
+            $element.find('[screen]').addClass('active');
+
+            document.title = `#${$stateParams.tag} | The Platform Online`;
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
         });
     };
 

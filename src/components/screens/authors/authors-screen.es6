@@ -6,7 +6,11 @@ app.controller('AuthorsScreen', ($element, $timeout, API, $scope, $stateParams, 
         API.getAuthors(page).then((response) => {
             authors = response;
             Loading.setActive(false);
-            $element.find('[screen]').addClass('active')
+            $element.find('[screen]').addClass('active');
+
+            document.title = `Our Writers | The Platform Online`;
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
         });
     };
 

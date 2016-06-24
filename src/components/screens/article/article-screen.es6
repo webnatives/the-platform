@@ -48,8 +48,8 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
             $element.find('[screen]').addClass('active');
             content.content.rendered = content.content.rendered.split("<p>&nbsp;</p>").join("");
 
+            document.title = `${content.title.rendered} | The Platform Online`;
             loadRelated();
-
         });
 
         API.getHome($stateParams.id).then((response) => featured = response);

@@ -160,6 +160,10 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
+    </div>
+</script>
 <script type="text/ng-template" id="comments-item.html">
     <div template="comments">
         <div class="container">
@@ -171,10 +175,6 @@
         </div>
 
 
-    </div>
-</script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -215,6 +215,60 @@
                         <i class="fa fa-twitter"></i>
                         <i class="fa fa-facebook"></i>
                         <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="header.html">
+    <div template="header">
+        <div class="header" ng-class="{active:isMenuVisible()}">
+            <div class="helper-bar">
+                <div class="container">
+                    <span ui-sref="authors({page:1})" style="cursor: pointer">Our Writers</span> |
+                    About |
+                    Guidelines |
+                    Join |
+                    <span ui-sref="topic({cat:'updates'})" style="cursor: pointer">Updates</span>
+                </div>
+            </div>
+
+            <div class="top-bar">
+                <div class="container" style="position: relative">
+                    <div class="logo" ui-sref="home"></div>
+                    <div class="logo-text" ui-sref="home">The Platform</div>
+
+                    <!--<div class="silent-bar">-->
+                        <!--<i class="fa fa-search"></i>-->
+                        <!--&nbsp; Search-->
+                    <!--</div>-->
+
+                    <!--<div class="social hidden-xs">-->
+                        <!--<i class="fa fa-twitter"></i>-->
+                        <!--<i class="fa fa-facebook"></i>-->
+                        <!--<i class="fa fa-envelope"></i>-->
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+            <div class="bottom-bar">
+                <div class="container" style="position: relative">
+
+                    <div class="item active item-search" ng-click="showSearch()">
+                        <i class="fa fa-search"></i>
+                        <span class="hidden-xs">&nbsp; Search</span>
+                    </div>
+
+                    <div class="menu-items">
+                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
+                        <div class="item"
+                             ui-sref="topic({cat:item.slug})"
+                             ng-repeat="item in getMenuItems()"
+                             ng-bind-html="$root.html(item.name)"
+                        ></div>
                     </div>
                 </div>
             </div>
@@ -296,60 +350,6 @@
             </div>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="header.html">
-    <div template="header">
-        <div class="header" ng-class="{active:isMenuVisible()}">
-            <div class="helper-bar">
-                <div class="container">
-                    <span ui-sref="authors({page:1})" style="cursor: pointer">Our Writers</span> |
-                    About |
-                    Guidelines |
-                    Join |
-                    <span ui-sref="topic({cat:'updates'})" style="cursor: pointer">Updates</span>
-                </div>
-            </div>
-
-            <div class="top-bar">
-                <div class="container" style="position: relative">
-                    <div class="logo" ui-sref="home"></div>
-                    <div class="logo-text" ui-sref="home">The Platform</div>
-
-                    <!--<div class="silent-bar">-->
-                        <!--<i class="fa fa-search"></i>-->
-                        <!--&nbsp; Search-->
-                    <!--</div>-->
-
-                    <!--<div class="social hidden-xs">-->
-                        <!--<i class="fa fa-twitter"></i>-->
-                        <!--<i class="fa fa-facebook"></i>-->
-                        <!--<i class="fa fa-envelope"></i>-->
-                    <!--</div>-->
-                </div>
-
-            </div>
-
-            <div class="bottom-bar">
-                <div class="container" style="position: relative">
-
-                    <div class="item active item-search" ng-click="showSearch()">
-                        <i class="fa fa-search"></i>
-                        <span class="hidden-xs">&nbsp; Search</span>
-                    </div>
-
-                    <div class="menu-items">
-                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
-                        <div class="item"
-                             ui-sref="topic({cat:item.slug})"
-                             ng-repeat="item in getMenuItems()"
-                             ng-bind-html="$root.html(item.name)"
-                        ></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="hero.html">
@@ -722,6 +722,46 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -819,46 +859,6 @@
                             horizontal="false"
                     ></group-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
             </div>
 
         </div>
