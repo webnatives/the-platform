@@ -1,6 +1,6 @@
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
-        <div class="box" ui-sref="author({author_id:author.getAuthor().id})" style="cursor: pointer">
+        <div class="box" ui-sref="author({author_id:author.getAuthor().id, 'authorSlug':author.getAuthor().slug})" style="cursor: pointer">
             <flex-item>
                 <flex-item row="true">
                     <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}}')"></div>
@@ -20,7 +20,9 @@
         </div>
 
         <div ng-if="!author.small">
-            <h3 ui-sref="author({author_id:author.getAuthor().id})" style="cursor: pointer">More from {{author.getAuthor().name}}</h3>
+            <h3 ui-sref="author({'author_id':author.getAuthor().id, 'authorSlug':author.getAuthor().slug})"
+                style="cursor: pointer"
+            >More from {{author.getAuthor().name}}</h3>
             <div style="height: 10px"></div>
             <group-item
                     heading=""

@@ -31,7 +31,10 @@
 
   .preview-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: left;
     height: 110px;
     margin: -10px 0;
 
@@ -41,6 +44,16 @@
   }
 
   h3 {
-    padding-bottom: 0;
+    //padding-bottom: 0;
+    padding-bottom: 5px;
+    font-weight: 400;
+  }
+
+  .author-name {
+    font-weight: bold;
+    color: $primary;
+    cursor: pointer;
+    font-size: 11px;
+    width: 100%;
   }
 }

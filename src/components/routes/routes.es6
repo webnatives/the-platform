@@ -39,7 +39,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
             resolve: resolve
         })
         .state('author', {
-            url: "/author/:author_id",
+            url: "/author/:author_id/:authorSlug",
             templateUrl: "author-screen.html",
             controller: "AuthorScreen",
             resolve: resolve

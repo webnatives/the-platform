@@ -6,9 +6,8 @@
                      style="height:{{getHeight()}}px"
                 >
                     <div class="image-holder">
-                        <div
-                                class="image-img"
-                                style="background-image:url('{{$root.getImage(getContent())}}')"
+                        <div class="image-img"
+                             style="background-image:url('{{$root.getImage(getContent())}}')"
                         ></div>
                     </div>
 
@@ -16,15 +15,24 @@
                     <span class="when-posted">{{$root.getWhen(getContent())}}</span>
                 </div>
 
-                <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>
-                <h2 ng-show="!getContent()" class="blokk" style="color: #333">
-                    Lorem ipsum er e!
-                </h2>
-                <p ng-show="!getContent()" class="blokk" style="color: #999">
-                    Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
-                </p>
-                <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
-                <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
+                <div ng-if="getContent()">
+                    <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
+
+                    <p ng-bind-html="$root.getSummary(getContent())" ng-show="!!$root.getSummary(getContent())"></p>
+                    <p ng-bind-html="$root.getExcerpt(getContent())" ng-hide="!!$root.getSummary(getContent())"></p>
+                    <p ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
+                       class="author-name">{{$root.getAuthor(getContent()).name}}</p>
+
+                </div>
+
+                <div ng-if="!getContent()">
+                    <h2 class="blokk" style="color: #333">
+                        Lorem ipsum er e!
+                    </h2>
+                    <p class="blokk" style="color: #999">
+                        Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
+                    </p>
+                </div>
 
             </a>
         </div>

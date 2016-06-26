@@ -18,6 +18,8 @@ app.service('Helper', function ($rootScope, $http, $sce) {
 
     let getTitle = (content) => content ? $sce.trustAsHtml(content.title.rendered) : undefined;
 
+    let getAuthor = (content) => content ? content._embedded.author[0] : undefined;
+
     let getSummary = (content) => content ? $sce.trustAsHtml(content.acf.summary) : undefined;
 
     let getExcerpt = (content) => content ? $sce.trustAsHtml(content.excerpt.rendered) : undefined;
@@ -34,7 +36,8 @@ app.service('Helper', function ($rootScope, $http, $sce) {
         getExcerpt,
         getSummary,
         getTags,
-        getCat
+        getCat,
+        getAuthor
     };
 
     _.extend($rootScope, expose);

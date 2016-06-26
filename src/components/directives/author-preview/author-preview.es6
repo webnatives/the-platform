@@ -25,7 +25,7 @@ app.directive('authorPreviewItem', () => ({
 
             if (!this.small) {
                 API.getPostsByAuthor(this.authorId).then((response) => {
-                    articles = response;
+                    articles = _.sampleSize(response, 5);
 
                     console.log('author articles', articles);
                 });

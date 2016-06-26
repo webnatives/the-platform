@@ -1,4 +1,16 @@
 [template=hero] {
   cursor: pointer;
   width: 100%;
+
+  h2 {
+    font-weight: 400;
+    //padding-bottom: 5px;
+  }
+
+  .author-name {
+    font-weight: bold;
+    color: $primary;
+    cursor: pointer;
+    font-size: 11px;
+  }
 }

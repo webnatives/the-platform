@@ -51,7 +51,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         controller: "AuthorsScreen",
         resolve: resolve
     }).state('author', {
-        url: "/author/:author_id",
+        url: "/author/:author_id/:authorSlug",
         templateUrl: "author-screen.html",
         controller: "AuthorScreen",
         resolve: resolve
@@ -277,6 +277,10 @@ app.service('Helper', function ($rootScope, $http, $sce) {
         return content ? $sce.trustAsHtml(content.title.rendered) : undefined;
     };
 
+    var getAuthor = function getAuthor(content) {
+        return content ? content._embedded.author[0] : undefined;
+    };
+
     var getSummary = function getSummary(content) {
         return content ? $sce.trustAsHtml(content.acf.summary) : undefined;
     };
@@ -301,7 +305,8 @@ app.service('Helper', function ($rootScope, $http, $sce) {
         getExcerpt: getExcerpt,
         getSummary: getSummary,
         getTags: getTags,
-        getCat: getCat
+        getCat: getCat,
+        getAuthor: getAuthor
     };
 
     _.extend($rootScope, expose);
@@ -539,7 +544,7 @@ app.directive('authorPreviewItem', function () {
 
                 if (!_this.small) {
                     API.getPostsByAuthor(_this.authorId).then(function (response) {
-                        articles = response;
+                        articles = _.sampleSize(response, 5);
 
                         console.log('author articles', articles);
                     });
@@ -556,38 +561,6 @@ app.directive('authorPreviewItem', function () {
                     return articles.map(function (article) {
                         return article.id;
                     });
-                }
-            });
-        }
-    };
-});
-
-app.directive('flexItem', function () {
-    return {
-        templateUrl: 'flex.html',
-        controllerAs: 'flex',
-        bindToController: true,
-        transclude: true,
-        scope: {
-            row: '=',
-            wrap: '=',
-            gap: '='
-        },
-        controller: function controller($element, $timeout) {
-
-            var flexClass = {
-                "flex-row": this.row || false,
-                "flex-wrap": this.wrap || false,
-                "flex-gap": this.gap || false
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                getFlexClass: function getFlexClass() {
-                    return flexClass;
                 }
             });
         }
@@ -625,6 +598,38 @@ app.directive('commentsItem', function ($timeout, Helper) {
     };
 });
 
+app.directive('flexItem', function () {
+    return {
+        templateUrl: 'flex.html',
+        controllerAs: 'flex',
+        bindToController: true,
+        transclude: true,
+        scope: {
+            row: '=',
+            wrap: '=',
+            gap: '='
+        },
+        controller: function controller($element, $timeout) {
+
+            var flexClass = {
+                "flex-row": this.row || false,
+                "flex-wrap": this.wrap || false,
+                "flex-gap": this.gap || false
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                getFlexClass: function getFlexClass() {
+                    return flexClass;
+                }
+            });
+        }
+    };
+});
+
 'use strict';
 
 app.directive('footItem', function (State) {
@@ -642,6 +647,40 @@ app.directive('footItem', function (State) {
                 isMenuVisible: State.isMenuVisible,
                 toggleMenu: State.toggleMenu,
                 getTitle: State.getTitle
+            });
+        }
+    };
+});
+
+app.directive('groupItem', function (State, API, Helper) {
+    return {
+        templateUrl: 'group.html',
+        scope: { heading: '&', ids: '&', horizontal: "&" },
+        link: function link(scope, element, attrs) {
+
+            var articles = [];
+
+            var init = function init() {
+                console.log('ids', scope.ids());
+                _.each(scope.ids(), function (id, index) {
+                    return API.getPost(id).then(function (response) {
+                        console.log('group', id);
+                        articles.push(response);
+                        element.find('.fi').addClass('active');
+                    });
+                });
+            };
+
+            init();
+
+            scope = _.assign(scope, {
+                getArticles: function getArticles() {
+                    return articles;
+                },
+                getArticle: function getArticle(index) {
+                    return articles[index];
+                },
+                getDateString: Helper.getDateString
             });
         }
     };
@@ -692,40 +731,6 @@ app.directive('headerItem', function (State, Search) {
     };
 });
 
-app.directive('groupItem', function (State, API, Helper) {
-    return {
-        templateUrl: 'group.html',
-        scope: { heading: '&', ids: '&', horizontal: "&" },
-        link: function link(scope, element, attrs) {
-
-            var articles = [];
-
-            var init = function init() {
-                console.log('ids', scope.ids());
-                _.each(scope.ids(), function (id, index) {
-                    return API.getPost(id).then(function (response) {
-                        console.log('group', id);
-                        articles.push(response);
-                        element.find('.fi').addClass('active');
-                    });
-                });
-            };
-
-            init();
-
-            scope = _.assign(scope, {
-                getArticles: function getArticles() {
-                    return articles;
-                },
-                getArticle: function getArticle(index) {
-                    return articles[index];
-                },
-                getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $rootScope) {
@@ -760,9 +765,9 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
                     content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
 
                     $("<img/>").on('load', function () {
-                        console.log('image:', $rootScope.getImage(content));element.find('.image-holder').addClass('active');
+                        return element.find('.image-holder').addClass('active');
                     }).on('error', function () {
-                        console.log("error loading image");
+                        return console.log("error loading image");
                     }).attr("src", $rootScope.getImage(content));
                 });
             };
@@ -907,6 +912,40 @@ app.directive('share', function ($timeout, Helper) {
                 getReverseClass: getReverseClass,
                 getRandom: getRandom
             });
+        }
+    };
+});
+
+app.directive('teamItem', function () {
+    return {
+        teamUrl: 'team.html',
+        controllerAs: 'team',
+        bindToController: true,
+        scope: {},
+        controller: function controller($timeout) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {});
+        }
+    };
+});
+
+app.directive('templateItem', function () {
+    return {
+        templateUrl: 'template.html',
+        controllerAs: 'template',
+        bindToController: true,
+        scope: {},
+        controller: function controller($timeout) {
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {});
         }
     };
 });
@@ -1098,34 +1137,6 @@ app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
-                return response.replace('<!-- ngg_resource_manager_marker -->', '');
-            } }).then(function (response) {
-
-            Loading.setActive(false);
-            console.log(response);
-            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
-            console.log(terms);
-        }, function (response) {
-            console.log(response);
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading, Alert, State) {
 
     var content,
@@ -1201,6 +1212,34 @@ app.controller('HomeScreen', function ($element, $timeout, API, $scope, Loading,
     });
 });
 
+app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $stateParams, $http, Loading) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/posts?page=' + $stateParams.page + '&filter[posts_per_page]=50', { transformResponse: function transformResponse(response) {
+                return response.replace('<!-- ngg_resource_manager_marker -->', '');
+            } }).then(function (response) {
+
+            Loading.setActive(false);
+            console.log(response);
+            terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
+            console.log(terms);
+        }, function (response) {
+            console.log(response);
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
+});
+
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1247,6 +1286,26 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
     });
 });
 
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
+        }
+    });
+});
+
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -1284,29 +1343,27 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
     });
 });
 
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
+app.controller('TeamScreen', function ($scope) {
 
     var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
+        document.title = 'Our Team | The Platform Online';
+        ga('set', 'page', window.location.pathname);
+        ga('send', 'pageview');
     };
 
     init();
 
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
+    _.extend($scope, {});
 });
 
 app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
 
     var content;
+
+    var getContentHalf = function getContentHalf(index) {
+        if (!content) return;
+        return _.chunk(_.tail(content), content.length / 4)[index];
+    };
 
     var init = function init() {
         API.getPostsByCat($stateParams.cat).then(function (response) {
@@ -1332,8 +1389,6 @@ app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateP
         getFeaturedArticles: function getFeaturedArticles() {
             return content;
         },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(_.tail(content), content.length / 4)[index];
-        }
+        getContentHalf: getContentHalf
     });
 });

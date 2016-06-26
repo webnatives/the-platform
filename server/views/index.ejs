@@ -94,6 +94,9 @@
                         <div class="preview-content">
                             <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
                             <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
+                            <p ng-show="getContent()"
+                               ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
+                               class="author-name">{{$root.getAuthor(getContent()).name}}</p>
 
                             <h3 ng-show="!getContent()" class="blokk" style="color: #333">
                                 Lorem ipsum er e bid!
@@ -129,7 +132,7 @@
 </script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
-        <div class="box" ui-sref="author({author_id:author.getAuthor().id})" style="cursor: pointer">
+        <div class="box" ui-sref="author({author_id:author.getAuthor().id, 'authorSlug':author.getAuthor().slug})" style="cursor: pointer">
             <flex-item>
                 <flex-item row="true">
                     <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}}')"></div>
@@ -149,7 +152,9 @@
         </div>
 
         <div ng-if="!author.small">
-            <h3 ui-sref="author({author_id:author.getAuthor().id})" style="cursor: pointer">More from {{author.getAuthor().name}}</h3>
+            <h3 ui-sref="author({'author_id':author.getAuthor().id, 'authorSlug':author.getAuthor().slug})"
+                style="cursor: pointer"
+            >More from {{author.getAuthor().name}}</h3>
             <div style="height: 10px"></div>
             <group-item
                     heading=""
@@ -158,10 +163,6 @@
             ></group-item>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="comments-item.html">
@@ -175,6 +176,10 @@
         </div>
 
 
+    </div>
+</script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -220,6 +225,89 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="group.html">
+    <div template="group" ids="{{ids}}">
+        <div class="group fi">
+            <div class="box large">
+                <h2 class="box-header" ng-if="heading()" ng-bind="heading()"></h2>
+
+                <div ng-if="!horizontal()">
+                    <div class="group-preview" ng-repeat="article in getArticles()">
+
+                        <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
+                        <a class="row" ng-href="{{getDateString(article)}}">
+                        <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
+                            <div ng-if="$root.getImage(article)">
+                                <div class="col-xs-4">
+                                    <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                        <span class="when-posted">{{$root.getWhen(article)}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-8">
+                                    <div>
+                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        <p ng-show="article"
+                                           ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                           class="author-name">{{$root.getAuthor(article).name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="!$root.getImage(article)">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        <p ng-show="article"
+                                           ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                           class="author-name"
+                                        >{{$root.getAuthor(article).name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+
+                <div ng-if="horizontal()">
+                    <div class="group-preview">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
+                                <a ng-if="$root.getImage(article)" ng-href="{{getDateString(article)}}">
+                                    <div class="col-xs-4">
+                                        <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                            <span class="when-posted">{{$root.getWhen(article)}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <div>
+                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a ng-if="!$root.getImage(article)">
+                                    <div class="col-xs-12">
+                                        <div>
+                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
+                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
     </div>
 </script>
 <script type="text/ng-template" id="header.html">
@@ -276,82 +364,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="group.html">
-    <div template="group" ids="{{ids}}">
-        <div class="group fi">
-            <div class="box large">
-                <h2 class="box-header" ng-if="heading()" ng-bind="heading()"></h2>
-
-                <div ng-if="!horizontal()">
-                    <div class="group-preview" ng-repeat="article in getArticles()">
-
-                        <!--<a class="box" ng-if="getContent()" ng-href="/{{getDate('YYYY')}}/{{getDate('MM')}}/{{getDate('DD')}}/{{getContent().slug}}/">-->
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                        <!--<div class="row" ui-sref="article({id:article.ID, slug:article.slug})">-->
-                            <div ng-if="$root.getImage(article)">
-                                <div class="col-xs-4">
-                                    <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
-
-                                        <span class="when-posted">{{$root.getWhen(article)}}</span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-8">
-                                    <div>
-                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-if="!$root.getImage(article)">
-                                <div class="col-xs-12">
-                                    <div>
-                                        <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                        <h3 ng-bind-html="$root.getTitle(article)"></h3>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </a>
-                    </div>
-                </div>
-
-                <div ng-if="horizontal()">
-                    <div class="group-preview">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-4" ng-repeat="article in getArticles()">
-                                <a ng-if="$root.getImage(article)" ng-href="{{getDateString(article)}}">
-                                    <div class="col-xs-4">
-                                        <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
-
-                                            <span class="when-posted">{{$root.getWhen(article)}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-8">
-                                        <div>
-                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a ng-if="!$root.getImage(article)">
-                                    <div class="col-xs-12">
-                                        <div>
-                                            <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
-                                            <h3 ng-bind-html="$root.getTitle(article)"></h3>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
@@ -360,9 +372,8 @@
                      style="height:{{getHeight()}}px"
                 >
                     <div class="image-holder">
-                        <div
-                                class="image-img"
-                                style="background-image:url('{{$root.getImage(getContent())}}')"
+                        <div class="image-img"
+                             style="background-image:url('{{$root.getImage(getContent())}}')"
                         ></div>
                     </div>
 
@@ -370,15 +381,24 @@
                     <span class="when-posted">{{$root.getWhen(getContent())}}</span>
                 </div>
 
-                <h2 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h2>
-                <h2 ng-show="!getContent()" class="blokk" style="color: #333">
-                    Lorem ipsum er e!
-                </h2>
-                <p ng-show="!getContent()" class="blokk" style="color: #999">
-                    Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
-                </p>
-                <p ng-bind-html="$root.getSummary(getContent())" ng-show="$root.getSummary(getContent())"></p>
-                <p ng-bind-html="$root.getExcerpt(getContent())" ng-show="!$root.getSummary(getContent())"></p>
+                <div ng-if="getContent()">
+                    <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
+
+                    <p ng-bind-html="$root.getSummary(getContent())" ng-show="!!$root.getSummary(getContent())"></p>
+                    <p ng-bind-html="$root.getExcerpt(getContent())" ng-hide="!!$root.getSummary(getContent())"></p>
+                    <p ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
+                       class="author-name">{{$root.getAuthor(getContent()).name}}</p>
+
+                </div>
+
+                <div ng-if="!getContent()">
+                    <h2 class="blokk" style="color: #333">
+                        Lorem ipsum er e!
+                    </h2>
+                    <p class="blokk" style="color: #999">
+                        Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
+                    </p>
+                </div>
 
             </a>
         </div>
@@ -405,6 +425,9 @@
                                 <div>
                                     <div class="tag">{{article.terms.category[0].name}}</div>
                                     <h3>{{$root.getTitle(article)}}</h3>
+                                    <p ng-show="article"
+                                       ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                       class="author-name">{{$root.getAuthor(article).name}}</p>
                                 </div>
                             </div>
                         </a>
@@ -491,6 +514,20 @@
 
         </div>
 
+    </div>
+</script>
+<script type="text/ng-team" id="team.html">
+    <div team="team">
+        <div class="team">
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="template.html">
+    <div template="template">
+        <div class="template">
+
+        </div>
     </div>
 </script>
 <script type="text/ng-template" id="article-screen.html">
@@ -722,46 +759,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -866,6 +863,46 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="search-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -919,38 +956,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="tag-list-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -987,6 +992,91 @@
                     </div>
                 </div>
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="team-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            <h1>Results for: {{getQuery()}}</h1>
+
+            <!--{{getContent()}}-->
+            <div ng-if="!getContent().length">No Results Found</div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <hero-item
+                            ng-if="getContent()"
+                            id="{{getArticle(0).id}}"
+                            height="350"
+                    ></hero-item>
+                </div>
+
+
+                <div class="col-xs-12">
+                    <div class="row">
+
+                        <div class="col-md-4 col-sm-7 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-5 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(2) track by $index"
+                                    id="{{article.id}}"
+                                    height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

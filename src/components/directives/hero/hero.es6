@@ -29,8 +29,8 @@ app.directive('heroItem', (API, State, Helper, Loading, $timeout, $rootScope) =>
                 content.excerpt.rendered = content.excerpt.rendered.replace(/^(.{80}[^\s]*).*/, "$1") + "...";
 
                 $("<img/>")
-                    .on('load', function() { console.log('image:', $rootScope.getImage(content)); element.find('.image-holder').addClass('active') })
-                    .on('error', function() { console.log("error loading image"); })
+                    .on('load', () => element.find('.image-holder').addClass('active'))
+                    .on('error', () => console.log("error loading image"))
                     .attr("src", $rootScope.getImage(content))
                 ;
             });
@@ -42,7 +42,7 @@ app.directive('heroItem', (API, State, Helper, Loading, $timeout, $rootScope) =>
         scope = _.extend(scope, {
             getContent: () => content,
             getHeight,
-            getDateString:Helper.getDateString
+            getDateString: Helper.getDateString
         });
     }
 }));

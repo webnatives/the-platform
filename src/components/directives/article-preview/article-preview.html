@@ -13,6 +13,9 @@
                         <div class="preview-content">
                             <div class="tag" ng-bind-html="$root.html(getContent().terms.category[0].name)"></div>
                             <h3 ng-show="getContent()" ng-bind-html="$root.getTitle(getContent())"></h3>
+                            <p ng-show="getContent()"
+                               ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
+                               class="author-name">{{$root.getAuthor(getContent()).name}}</p>
 
                             <h3 ng-show="!getContent()" class="blokk" style="color: #333">
                                 Lorem ipsum er e bid!

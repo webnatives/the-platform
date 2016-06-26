@@ -21,6 +21,9 @@
                                     <div>
                                         <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
                                         <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        <p ng-show="article"
+                                           ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                           class="author-name">{{$root.getAuthor(article).name}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -29,6 +32,10 @@
                                     <div>
                                         <div class="tag" ng-bind-html="$root.html(article.terms.category[0].name)"></div>
                                         <h3 ng-bind-html="$root.getTitle(article)"></h3>
+                                        <p ng-show="article"
+                                           ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                           class="author-name"
+                                        >{{$root.getAuthor(article).name}}</p>
                                     </div>
                                 </div>
                             </div>
