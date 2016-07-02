@@ -20,6 +20,8 @@ module.exports = {
         //app.get('/api/posts/author/:id', Get.postsByAuthor);
         app.get('/api/posts/:filter/:value', apicache('1 day'), Get.postsByFilter);
         app.get('/api/posts', apicache('1 day'), Get.posts);
+        //app.get('/api/pages/name/:name', apicache('1 day'), Get.pagesByName);
+        app.get('/api/pages/:filter/:value', apicache('1 day'), Get.pagesByFilter);
         app.get('/:year/:month/:day/:slug/', Get.postPage);
         app.get('*', Get.indexPage);
     }

@@ -4,7 +4,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var request = require('request');
 var rp = require('request-promise');
-var apicache = require('apicache').options({ debug: true }).middleware;
+var apicache = require('apicache').options({debug: true}).middleware;
 
 
 var standardData = {
@@ -21,6 +21,12 @@ var API = "http://admin.platformonline.uk/wp-json/wp/v2/";
 //var API = "http://platform.jamahielhosting.com/wp-json/wp/v2/";
 //var API = "http://www.the-platform.org.uk";
 
+var fastReq = (req, res, url) => {
+    request.get({url, json: true}, function (e, r, body) {
+        res.send(body);
+    });
+}
+;
 module.exports = {
 
     indexPage(req, res) {
@@ -38,10 +44,10 @@ module.exports = {
             var data = {
                 title: body[0].title.rendered + " | The Platform",
                 ogTitle: body[0].title.rendered + " | The Platform",
-                ogSiteName: "The Platform",
+                ogSiteName: "The Platform Online",
                 ogUrl: "http://platformonline.uk",
                 ogImage: body[0]._embedded['wp:featuredmedia'][0].source_url,
-                ogDescription: body[0].excerpt.rendered,
+                ogDescription: body[0].excerpt.rendered.replace("<p>", "").replace("</p>", ""),
                 ogType: "website"
             };
 
@@ -57,42 +63,33 @@ module.exports = {
     },
 
     home(req, res) {
-        //console.log('called home');
         request.get({url: `${API}pages/?slug=home&_embed`, json: true}, (e, r, body) => {
-                //console.log(e,r,body);
-                //standardData.content = body;
-                res.send(body[0]);
-            });
+            //console.log(e,r,body);
+            //standardData.content = body;
+            res.send(body[0]);
+        });
     },
 
-    postsByAuthor: (req, res) => request.get({
-        url: `${API}posts?filter[author]=${req.params.id}&_embed`,
-        json: true
-    }, (e, r, body) => res.send(body)),
+    postsByAuthor: (req, res) =>
+        fastReq(req, res, `${API}posts?filter[author]=${req.params.id}&_embed`),
 
-    postsByFilter: (req, res) => request.get({
-        url: `${API}posts?filter[${req.params.filter}]=${req.params.value}&_embed`,
-        json: true
-    }, (e, r, body) => {
-        console.log(`${API}posts?filter[${req.params.filter}]=${req.params.value}&_embed`);
-        //console.log(e,r,body);
-        res.send(body)
-    }),
+    postsByFilter: (req, res) =>
+        fastReq(req, res, `${API}posts?filter[${req.params.filter}]=${req.params.value}&_embed`),
 
-    post: (req, res) => request.get({
-        url: `${API}posts/${req.params.id}?_embed`,
-        json: true
-    }, (e, r, body) => res.send(body)),
+    pagesByFilter: (req, res) =>
+        fastReq(req, res, `${API}pages?filter[${req.params.filter}]=${req.params.value}&_embed`),
 
-    author: (req, res) => request.get({
-        url: `${API}users/${req.params.id}?_embed`,
-        json: true
-    }, (e, r, body) => res.send(body)),
+    pagesByName: (req, res) =>
+        fastReq(req, res, `${API}pages?slug=${req.params.name}&_embed`),
 
-    authors: (req, res) => request.get({
-        url: `${API}users/?per_page=50&page=${req.params.page}`,
-        json: true
-    }, (e, r, body) => res.send(body)),
+    post: (req, res) =>
+        fastReq(req, res, `${API}posts/${req.params.id}?_embed`),
+
+    author: (req, res) =>
+        fastReq(req, res, `${API}users/${req.params.id}?_embed`),
+
+    authors: (req, res) =>
+        fastReq(req, res, `${API}users/?per_page=50&page=${req.params.page}`),
 
     postBySlug(req, res) {
         request.get({
@@ -103,7 +100,6 @@ module.exports = {
             res.send(body[0]);
         })
     },
-
 
     posts(req, res) {
         request.get({url: `${API}posts/?filter[posts_per_page]=10&_embed`, json: true}, function (e, r, body) {
@@ -133,4 +129,3 @@ module.exports = {
         })
     }
 };
-

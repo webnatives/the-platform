@@ -59,9 +59,12 @@
 <loading-item></loading-item>
 <alert-item></alert-item>
 
-<div ui-view></div>
 
 <header-item></header-item>
+
+<div ui-view></div>
+
+<div templates>
 <script type="text/ng-template" id="alert.html">
     <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
         <div class="alert-box">
@@ -111,6 +114,41 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="author-preview.html">
+    <div class="author-preview" ng-class="{small:author.small}">
+        <div class="box" ui-sref="author({author_id:author.getAuthor().id, 'authorSlug':author.getAuthor().slug})" style="cursor: pointer">
+            <flex-item>
+                <flex-item row="true">
+                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}}')"></div>
+                    <div class="author-img" ng-show="author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().acf.profile_pic.url}}')"></div>
+                    <div>
+                        <div class="author-name">
+                            <h2>{{author.getAuthor().name}}</h2>
+
+                        </div>
+                    </div>
+
+                </flex-item>
+
+                <div ng-if="!author.small" style="margin-top: 15px; display: block" class="author-desc" ng-show="author.getAuthor().description" ng-bind-html="$root.html(author.getAuthor().description)"></div>
+
+            </flex-item>
+        </div>
+
+        <div ng-if="!author.small">
+            <h3 ui-sref="author({'author_id':author.getAuthor().id, 'authorSlug':author.getAuthor().slug})"
+                style="cursor: pointer"
+            >More from {{author.getAuthor().name}}</h3>
+            <div style="height: 10px"></div>
+            <group-item
+                    heading=""
+                    ng-if="author.getArticles().length"
+                    ids="author.getArticles()"
+            ></group-item>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-share.html">
     <div template="article-share">
         <div class="container">
@@ -130,41 +168,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="author-preview.html">
-    <div class="author-preview" ng-class="{small:author.small}">
-        <div class="box" ui-sref="author({author_id:author.getAuthor().id, 'authorSlug':author.getAuthor().slug})" style="cursor: pointer">
-            <flex-item>
-                <flex-item row="true">
-                    <div class="author-img" ng-show="!author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().avatar_urls['96']}}')"></div>
-                    <div class="author-img" ng-show="author.getAuthor().acf.profile_pic.url" style="background-image: url('{{author.getAuthor().acf.profile_pic.url}}')"></div>
-                    <div>
-                        <div class="author-name">
-                            <h2>{{author.getAuthor().name}}</h2>
-
-                        </div>
-                    </div>
-
-                </flex-item>
-
-                <div style="margin-top: 15px; display: block" class="author-desc" ng-show="author.getAuthor().description">{{author.getAuthor().description}}</div>
-
-            </flex-item>
-        </div>
-
-        <div ng-if="!author.small">
-            <h3 ui-sref="author({'author_id':author.getAuthor().id, 'authorSlug':author.getAuthor().slug})"
-                style="cursor: pointer"
-            >More from {{author.getAuthor().name}}</h3>
-            <div style="height: 10px"></div>
-            <group-item
-                    heading=""
-                    ng-if="author.getArticles().length"
-                    ids="author.getArticles()"
-            ></group-item>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="comments-item.html">
     <div template="comments">
         <div class="container">
@@ -176,10 +179,6 @@
         </div>
 
 
-    </div>
-</script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="foot.html">
@@ -198,13 +197,13 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <h2>Writers</h2>
-                        <p>Writer's Guidelines</p>
-                        <p>User Guidelines</p>
-                        <p>Join</p>
+                        <p><a ng-href="/page/writers-guidelines">Writer's Guidelines</a></p>
+                        <p><a ng-href="/page/user-guidelines">User Guidelines</a></p>
+                        <p><a ng-href="/page/join">Join</a></p>
                     </div>
                     <div class="col-sm-4">
-                        <h2>About</h2>
-                        <p>The Platform</p>
+                        <h2>The Platform</h2>
+                        <p><a ng-href="/about">About</a></p>
                     </div>
                     <div class="col-sm-4">
                         <h2>Get In Touch</h2>
@@ -225,6 +224,10 @@
             </div>
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -315,11 +318,11 @@
         <div class="header" ng-class="{active:isMenuVisible()}">
             <div class="helper-bar">
                 <div class="container">
-                    <span ui-sref="authors({page:1})" style="cursor: pointer">Our Writers</span> |
-                    About |
-                    Guidelines |
-                    Join |
-                    <span ui-sref="topic({cat:'updates'})" style="cursor: pointer">Updates</span>
+                    <a ng-href="/authors/1">Our Writers</a> |
+                    <a ng-href="/about">About</a> |
+                    <a ng-href="/page/writers-guidelines">Guidelines</a> |
+                    <a ng-href="/page/join">Join</a> |
+                    <a ng-href="/topic/updates">Updates</a>
                 </div>
             </div>
 
@@ -327,17 +330,6 @@
                 <div class="container" style="position: relative">
                     <div class="logo" ui-sref="home"></div>
                     <div class="logo-text" ui-sref="home">The Platform</div>
-
-                    <!--<div class="silent-bar">-->
-                        <!--<i class="fa fa-search"></i>-->
-                        <!--&nbsp; Search-->
-                    <!--</div>-->
-
-                    <!--<div class="social hidden-xs">-->
-                        <!--<i class="fa fa-twitter"></i>-->
-                        <!--<i class="fa fa-facebook"></i>-->
-                        <!--<i class="fa fa-envelope"></i>-->
-                    <!--</div>-->
                 </div>
 
             </div>
@@ -454,22 +446,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="search.html">
-    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
-
-        <div class="search-box" ng-click="$event.stopPropagation()">
-            <flex-item row="true">
-                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
-                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
-
-            </flex-item>
-
-        </div>
-
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="share.html">
     <div template="share">
         <div class="share-float">
@@ -516,11 +492,41 @@
 
     </div>
 </script>
-<script type="text/ng-team" id="team.html">
-    <div team="team">
-        <div class="team">
+<script type="text/ng-template" id="team.html">
+    <div class="team">
+        <div class="members">
+            <div class="member box" ng-repeat="member in team.getTeam()">
+                <div class="member-img">
+                    <div ng-show="member.image" class="img-src" style="background-image: url('{{member.image.sizes.medium}}')"></div>
+                    <div ng-hide="member.image" class="img-src" style="background-image: url('/public/img/default.png');opacity: 0.3;"></div>
+
+                </div>
+                <div class="member-content">
+                    <div class="member-name">{{member.name}}</div>
+                    <p class="member-role"><span>{{member.role}}</span></p>
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="search.html">
+    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+
+        <div class="search-box" ng-click="$event.stopPropagation()">
+            <flex-item row="true">
+                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
+                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+
+            </flex-item>
 
         </div>
+
+
+
     </div>
 </script>
 <script type="text/ng-template" id="template.html">
@@ -542,8 +548,8 @@
 
                         <h1 class="article-header" ng-bind-html="$root.getTitle(getContent())"></h1>
 
-                        <div class="clearfix" style="height: 60px;margin-top: -30px;padding: 0 10px;">
-                            <p class="start" style="font-weight: bold;font-size: 16px">
+                        <div class="clearfix" style="">
+                            <p class="start" style="font-weight: bold;font-size: 16px; margin-bottom: 30px;">
                                 {{getDate()}}
 
                                 <span class="pull-right article-social">
@@ -704,11 +710,11 @@
             <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
             <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
 
-            <h1 style="line-height: 60px">{{getAuthor().name}}</h1>
+            <h1 style="line-height: 60px;padding-top: 0">{{getAuthor().name}}</h1>
 
             <!--<hr>-->
 
-            <p ng-show="getAuthor().description">{{getAuthor().description}}</p>
+            <p ng-show="getAuthor().description" ng-bind-html="$root.html(getAuthor().description)"></p>
 
             <div style="height: 10px"></div>
             <flex-item row="true" wrap="true" style="margin:0 -10px">
@@ -903,6 +909,60 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="page-screen.html">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
+
+        <div class="container">
+
+            <h1 ng-bind="getContent().title.rendered"></h1>
+
+            <div class="box">
+                <div class="article-content" ng-bind-html="$root.html(getContent().content.rendered)">
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="search-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -999,86 +1059,21 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="team-screen.html">
-    <div screen style="background: #f7f7f7">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
 
         <div class="container">
 
-            <h1>Results for: {{getQuery()}}</h1>
+            <h1 ng-bind="getContent().title.rendered">About Us</h1>
 
-            <!--{{getContent()}}-->
-            <div ng-if="!getContent().length">No Results Found</div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-
-
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
+            <div class="box">
+                <div class="article-content"
+                     ng-bind-html="$root.html(getContent().content.rendered)"
+                ></div>
             </div>
+            <h1>Meet The Team</h1>
 
+            <team-item></team-item>
         </div>
 
         <foot-item></foot-item>
@@ -1129,7 +1124,7 @@
         <foot-item></foot-item>
     </div>
 </script>
-
+</div>
 
 <script src="/public/lib.js"></script>
 <script src="/public/app.js"></script>

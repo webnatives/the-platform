@@ -3,11 +3,11 @@
         <div class="header" ng-class="{active:isMenuVisible()}">
             <div class="helper-bar">
                 <div class="container">
-                    <span ui-sref="authors({page:1})" style="cursor: pointer">Our Writers</span> |
-                    About |
-                    Guidelines |
-                    Join |
-                    <span ui-sref="topic({cat:'updates'})" style="cursor: pointer">Updates</span>
+                    <a ng-href="/authors/1">Our Writers</a> |
+                    <a ng-href="/about">About</a> |
+                    <a ng-href="/page/writers-guidelines">Guidelines</a> |
+                    <a ng-href="/page/join">Join</a> |
+                    <a ng-href="/topic/updates">Updates</a>
                 </div>
             </div>
 
@@ -15,17 +15,6 @@
                 <div class="container" style="position: relative">
                     <div class="logo" ui-sref="home"></div>
                     <div class="logo-text" ui-sref="home">The Platform</div>
-
-                    <!--<div class="silent-bar">-->
-                        <!--<i class="fa fa-search"></i>-->
-                        <!--&nbsp; Search-->
-                    <!--</div>-->
-
-                    <!--<div class="social hidden-xs">-->
-                        <!--<i class="fa fa-twitter"></i>-->
-                        <!--<i class="fa fa-facebook"></i>-->
-                        <!--<i class="fa fa-envelope"></i>-->
-                    <!--</div>-->
                 </div>
 
             </div>

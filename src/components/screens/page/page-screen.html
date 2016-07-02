@@ -1,0 +1,22 @@
+<script type="text/ng-template" id="page-screen.html">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
+
+        <div class="container">
+
+            <h1 ng-bind="getContent().title.rendered"></h1>
+
+            <div class="box">
+                <div class="article-content" ng-bind-html="$root.html(getContent().content.rendered)">
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>

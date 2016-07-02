@@ -40,6 +40,16 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         templateUrl: "topic-screen.html",
         controller: "TopicScreen",
         resolve: resolve
+    }).state('about', {
+        url: "/about",
+        templateUrl: "team-screen.html",
+        controller: "TeamScreen",
+        resolve: resolve
+    }).state('page', {
+        url: "/page/:pageSlug",
+        templateUrl: "page-screen.html",
+        controller: "PageScreen",
+        resolve: resolve
     }).state('tag', {
         url: "/tag/:tag",
         templateUrl: "tag-screen.html",
@@ -128,6 +138,13 @@ app.factory('API', function ($rootScope, $http) {
 
     var API_URL = "/api/";
 
+    var req = function req(url, single) {
+        return $http.get(url).then(function (response) {
+            console.log('req response', response);
+            return single ? response.data[0] : response.data;
+        });
+    };
+
     var login = function login(object) {
         return $http.get(API_URL + "login/", {
             params: object,
@@ -138,21 +155,19 @@ app.factory('API', function ($rootScope, $http) {
     };
 
     var getHome = function getHome() {
-        return $http.get(API_URL + 'home').then(function (response) {
-            return response.data;
-        });
+        return req(API_URL + 'home');
+    };
+
+    var getPageByName = function getPageByName(name) {
+        return req(API_URL + 'pages/name/' + name, true);
     };
 
     var getAuthor = function getAuthor(id) {
-        return $http.get(API_URL + 'author/' + id).then(function (response) {
-            return response.data;
-        });
+        return req(API_URL + 'author/' + id);
     };
 
     var getAuthors = function getAuthors(page) {
-        return $http.get(API_URL + 'authors/' + page).then(function (response) {
-            return response.data;
-        });
+        return req(API_URL + 'authors/' + page);
     };
 
     var getPost = function getPost(id) {
@@ -217,7 +232,6 @@ app.factory('API', function ($rootScope, $http) {
 
     var getDocument = function getDocument(collection, data) {
         return $http.get('' + API_URL + collection, { params: data, headers: { 'Cache-Control': 'no-cache' } }).then(function (response) {
-            console.log(response.data[0]);
             return response.data[0];
         });
     };
@@ -241,6 +255,7 @@ app.factory('API', function ($rootScope, $http) {
         getAuthor: getAuthor,
         getAuthors: getAuthors,
         getPostsByAuthor: getPostsByAuthor,
+        getPageByName: getPageByName,
         getPostBySlug: getPostBySlug,
         getPostsBySearch: getPostsBySearch,
         getPosts: getPosts,
@@ -497,23 +512,6 @@ app.directive('articlePreviewItem', function (State, API) {
     };
 });
 
-'use strict';
-
-app.directive('articleShareItem', function (API, State, Helper) {
-    return {
-        templateUrl: 'article-share.html',
-        scope: {},
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.extend(scope, {});
-        }
-    };
-});
-
 app.directive('authorPreviewItem', function () {
     return {
         templateUrl: 'author-preview.html',
@@ -527,7 +525,7 @@ app.directive('authorPreviewItem', function () {
         controller: function controller($scope, $element, State, API) {
             var _this = this;
 
-            console.log('authorId', this);
+            //console.log('authorId', this);
 
             var author, articles;
 
@@ -567,6 +565,23 @@ app.directive('authorPreviewItem', function () {
     };
 });
 
+'use strict';
+
+app.directive('articleShareItem', function (API, State, Helper) {
+    return {
+        templateUrl: 'article-share.html',
+        scope: {},
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.extend(scope, {});
+        }
+    };
+});
+
 app.directive('commentsItem', function ($timeout, Helper) {
     return {
         templateUrl: 'comments-item.html',
@@ -598,6 +613,28 @@ app.directive('commentsItem', function ($timeout, Helper) {
     };
 });
 
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
+            });
+        }
+    };
+});
+
 app.directive('flexItem', function () {
     return {
         templateUrl: 'flex.html',
@@ -625,28 +662,6 @@ app.directive('flexItem', function () {
                 getFlexClass: function getFlexClass() {
                     return flexClass;
                 }
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
             });
         }
     };
@@ -843,34 +858,6 @@ app.directive('loadingItem', function (Loading) {
     };
 });
 
-app.directive('searchItem', function () {
-    return {
-        templateUrl: 'search.html',
-        controllerAs: 'search',
-        scope: {},
-        controller: function controller(Search, $scope, $state) {
-
-            var go = function go(query) {
-                if (!query) return;
-                $state.go('search', { query: query });
-                Search.hide();
-                $('.search-box input').blur();
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                go: go,
-                isVisible: Search.isVisible,
-                hide: Search.hide,
-                show: Search.show
-            });
-        }
-    };
-});
-
 'use strict';
 
 app.directive('share', function ($timeout, Helper) {
@@ -918,17 +905,52 @@ app.directive('share', function ($timeout, Helper) {
 
 app.directive('teamItem', function () {
     return {
-        teamUrl: 'team.html',
+        templateUrl: 'team.html',
         controllerAs: 'team',
         bindToController: true,
         scope: {},
-        controller: function controller($timeout) {
+        controller: function controller($timeout, State) {
+
+            var getTeam = function getTeam() {
+                return State.getCustomData().team;
+            };
 
             var init = function init() {};
 
             init();
 
-            _.extend(this, {});
+            _.extend(this, {
+                getTeam: getTeam
+
+            });
+        }
+    };
+});
+
+app.directive('searchItem', function () {
+    return {
+        templateUrl: 'search.html',
+        controllerAs: 'search',
+        scope: {},
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+                $('.search-box input').blur();
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
+            });
         }
     };
 });
@@ -1240,6 +1262,72 @@ app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $st
     });
 });
 
+app.controller('PageScreen', function ($scope, $element, Loading, API, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        document.title = $stateParams.pageSlug + ' | The Platform Online';
+
+        API.getPageByName($stateParams.pageSlug).then(function (response) {
+            $element.find('[screen]').addClass('active');
+            document.title = response.title.rendered + ' | The Platform Online';
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
+
+            Loading.setActive(false);
+            console.log('PAGE: ' + $stateParams.pageSlug, response);
+
+            content = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getContent: function getContent() {
+            return content;
+        }
+    });
+});
+
+app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByTag($stateParams.tag).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+
+            document.title = '#' + $stateParams.tag + ' | The Platform Online';
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTag: function getTag() {
+            return $stateParams.tag;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getArticle: function getArticle(index) {
+            return content[index];
+        }
+    });
+});
+
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1306,54 +1394,31 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+app.controller('TeamScreen', function ($scope, $element, Loading, API, $stateParams) {
 
     var content;
 
     var init = function init() {
-        API.getPostsByTag($stateParams.tag).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
+        document.title = 'About Us | The Platform Online';
+        ga('set', 'page', window.location.pathname);
+        ga('send', 'pageview');
 
-            document.title = '#' + $stateParams.tag + ' | The Platform Online';
-            ga('set', 'page', window.location.pathname);
-            ga('send', 'pageview');
+        $element.find('[screen]').addClass('active');
+
+        API.getPageByName('about').then(function (response) {
+            Loading.setActive(false);
+            console.log('about', response);
+            content = response;
         });
     };
 
     init();
 
     _.extend($scope, {
-        getTag: function getTag() {
-            return $stateParams.tag;
-        },
         getContent: function getContent() {
             return content;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(content, content.length / 2)[index];
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getArticle: function getArticle(index) {
-            return content[index];
         }
     });
-});
-
-app.controller('TeamScreen', function ($scope) {
-
-    var init = function init() {
-        document.title = 'Our Team | The Platform Online';
-        ga('set', 'page', window.location.pathname);
-        ga('send', 'pageview');
-    };
-
-    init();
-
-    _.extend($scope, {});
 });
 
 app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {

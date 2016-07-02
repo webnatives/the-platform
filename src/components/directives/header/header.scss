@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     right: 0;
-    position: absolute;
+    //position: absolute;
     //height: 100px;
     z-index: 100;
     overflow: hidden;
@@ -42,6 +42,12 @@
         height: 20px;
         line-height: 20px;
         font-size: 10px;
+      }
+
+      a {
+        color: white !important;
+        //text-decoration: none;
+        cursor: pointer;
       }
     }
 

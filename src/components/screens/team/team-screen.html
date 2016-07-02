@@ -1,51 +1,18 @@
 <script type="text/ng-template" id="team-screen.html">
-    <div screen style="background: #f7f7f7">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
 
         <div class="container">
 
-            <h1>Results for: {{getQuery()}}</h1>
+            <h1 ng-bind="getContent().title.rendered">About Us</h1>
 
-            <!--{{getContent()}}-->
-            <div ng-if="!getContent().length">No Results Found</div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-
-
-                <div class="col-xs-12">
-                    <div class="row">
-
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
+            <div class="box">
+                <div class="article-content"
+                     ng-bind-html="$root.html(getContent().content.rendered)"
+                ></div>
             </div>
+            <h1>Meet The Team</h1>
 
+            <team-item></team-item>
         </div>
 
         <foot-item></foot-item>

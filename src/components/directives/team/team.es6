@@ -1,9 +1,11 @@
 app.directive('teamItem', () => ({
-    teamUrl: 'team.html',
+    templateUrl: 'team.html',
     controllerAs: 'team',
     bindToController: true,
     scope: {},
-    controller($timeout) {
+    controller($timeout, State) {
+
+        var getTeam = () => State.getCustomData().team;
 
         var init = () => {
         };
@@ -11,6 +13,8 @@ app.directive('teamItem', () => ({
         init();
 
         _.extend(this, {
+            getTeam
+
         });
     }
 }));

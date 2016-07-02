@@ -8,7 +8,7 @@ app.directive('authorPreviewItem', () => ({
         small: '='
     },
     controller($scope, $element, State, API) {
-        console.log('authorId', this);
+        //console.log('authorId', this);
 
         var author, articles;
 
