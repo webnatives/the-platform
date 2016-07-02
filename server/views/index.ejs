@@ -181,6 +181,10 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="flex.html">
+    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
+    </div>
+</script>
 <script type="text/ng-template" id="foot.html">
     <div template="foot">
         <div class="foot-top">
@@ -224,10 +228,6 @@
             </div>
 
         </div>
-    </div>
-</script>
-<script type="text/ng-template" id="flex.html">
-    <div class="flex" ng-class="flex.getFlexClass()" ng-transclude>
     </div>
 </script>
 <script type="text/ng-template" id="group.html">
@@ -313,6 +313,47 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="hero.html">
+    <div template="hero">
+        <div class="hero fi">
+            <a class="box red" ng-href="{{getDateString(getContent())}}">
+                <div class="hero-image"
+                     style="height:{{getHeight()}}px"
+                >
+                    <div class="image-holder">
+                        <div class="image-img"
+                             style="background-image:url('{{$root.getImage(getContent())}}')"
+                        ></div>
+                    </div>
+
+                    <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
+                    <span class="when-posted">{{$root.getWhen(getContent())}}</span>
+                </div>
+
+                <div ng-if="getContent()">
+                    <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
+
+                    <p ng-bind-html="$root.getSummary(getContent())" ng-show="!!$root.getSummary(getContent())"></p>
+                    <p ng-bind-html="$root.getExcerpt(getContent())" ng-hide="!!$root.getSummary(getContent())"></p>
+                    <p ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
+                       class="author-name">{{$root.getAuthor(getContent()).name}}</p>
+
+                </div>
+
+                <div ng-if="!getContent()">
+                    <h2 class="blokk" style="color: #333">
+                        Lorem ipsum er e!
+                    </h2>
+                    <p class="blokk" style="color: #999">
+                        Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
+                    </p>
+                </div>
+
+            </a>
+        </div>
+
+    </div>
+</script>
 <script type="text/ng-template" id="header.html">
     <div template="header">
         <div class="header" ng-class="{active:isMenuVisible()}">
@@ -354,47 +395,6 @@
             </div>
 
         </div>
-    </div>
-</script>
-<script type="text/ng-template" id="hero.html">
-    <div template="hero">
-        <div class="hero fi">
-            <a class="box red" ng-href="{{getDateString(getContent())}}">
-                <div class="hero-image"
-                     style="height:{{getHeight()}}px"
-                >
-                    <div class="image-holder">
-                        <div class="image-img"
-                             style="background-image:url('{{$root.getImage(getContent())}}')"
-                        ></div>
-                    </div>
-
-                    <div class="tag" ng-bind-html="$root.getCat(getContent())"></div>
-                    <span class="when-posted">{{$root.getWhen(getContent())}}</span>
-                </div>
-
-                <div ng-if="getContent()">
-                    <h2 ng-bind-html="$root.getTitle(getContent())"></h2>
-
-                    <p ng-bind-html="$root.getSummary(getContent())" ng-show="!!$root.getSummary(getContent())"></p>
-                    <p ng-bind-html="$root.getExcerpt(getContent())" ng-hide="!!$root.getSummary(getContent())"></p>
-                    <p ui-sref="author({'author_id':$root.getAuthor(getContent()).id, 'authorSlug':$root.getAuthor(getContent()).slug})"
-                       class="author-name">{{$root.getAuthor(getContent()).name}}</p>
-
-                </div>
-
-                <div ng-if="!getContent()">
-                    <h2 class="blokk" style="color: #333">
-                        Lorem ipsum er e!
-                    </h2>
-                    <p class="blokk" style="color: #999">
-                        Lorem ips aum sasad sad s sadd Lorem ipsum dolor sit amet!
-                    </p>
-                </div>
-
-            </a>
-        </div>
-
     </div>
 </script>
 <script type="text/ng-template" id="latest.html">
@@ -444,6 +444,22 @@
             <!--<i class="fa fa-2x fa-spin fa-circle-o-notch"></i>-->
 
         </div>
+    </div>
+</script>
+<script type="text/ng-template" id="search.html">
+    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+
+        <div class="search-box" ng-click="$event.stopPropagation()">
+            <flex-item row="true">
+                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
+                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+
+            </flex-item>
+
+        </div>
+
+
+
     </div>
 </script>
 <script type="text/ng-template" id="share.html">
@@ -510,22 +526,6 @@
 
             </div>
         </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="search.html">
-    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
-
-        <div class="search-box" ng-click="$event.stopPropagation()">
-            <flex-item row="true">
-                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
-                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
-
-            </flex-item>
-
-        </div>
-
-
 
     </div>
 </script>
@@ -931,38 +931,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="search-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -1005,6 +973,38 @@
                                     ng-repeat="article in getContentHalf(2) track by $index"
                                     id="{{article.id}}"
                                     height="200"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
                             ></hero-item>
                         </div>
                     </div>

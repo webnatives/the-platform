@@ -613,28 +613,6 @@ app.directive('commentsItem', function ($timeout, Helper) {
     };
 });
 
-'use strict';
-
-app.directive('footItem', function (State) {
-    return {
-        templateUrl: 'foot.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var init = function init() {};
-
-            init();
-
-            scope = _.assign(scope, {
-                isMenuVisible: State.isMenuVisible,
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle
-            });
-        }
-    };
-});
-
 app.directive('flexItem', function () {
     return {
         templateUrl: 'flex.html',
@@ -662,6 +640,28 @@ app.directive('flexItem', function () {
                 getFlexClass: function getFlexClass() {
                     return flexClass;
                 }
+            });
+        }
+    };
+});
+
+'use strict';
+
+app.directive('footItem', function (State) {
+    return {
+        templateUrl: 'foot.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var init = function init() {};
+
+            init();
+
+            scope = _.assign(scope, {
+                isMenuVisible: State.isMenuVisible,
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle
             });
         }
     };
@@ -696,51 +696,6 @@ app.directive('groupItem', function (State, API, Helper) {
                     return articles[index];
                 },
                 getDateString: Helper.getDateString
-            });
-        }
-    };
-});
-
-'use strict';
-
-app.directive('headerItem', function (State, Search) {
-    return {
-        templateUrl: 'header.html',
-        scope: {},
-
-        link: function link(scope, element, attrs) {
-
-            var menuVisible = true,
-                currentscroll = 0;
-
-            var checkScroll = function checkScroll() {
-                menuVisible = $(window).scrollTop() <= currentscroll;
-                currentscroll = $(window).scrollTop();
-                scope.$digest();
-            };
-
-            var getMenuItems = function getMenuItems() {
-                return State.getCustomData().menuCategories;
-            };
-
-            var events = function events() {
-                $(window).on('scroll', checkScroll);
-            };
-
-            var init = function init() {
-                events();
-            };
-
-            init();
-
-            scope = _.extend(scope, {
-                showSearch: Search.show,
-                isMenuVisible: function isMenuVisible() {
-                    return menuVisible;
-                },
-                toggleMenu: State.toggleMenu,
-                getTitle: State.getTitle,
-                getMenuItems: getMenuItems
             });
         }
     };
@@ -802,6 +757,51 @@ app.directive('heroItem', function (API, State, Helper, Loading, $timeout, $root
 
 'use strict';
 
+app.directive('headerItem', function (State, Search) {
+    return {
+        templateUrl: 'header.html',
+        scope: {},
+
+        link: function link(scope, element, attrs) {
+
+            var menuVisible = true,
+                currentscroll = 0;
+
+            var checkScroll = function checkScroll() {
+                menuVisible = $(window).scrollTop() <= currentscroll;
+                currentscroll = $(window).scrollTop();
+                scope.$digest();
+            };
+
+            var getMenuItems = function getMenuItems() {
+                return State.getCustomData().menuCategories;
+            };
+
+            var events = function events() {
+                $(window).on('scroll', checkScroll);
+            };
+
+            var init = function init() {
+                events();
+            };
+
+            init();
+
+            scope = _.extend(scope, {
+                showSearch: Search.show,
+                isMenuVisible: function isMenuVisible() {
+                    return menuVisible;
+                },
+                toggleMenu: State.toggleMenu,
+                getTitle: State.getTitle,
+                getMenuItems: getMenuItems
+            });
+        }
+    };
+});
+
+'use strict';
+
 app.directive('latestItem', function (State, API, Helper) {
     return {
         templateUrl: 'latest.html',
@@ -853,6 +853,34 @@ app.directive('loadingItem', function (Loading) {
                 setActive: Loading.setActive,
                 randMsg: Loading.randMsg,
                 getMessage: Loading.getMessage
+            });
+        }
+    };
+});
+
+app.directive('searchItem', function () {
+    return {
+        templateUrl: 'search.html',
+        controllerAs: 'search',
+        scope: {},
+        controller: function controller(Search, $scope, $state) {
+
+            var go = function go(query) {
+                if (!query) return;
+                $state.go('search', { query: query });
+                Search.hide();
+                $('.search-box input').blur();
+            };
+
+            var init = function init() {};
+
+            init();
+
+            _.extend(this, {
+                go: go,
+                isVisible: Search.isVisible,
+                hide: Search.hide,
+                show: Search.show
             });
         }
     };
@@ -922,34 +950,6 @@ app.directive('teamItem', function () {
             _.extend(this, {
                 getTeam: getTeam
 
-            });
-        }
-    };
-});
-
-app.directive('searchItem', function () {
-    return {
-        templateUrl: 'search.html',
-        controllerAs: 'search',
-        scope: {},
-        controller: function controller(Search, $scope, $state) {
-
-            var go = function go(query) {
-                if (!query) return;
-                $state.go('search', { query: query });
-                Search.hide();
-                $('.search-box input').blur();
-            };
-
-            var init = function init() {};
-
-            init();
-
-            _.extend(this, {
-                go: go,
-                isVisible: Search.isVisible,
-                hide: Search.hide,
-                show: Search.show
             });
         }
     };
@@ -1291,43 +1291,6 @@ app.controller('PageScreen', function ($scope, $element, Loading, API, $statePar
     });
 });
 
-app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var content;
-
-    var init = function init() {
-        API.getPostsByTag($stateParams.tag).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-
-            document.title = '#' + $stateParams.tag + ' | The Platform Online';
-            ga('set', 'page', window.location.pathname);
-            ga('send', 'pageview');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTag: function getTag() {
-            return $stateParams.tag;
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getContentHalf: function getContentHalf(index) {
-            return _.chunk(content, content.length / 2)[index];
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getArticle: function getArticle(index) {
-            return content[index];
-        }
-    });
-});
-
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1370,6 +1333,43 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
         },
         getContentHalf: function getContentHalf(index) {
             return _.chunk(_.rest(content), content.length / 4)[index];
+        }
+    });
+});
+
+app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var content;
+
+    var init = function init() {
+        API.getPostsByTag($stateParams.tag).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+
+            document.title = '#' + $stateParams.tag + ' | The Platform Online';
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTag: function getTag() {
+            return $stateParams.tag;
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getContentHalf: function getContentHalf(index) {
+            return _.chunk(content, content.length / 2)[index];
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getArticle: function getArticle(index) {
+            return content[index];
         }
     });
 });
