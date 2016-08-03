@@ -416,6 +416,13 @@ textarea {
 
 }
 
+content {
+  height: 0;
+  max-height: 0;
+  display: block;
+  overflow: hidden;
+}
+
 .section-title {
   border-top: #eee 3px solid;
   padding: 20px 0 0px;

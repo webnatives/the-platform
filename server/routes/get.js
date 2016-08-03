@@ -43,8 +43,9 @@ module.exports = {
 
             var data = {
                 title: body[0].title.rendered + " | The Platform",
+                content: body[0].content.rendered + " | The Platform",
                 ogTitle: body[0].title.rendered + " | The Platform",
-                ogSiteName: "The Platform Online",
+                ogSiteName: "The Platform",
                 ogUrl: "http://platformonline.uk",
                 ogImage: body[0]._embedded['wp:featuredmedia'][0].source_url,
                 ogDescription: body[0].excerpt.rendered.replace("<p>", "").replace("</p>", ""),

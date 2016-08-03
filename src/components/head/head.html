@@ -8,7 +8,6 @@
 
     <base href="/">
 
-    <!--<title><%= title %></title>-->
     <title><%= title %></title>
     <meta name="description" content="<%= ogDescription %>" />
 
@@ -51,6 +50,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
 <body data-ng-app="app">
+
+<content>
+    <h1><%= locals.ogTitle ? locals.ogTitle : "" %></h1>
+
+    <img src=''<%= locals.ogImage ? locals.ogImage : "" %>' alt="">
+
+    <%= locals.content ? locals.content : "" %>
+
+
+</content>
 
 <!--<script>-->
     <!--var content = <--%- JSON.stringify(content) %>;-->

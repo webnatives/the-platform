@@ -8,7 +8,6 @@
 
     <base href="/">
 
-    <!--<title><%= title %></title>-->
     <title><%= title %></title>
     <meta name="description" content="<%= ogDescription %>" />
 
@@ -52,6 +51,16 @@
 </head>
 <body data-ng-app="app">
 
+<content>
+    <h1><%= locals.ogTitle ? locals.ogTitle : "" %></h1>
+
+    <img src=''<%= locals.ogImage ? locals.ogImage : "" %>' alt="">
+
+    <%= locals.content ? locals.content : "" %>
+
+
+</content>
+
 <!--<script>-->
     <!--var content = <--%- JSON.stringify(content) %>;-->
 <!--</script>-->
@@ -65,23 +74,6 @@
 <div ui-view></div>
 
 <div templates>
-<script type="text/ng-template" id="alert.html">
-    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
-        <div class="alert-box">
-            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
-            <!--<div class="box-header">-->
-                <!--&lt;!&ndash;Alert&ndash;&gt;-->
-            <!--</div>-->
-            <div class="box-content">
-                <p>{{alert.getContent()}}</p>
-
-                <div class="butn block">Got it!</div>
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -111,6 +103,42 @@
 
             </a>
         </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="alert.html">
+    <div class="alert" ng-click="alert.hide()" ng-class="{active:alert.isVisible()}">
+        <div class="alert-box">
+            <div class="box-icon"><i class="fa fa-exclamation"></i></div>
+            <!--<div class="box-header">-->
+                <!--&lt;!&ndash;Alert&ndash;&gt;-->
+            <!--</div>-->
+            <div class="box-content">
+                <p>{{alert.getContent()}}</p>
+
+                <div class="butn block">Got it!</div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
 
     </div>
 </script>
@@ -146,25 +174,6 @@
                     ids="author.getArticles()"
             ></group-item>
         </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
 
     </div>
 </script>
@@ -313,6 +322,49 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="header.html">
+    <div template="header">
+        <div class="header" ng-class="{active:isMenuVisible()}">
+            <div class="helper-bar">
+                <div class="container">
+                    <a ng-href="/authors/1">Our Writers</a> |
+                    <a ng-href="/about">About</a> |
+                    <a ng-href="/page/writers-guidelines">Guidelines</a> |
+                    <a ng-href="/page/join">Join</a>
+                    <!--<a ng-href="/topic/updates">Updates</a>-->
+                </div>
+            </div>
+
+            <div class="top-bar">
+                <div class="container" style="position: relative">
+                    <div class="logo" ui-sref="home"></div>
+                    <div class="logo-text" ui-sref="home">The Platform</div>
+                </div>
+
+            </div>
+
+            <div class="bottom-bar">
+                <div class="container" style="position: relative">
+
+                    <div class="item active item-search" ng-click="showSearch()">
+                        <i class="fa fa-search"></i>
+                        <span class="hidden-xs">&nbsp; Search</span>
+                    </div>
+
+                    <div class="menu-items">
+                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
+                        <div class="item"
+                             ui-sref="topic({cat:item.slug})"
+                             ng-repeat="item in getMenuItems()"
+                             ng-bind-html="$root.html(item.name)"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="hero.html">
     <div template="hero">
         <div class="hero fi">
@@ -352,49 +404,6 @@
             </a>
         </div>
 
-    </div>
-</script>
-<script type="text/ng-template" id="header.html">
-    <div template="header">
-        <div class="header" ng-class="{active:isMenuVisible()}">
-            <div class="helper-bar">
-                <div class="container">
-                    <a ng-href="/authors/1">Our Writers</a> |
-                    <a ng-href="/about">About</a> |
-                    <a ng-href="/page/writers-guidelines">Guidelines</a> |
-                    <a ng-href="/page/join">Join</a> |
-                    <a ng-href="/topic/updates">Updates</a>
-                </div>
-            </div>
-
-            <div class="top-bar">
-                <div class="container" style="position: relative">
-                    <div class="logo" ui-sref="home"></div>
-                    <div class="logo-text" ui-sref="home">The Platform</div>
-                </div>
-
-            </div>
-
-            <div class="bottom-bar">
-                <div class="container" style="position: relative">
-
-                    <div class="item active item-search" ng-click="showSearch()">
-                        <i class="fa fa-search"></i>
-                        <span class="hidden-xs">&nbsp; Search</span>
-                    </div>
-
-                    <div class="menu-items">
-                        <div class="item active" ui-sref="home"><i class="fa fa-home"></i></div>
-                        <div class="item"
-                             ui-sref="topic({cat:item.slug})"
-                             ng-repeat="item in getMenuItems()"
-                             ng-bind-html="$root.html(item.name)"
-                        ></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 </script>
 <script type="text/ng-template" id="latest.html">
@@ -446,22 +455,6 @@
         </div>
     </div>
 </script>
-<script type="text/ng-template" id="search.html">
-    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
-
-        <div class="search-box" ng-click="$event.stopPropagation()">
-            <flex-item row="true">
-                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
-                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
-
-            </flex-item>
-
-        </div>
-
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="share.html">
     <div template="share">
         <div class="share-float">
@@ -505,6 +498,22 @@
             </div>
 
         </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="search.html">
+    <div class="search" ng-click="search.hide()" ng-class="{active:search.isVisible()}">
+
+        <div class="search-box" ng-click="$event.stopPropagation()">
+            <flex-item row="true">
+                <input type="text" autofocus ng-model="query" ng-enter="search.go(query)">
+                <div class="search-butn" ng-click="search.go(query)"><i class="fa fa-search"></i></div>
+
+            </flex-item>
+
+        </div>
+
+
 
     </div>
 </script>
@@ -702,34 +711,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="author-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-
-            <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
-            <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
-
-            <h1 style="line-height: 60px;padding-top: 0">{{getAuthor().name}}</h1>
-
-            <!--<hr>-->
-
-            <p ng-show="getAuthor().description" ng-bind-html="$root.html(getAuthor().description)"></p>
-
-            <div style="height: 10px"></div>
-            <flex-item row="true" wrap="true" style="margin:0 -10px">
-                <hero-item ng-repeat="article in getArticles()" style="display: flex;flex: 1 0 300px; margin: 0 10px"
-                        id="{{article.id}}"
-                ></hero-item>
-            </flex-item>
-
-
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="authors-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -759,6 +740,74 @@
 
             </div>
 
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="author-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
+            <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
+
+            <h1 style="line-height: 60px;padding-top: 0">{{getAuthor().name}}</h1>
+
+            <!--<hr>-->
+
+            <p ng-show="getAuthor().description" ng-bind-html="$root.html(getAuthor().description)"></p>
+
+            <div style="height: 10px"></div>
+            <flex-item row="true" wrap="true" style="margin:0 -10px">
+                <hero-item ng-repeat="article in getArticles()" style="display: flex;flex: 1 0 300px; margin: 0 10px"
+                        id="{{article.id}}"
+                ></hero-item>
+            </flex-item>
+
+
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
@@ -862,46 +911,6 @@
                             horizontal="false"
                     ></group-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -1059,26 +1068,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="team-screen.html">
-    <div screen style="background: #f7f7f7" ng-show="getContent()">
-
-        <div class="container">
-
-            <h1 ng-bind="getContent().title.rendered">About Us</h1>
-
-            <div class="box">
-                <div class="article-content"
-                     ng-bind-html="$root.html(getContent().content.rendered)"
-                ></div>
-            </div>
-            <h1>Meet The Team</h1>
-
-            <team-item></team-item>
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="topic-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -1119,6 +1108,26 @@
                 </div>
             </div>
 
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="team-screen.html">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
+
+        <div class="container">
+
+            <h1 ng-bind="getContent().title.rendered">About Us</h1>
+
+            <div class="box">
+                <div class="article-content"
+                     ng-bind-html="$root.html(getContent().content.rendered)"
+                ></div>
+            </div>
+            <h1>Meet The Team</h1>
+
+            <team-item></team-item>
         </div>
 
         <foot-item></foot-item>
