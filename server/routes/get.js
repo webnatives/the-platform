@@ -2,10 +2,20 @@
 
 var fs = require('fs');
 var _ = require('underscore');
+var moment = require('moment');
 var request = require('request');
 var rp = require('request-promise');
 var apicache = require('apicache').options({debug: true}).middleware;
 
+let getDateString = (article) => {
+    //console.log('getDateString', article)
+    if (!article) return "/";
+
+    return "/" + moment(article.date).format('YYYY')
+        + "/" + moment(article.date).format('MM')
+        + "/" + moment(article.date).format('DD')
+        + "/" + article.slug + "/";
+};
 
 var standardData = {
     title: "The Platform | Challenging opinions on current affairs and culture.",
@@ -46,7 +56,7 @@ module.exports = {
                 content: body[0].content.rendered + " | The Platform",
                 ogTitle: body[0].title.rendered + " | The Platform",
                 ogSiteName: "The Platform",
-                ogUrl: "http://platformonline.uk",
+                ogUrl: "http://platformonline.uk" + getDateString(body[0]),
                 ogImage: body[0]._embedded['wp:featuredmedia'][0].source_url,
                 ogDescription: body[0].excerpt.rendered.replace("<p>", "").replace("</p>", ""),
                 ogType: "website"
