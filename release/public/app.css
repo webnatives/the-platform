@@ -481,45 +481,6 @@ alert-item {
         -webkit-transform: translateY(0);
                 transform: translateY(0); }
 
-[template=article-share] {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 0 50px;
-  margin-top: 20px; }
-  [template=article-share] .share-title {
-    padding: 20px 0 20px;
-    font-size: 20px;
-    font-weight: 700; }
-    [template=article-share] .share-title .fa {
-      -webkit-animation: pulse 1s infinite;
-              animation: pulse 1s infinite; }
-  [template=article-share] p {
-    font-size: 15px;
-    line-height: 32px;
-    margin-bottom: 30px;
-    font-weight: 300; }
-
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); }
-  50% {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1); }
-  100% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); } }
-
-@keyframes pulse {
-  0% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); }
-  50% {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1); }
-  100% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); } }
-
 [template=article-preview] {
   cursor: pointer; }
   [template=article-preview] .article-preview-image {
@@ -573,6 +534,45 @@ alert-item {
     cursor: pointer;
     font-size: 11px;
     width: 100%; }
+
+[template=article-share] {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0 50px;
+  margin-top: 20px; }
+  [template=article-share] .share-title {
+    padding: 20px 0 20px;
+    font-size: 20px;
+    font-weight: 700; }
+    [template=article-share] .share-title .fa {
+      -webkit-animation: pulse 1s infinite;
+              animation: pulse 1s infinite; }
+  [template=article-share] p {
+    font-size: 15px;
+    line-height: 32px;
+    margin-bottom: 30px;
+    font-weight: 300; }
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); }
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); } }
+
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); }
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); } }
 
 author-preview-item {
   -webkit-flex: 1 0 200px;
