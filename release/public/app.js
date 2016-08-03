@@ -89,6 +89,21 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -427,21 +442,6 @@ app.factory('State', function ($rootScope, $sce, API, $timeout) {
         getCustomData: getCustomData
     };
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.directive('alertItem', function () {
     return {
         templateUrl: 'alert.html',
@@ -937,10 +937,14 @@ app.directive('teamItem', function () {
         controllerAs: 'team',
         bindToController: true,
         scope: {},
-        controller: function controller($timeout, State) {
+        controller: function controller($timeout, State, $state) {
 
             var getTeam = function getTeam() {
                 return State.getCustomData().team;
+            };
+
+            var goAuthor = function goAuthor(member) {
+                if (member.author) $state.go('author', { author_id: member.author.ID, authorSlug: member.author.user_nicename });
             };
 
             var init = function init() {};
@@ -948,7 +952,8 @@ app.directive('teamItem', function () {
             init();
 
             _.extend(this, {
-                getTeam: getTeam
+                getTeam: getTeam,
+                goAuthor: goAuthor
 
             });
         }
@@ -1262,6 +1267,35 @@ app.controller('ImageListScreen', function ($element, $timeout, API, $scope, $st
     });
 });
 
+app.controller('PageScreen', function ($scope, $element, Loading, API, $stateParams) {
+
+    var content;
+
+    var init = function init() {
+        document.title = $stateParams.pageSlug + ' | The Platform Online';
+
+        API.getPageByName($stateParams.pageSlug).then(function (response) {
+            $element.find('[screen]').addClass('active');
+            document.title = response.title.rendered + ' | The Platform Online';
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
+
+            Loading.setActive(false);
+            console.log('PAGE: ' + $stateParams.pageSlug, response);
+
+            content = response;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getContent: function getContent() {
+            return content;
+        }
+    });
+});
+
 app.controller('SearchScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var content,
@@ -1308,55 +1342,6 @@ app.controller('SearchScreen', function ($element, $timeout, API, $scope, $state
     });
 });
 
-app.controller('PageScreen', function ($scope, $element, Loading, API, $stateParams) {
-
-    var content;
-
-    var init = function init() {
-        document.title = $stateParams.pageSlug + ' | The Platform Online';
-
-        API.getPageByName($stateParams.pageSlug).then(function (response) {
-            $element.find('[screen]').addClass('active');
-            document.title = response.title.rendered + ' | The Platform Online';
-            ga('set', 'page', window.location.pathname);
-            ga('send', 'pageview');
-
-            Loading.setActive(false);
-            console.log('PAGE: ' + $stateParams.pageSlug, response);
-
-            content = response;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getContent: function getContent() {
-            return content;
-        }
-    });
-});
-
-app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
-
-    var terms;
-
-    var init = function init() {
-        $element.find('[screen]').addClass('active');
-        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
-            return terms = response.data;
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getTerms: function getTerms() {
-            return terms;
-        }
-    });
-});
-
 app.controller('TagScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
 
     var content;
@@ -1390,6 +1375,26 @@ app.controller('TagScreen', function ($element, $timeout, API, $scope, $statePar
         },
         getArticle: function getArticle(index) {
             return content[index];
+        }
+    });
+});
+
+app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stateParams, $http) {
+
+    var terms;
+
+    var init = function init() {
+        $element.find('[screen]').addClass('active');
+        $http.get('http://www.the-platform.org.uk/wp-json/taxonomies/post_tag/terms').then(function (response) {
+            return terms = response.data;
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getTerms: function getTerms() {
+            return terms;
         }
     });
 });

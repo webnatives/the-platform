@@ -521,13 +521,14 @@
 <script type="text/ng-template" id="team.html">
     <div class="team">
         <div class="members">
-            <div class="member box" ng-repeat="member in team.getTeam()">
+            <div class="member box" ng-repeat="member in team.getTeam()" ng-click="team.goAuthor(member)">
                 <div class="member-img">
                     <div ng-show="member.image" class="img-src" style="background-image: url('{{member.image.sizes.medium}}')"></div>
                     <div ng-hide="member.image" class="img-src" style="background-image: url('/public/img/default.png');opacity: 0.3;"></div>
 
                 </div>
                 <div class="member-content">
+                    <a class="pull-right fa fa-twitter" href="http://twitter.com/{{member.twitter}}" ng-click="$event.stopPropagation()" style="color: #1da1f2"></a>
                     <div class="member-name">{{member.name}}</div>
                     <p class="member-role"><span>{{member.role}}</span></p>
 
@@ -919,6 +920,28 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="page-screen.html">
+    <div screen style="background: #f7f7f7" ng-show="getContent()">
+
+        <div class="container">
+
+            <h1 ng-bind="getContent().title.rendered"></h1>
+
+            <div class="box">
+                <div class="article-content" ng-bind-html="$root.html(getContent().content.rendered)">
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="search-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -972,21 +995,31 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="page-screen.html">
-    <div screen style="background: #f7f7f7" ng-show="getContent()">
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
 
         <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
 
-            <h1 ng-bind="getContent().title.rendered"></h1>
-
-            <div class="box">
-                <div class="article-content" ng-bind-html="$root.html(getContent().content.rendered)">
-
-
-
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
                 </div>
-
-
             </div>
 
         </div>
@@ -1030,38 +1063,6 @@
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>

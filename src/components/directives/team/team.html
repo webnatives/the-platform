@@ -1,13 +1,14 @@
 <script type="text/ng-template" id="team.html">
     <div class="team">
         <div class="members">
-            <div class="member box" ng-repeat="member in team.getTeam()">
+            <div class="member box" ng-repeat="member in team.getTeam()" ng-click="team.goAuthor(member)">
                 <div class="member-img">
                     <div ng-show="member.image" class="img-src" style="background-image: url('{{member.image.sizes.medium}}')"></div>
                     <div ng-hide="member.image" class="img-src" style="background-image: url('/public/img/default.png');opacity: 0.3;"></div>
 
                 </div>
                 <div class="member-content">
+                    <a class="pull-right fa fa-twitter" href="http://twitter.com/{{member.twitter}}" ng-click="$event.stopPropagation()" style="color: #1da1f2"></a>
                     <div class="member-name">{{member.name}}</div>
                     <p class="member-role"><span>{{member.role}}</span></p>
 
