@@ -16,6 +16,7 @@
     <meta property="og:url" content="<%= ogUrl %>" />
     <meta property="og:description" content="<%= ogDescription %>" />
     <meta property="og:image" content="<%= ogImage %>" />
+    <meta property="og:image:url" content="<%= ogImage %>" />
     <meta property="og:type" content="<%= ogType %>"/>
 
     <meta name="twitter:card" content="summary_large_image">
@@ -91,6 +92,25 @@
 
     </div>
 </script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+</script>
 <script type="text/ng-template" id="article-preview.html">
     <div template="article-preview" scope-id="{{id()}}">
         <div class="article-preview fi">
@@ -120,25 +140,6 @@
 
             </a>
         </div>
-
-    </div>
-</script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
 
     </div>
 </script>
@@ -471,27 +472,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="team.html">
-    <div class="team">
-        <div class="members">
-            <div class="member box" ng-repeat="member in team.getTeam()">
-                <div class="member-img">
-                    <div ng-show="member.image" class="img-src" style="background-image: url('{{member.image.sizes.medium}}')"></div>
-                    <div ng-hide="member.image" class="img-src" style="background-image: url('/public/img/default.png');opacity: 0.3;"></div>
-
-                </div>
-                <div class="member-content">
-                    <div class="member-name">{{member.name}}</div>
-                    <p class="member-role"><span>{{member.role}}</span></p>
-
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</script>
 <script type="text/ng-template" id="share.html">
     <div template="share">
         <div class="share-float">
@@ -534,6 +514,27 @@
                 </div>
             </div>
 
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="team.html">
+    <div class="team">
+        <div class="members">
+            <div class="member box" ng-repeat="member in team.getTeam()">
+                <div class="member-img">
+                    <div ng-show="member.image" class="img-src" style="background-image: url('{{member.image.sizes.medium}}')"></div>
+                    <div ng-hide="member.image" class="img-src" style="background-image: url('/public/img/default.png');opacity: 0.3;"></div>
+
+                </div>
+                <div class="member-content">
+                    <div class="member-name">{{member.name}}</div>
+                    <p class="member-role"><span>{{member.role}}</span></p>
+
+                </div>
+
+
+            </div>
         </div>
 
     </div>
@@ -774,6 +775,46 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="image-list-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container" style="min-height: 90vh;">
+
+            <div ng-hide="getTerms()">Loading Images...</div>
+
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
+
+                <hr>
+            </div>
+
+
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="home-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -871,46 +912,6 @@
                             horizontal="false"
                     ></group-item>
                 </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
             </div>
 
         </div>

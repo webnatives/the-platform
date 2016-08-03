@@ -481,6 +481,45 @@ alert-item {
         -webkit-transform: translateY(0);
                 transform: translateY(0); }
 
+[template=article-share] {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0 50px;
+  margin-top: 20px; }
+  [template=article-share] .share-title {
+    padding: 20px 0 20px;
+    font-size: 20px;
+    font-weight: 700; }
+    [template=article-share] .share-title .fa {
+      -webkit-animation: pulse 1s infinite;
+              animation: pulse 1s infinite; }
+  [template=article-share] p {
+    font-size: 15px;
+    line-height: 32px;
+    margin-bottom: 30px;
+    font-weight: 300; }
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); }
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); } }
+
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); }
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1); }
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9); } }
+
 [template=article-preview] {
   cursor: pointer; }
   [template=article-preview] .article-preview-image {
@@ -534,45 +573,6 @@ alert-item {
     cursor: pointer;
     font-size: 11px;
     width: 100%; }
-
-[template=article-share] {
-  background: rgba(0, 0, 0, 0.1);
-  padding: 0 50px;
-  margin-top: 20px; }
-  [template=article-share] .share-title {
-    padding: 20px 0 20px;
-    font-size: 20px;
-    font-weight: 700; }
-    [template=article-share] .share-title .fa {
-      -webkit-animation: pulse 1s infinite;
-              animation: pulse 1s infinite; }
-  [template=article-share] p {
-    font-size: 15px;
-    line-height: 32px;
-    margin-bottom: 30px;
-    font-weight: 300; }
-
-@-webkit-keyframes pulse {
-  0% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); }
-  50% {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1); }
-  100% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); } }
-
-@keyframes pulse {
-  0% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); }
-  50% {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1); }
-  100% {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9); } }
 
 author-preview-item {
   -webkit-flex: 1 0 200px;
@@ -1236,61 +1236,6 @@ search-item {
         -webkit-transform: translateY(0);
                 transform: translateY(0); }
 
-team-item .team {
-  margin-top: 20px; }
-  team-item .team .members {
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-            flex-direction: row;
-    -webkit-flex-wrap: wrap;
-        -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-    margin: -10px; }
-    team-item .team .members .member {
-      -webkit-flex: 1 0 150px;
-          -ms-flex: 1 0 150px;
-              flex: 1 0 150px;
-      margin: 10px;
-      max-width: 250px; }
-      @media (max-width: 767px) {
-        team-item .team .members .member {
-          -webkit-flex: 1 0 100px;
-              -ms-flex: 1 0 100px;
-                  flex: 1 0 100px; } }
-      team-item .team .members .member .member-img {
-        height: 150px;
-        background: #f7f7f7;
-        margin: -20px -20px 20px;
-        position: relative; }
-        @media (max-width: 767px) {
-          team-item .team .members .member .member-img {
-            margin: -10px -10px 10px;
-            height: 100px; } }
-        team-item .team .members .member .member-img .img-src {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat; }
-      team-item .team .members .member .member-content {
-        margin: -10px; }
-        @media (max-width: 767px) {
-          team-item .team .members .member .member-content {
-            margin: 0; } }
-      team-item .team .members .member .member-name {
-        font-weight: bold;
-        font-size: 15px; }
-        @media (max-width: 767px) {
-          team-item .team .members .member .member-name {
-            font-size: 14px;
-            font-size: 12px; } }
-
 [template=share] {
   margin: 30px auto;
   text-align: center; }
@@ -1362,3 +1307,58 @@ team-item .team {
   100% {
     -webkit-transform: scale(0.9);
             transform: scale(0.9); } }
+
+team-item .team {
+  margin-top: 20px; }
+  team-item .team .members {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    margin: -10px; }
+    team-item .team .members .member {
+      -webkit-flex: 1 0 150px;
+          -ms-flex: 1 0 150px;
+              flex: 1 0 150px;
+      margin: 10px;
+      max-width: 250px; }
+      @media (max-width: 767px) {
+        team-item .team .members .member {
+          -webkit-flex: 1 0 100px;
+              -ms-flex: 1 0 100px;
+                  flex: 1 0 100px; } }
+      team-item .team .members .member .member-img {
+        height: 150px;
+        background: #f7f7f7;
+        margin: -20px -20px 20px;
+        position: relative; }
+        @media (max-width: 767px) {
+          team-item .team .members .member .member-img {
+            margin: -10px -10px 10px;
+            height: 100px; } }
+        team-item .team .members .member .member-img .img-src {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat; }
+      team-item .team .members .member .member-content {
+        margin: -10px; }
+        @media (max-width: 767px) {
+          team-item .team .members .member .member-content {
+            margin: 0; } }
+      team-item .team .members .member .member-name {
+        font-weight: bold;
+        font-size: 15px; }
+        @media (max-width: 767px) {
+          team-item .team .members .member .member-name {
+            font-size: 14px;
+            font-size: 12px; } }
