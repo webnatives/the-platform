@@ -8,7 +8,7 @@ app.controller('AuthorsScreen', ($element, $timeout, API, $scope, $stateParams, 
             Loading.setActive(false);
             $element.find('[screen]').addClass('active');
 
-            document.title = `Our Writers | The Platform Online`;
+            document.title = `Our Writers | The Platform`;
             ga('set', 'page', window.location.pathname);
             ga('send', 'pageview');
         });

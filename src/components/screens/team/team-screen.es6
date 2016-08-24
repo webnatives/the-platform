@@ -3,7 +3,7 @@ app.controller('TeamScreen', ($scope, $element, Loading, API, $stateParams) => {
     var content;
 
     var init = () => {
-        document.title = `About Us | The Platform Online`;
+        document.title = `About Us | The Platform`;
         ga('set', 'page', window.location.pathname);
         ga('send', 'pageview');
 

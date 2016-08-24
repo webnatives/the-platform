@@ -113,25 +113,6 @@
 
     </div>
 </script>
-<script type="text/ng-template" id="article-share.html">
-    <div template="article-share">
-        <div class="container">
-            <div class="article-share">
-
-                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
-
-                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
-
-
-
-
-
-            </div>
-        </div>
-
-
-    </div>
-</script>
 <script type="text/ng-template" id="author-preview.html">
     <div class="author-preview" ng-class="{small:author.small}">
         <div class="box" ui-sref="author({author_id:author.getAuthor().id, 'authorSlug':author.getAuthor().slug})" style="cursor: pointer">
@@ -174,6 +155,25 @@
                 <div class="box">
                     <div id="disqus_thread"></div>
                 </div>
+            </div>
+        </div>
+
+
+    </div>
+</script>
+<script type="text/ng-template" id="article-share.html">
+    <div template="article-share">
+        <div class="container">
+            <div class="article-share">
+
+                <div class="share-title">Share the &nbsp;<i class="fa fa-heart"></i></div>
+
+                <p>If you enjoyed this post, we’d be very grateful if you’d spread the love and share it on Twitter or Facebook or email it to a friend. Thank you!</p>
+
+
+
+
+
             </div>
         </div>
 
@@ -653,6 +653,34 @@
         <foot-item></foot-item>
     </div>
 </script>
+<script type="text/ng-template" id="author-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+
+            <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
+            <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
+
+            <h1 style="line-height: 60px;padding-top: 0">{{getAuthor().name}}</h1>
+
+            <!--<hr>-->
+
+            <p ng-show="getAuthor().description" ng-bind-html="$root.html(getAuthor().description)"></p>
+
+            <div style="height: 10px"></div>
+            <flex-item row="true" wrap="true" style="margin:0 -10px">
+                <hero-item ng-repeat="article in getArticles()" style="display: flex;flex: 1 0 300px; margin: 0 10px"
+                        id="{{article.id}}"
+                ></hero-item>
+            </flex-item>
+
+
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
 <script type="text/ng-template" id="authors-screen.html">
     <div screen style="background: #f7f7f7">
 
@@ -688,28 +716,40 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="author-screen.html">
+<script type="text/ng-template" id="image-list-screen.html">
     <div screen style="background: #f7f7f7">
 
-        <div class="container">
+        <div class="container" style="min-height: 90vh;">
 
-            <div class="main-author-img" ng-show="!getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().avatar_urls['96']}}')"></div>
-            <div class="main-author-img" ng-show="getAuthor().acf.profile_pic.url" style="background-image: url('{{getAuthor().acf.profile_pic.url}}')"></div>
+            <div ng-hide="getTerms()">Loading Images...</div>
 
-            <h1 style="line-height: 60px;padding-top: 0">{{getAuthor().name}}</h1>
+            <div ng-show="getTerms()">
+                Order By:
+                <select name="" id="" ng-model="term" ng-init="term = 'name'">
+                    <option value="name">Name</option>
+                    <option value="slug">Slug</option>
+                    <option value="-count">Count</option>
+                </select>
 
-            <!--<hr>-->
-
-            <p ng-show="getAuthor().description" ng-bind-html="$root.html(getAuthor().description)"></p>
-
-            <div style="height: 10px"></div>
-            <flex-item row="true" wrap="true" style="margin:0 -10px">
-                <hero-item ng-repeat="article in getArticles()" style="display: flex;flex: 1 0 300px; margin: 0 10px"
-                        id="{{article.id}}"
-                ></hero-item>
-            </flex-item>
+                <hr>
+            </div>
 
 
+            <div ng-repeat="term in getTerms() | orderBy:term">
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <strong>{{term.title}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <strong>{{term.featured_image.source}}</strong>
+                    </div>
+                    <div class="col-sm-4">
+                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
+                    </div>
+                </div>
+
+            </div>
 
         </div>
 
@@ -820,46 +860,6 @@
         <foot-item></foot-item>
     </div>
 </script>
-<script type="text/ng-template" id="image-list-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container" style="min-height: 90vh;">
-
-            <div ng-hide="getTerms()">Loading Images...</div>
-
-            <div ng-show="getTerms()">
-                Order By:
-                <select name="" id="" ng-model="term" ng-init="term = 'name'">
-                    <option value="name">Name</option>
-                    <option value="slug">Slug</option>
-                    <option value="-count">Count</option>
-                </select>
-
-                <hr>
-            </div>
-
-
-            <div ng-repeat="term in getTerms() | orderBy:term">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <strong>{{term.title}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <strong>{{term.featured_image.source}}</strong>
-                    </div>
-                    <div class="col-sm-4">
-                        <img ng-src="{{term.featured_image.source}}" style="height: 100px;width:auto;" alt="">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
 <script type="text/ng-template" id="page-screen.html">
     <div screen style="background: #f7f7f7" ng-show="getContent()">
 
@@ -875,6 +875,38 @@
                 </div>
 
 
+            </div>
+
+        </div>
+
+        <foot-item></foot-item>
+    </div>
+</script>
+<script type="text/ng-template" id="tag-screen.html">
+    <div screen style="background: #f7f7f7">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <h1>#{{getTag()}}</h1>
+
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(0) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <hero-item
+                                    ng-repeat="article in getContentHalf(1) track by $index"
+                                    id="{{article.id}}"
+                                    height="300"
+                            ></hero-item>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -924,38 +956,6 @@
                                     ng-repeat="article in getContentHalf(2) track by $index"
                                     id="{{article.id}}"
                                     height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <foot-item></foot-item>
-    </div>
-</script>
-<script type="text/ng-template" id="tag-screen.html">
-    <div screen style="background: #f7f7f7">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h1>#{{getTag()}}</h1>
-
-                    <div class="row">
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
-                            ></hero-item>
-                        </div>
-                        <div class="col-sm-6 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="300"
                             ></hero-item>
                         </div>
                     </div>

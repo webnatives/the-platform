@@ -10,7 +10,7 @@ app.controller('SearchScreen', ($element, $timeout, API, $scope, $stateParams, $
             return;
         }
 
-        document.title = `Search Results for: ${$stateParams.query} | The Platform Online`;
+        document.title = `Search Results for: ${$stateParams.query} | The Platform`;
         ga('set', 'page', window.location.pathname);
         ga('send', 'pageview');
 

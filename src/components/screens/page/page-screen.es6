@@ -3,12 +3,12 @@ app.controller('PageScreen', ($scope, $element, Loading, API, $stateParams) => {
     var content;
 
     var init = () => {
-        document.title = `${$stateParams.pageSlug} | The Platform Online`;
+        document.title = `${$stateParams.pageSlug} | The Platform`;
 
 
         API.getPageByName($stateParams.pageSlug).then(response => {
             $element.find('[screen]').addClass('active');
-            document.title = `${response.title.rendered} | The Platform Online`;
+            document.title = `${response.title.rendered} | The Platform`;
             ga('set', 'page', window.location.pathname);
             ga('send', 'pageview');
 

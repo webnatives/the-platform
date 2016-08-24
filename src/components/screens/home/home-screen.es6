@@ -24,7 +24,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert, S
             $element.find('[screen]').addClass('active');
             getTagPosts();
 
-            document.title = `The Platform Online - ${State.getCustomData().shortStrapline}`;
+            document.title = `The Platform - ${State.getCustomData().shortStrapline}`;
             ga('set', 'page', window.location.pathname);
             ga('send', 'pageview');
         });

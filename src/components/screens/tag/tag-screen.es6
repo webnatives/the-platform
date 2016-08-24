@@ -8,7 +8,7 @@ app.controller('TagScreen', ($element, $timeout, API, $scope, $stateParams, $htt
             console.log('content', content);
             $element.find('[screen]').addClass('active');
 
-            document.title = `#${$stateParams.tag} | The Platform Online`;
+            document.title = `#${$stateParams.tag} | The Platform`;
             ga('set', 'page', window.location.pathname);
             ga('send', 'pageview');
         });

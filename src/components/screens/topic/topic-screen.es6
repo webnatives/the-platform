@@ -13,7 +13,7 @@ app.controller('TopicScreen', ($element, $timeout, API, $scope, $stateParams) =>
             console.log('content', content);
             $element.find('[screen]').addClass('active');
 
-            document.title = `${$stateParams.cat} | The Platform Online`;
+            document.title = `${$stateParams.cat} | The Platform`;
             ga('set', 'page', window.location.pathname);
             ga('send', 'pageview');
         });
