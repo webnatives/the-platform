@@ -2,16 +2,15 @@
   cursor: pointer;
 
   .article-preview-image {
-    height: 130px;
+    flex: 0 0 160px;
+    min-height: 130px;
     background: #f7f7f7;
     background-position: center;
     background-size: cover;
     margin-bottom: 0;
     position: relative;
-    margin: -20px 0px -20px -20px;
 
     @media (max-width: 767px) {
-      margin: -10px 0px -10px -10px;
     }
 
     .tag {
@@ -32,19 +31,18 @@
   .preview-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 15px;
     text-align: left;
-    height: 110px;
-    margin: -10px 0;
+    justify-content: center;
 
     @media (max-width: 767px) {
-      margin: 0;
+      padding: 10px;
     }
   }
 
   h3 {
-    //padding-bottom: 0;
+    margin: 0;
+    padding: 0;
     padding-bottom: 5px;
     font-weight: 400;
   }

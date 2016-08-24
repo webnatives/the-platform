@@ -15,6 +15,21 @@ app.directive('ngEnter', function () {
         });
     };
 });
+app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
+
+    var init = function init() {
+        $timeout(function () {
+            return $element.find('[screen]').addClass('active');
+        }, 50);
+    };
+
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $(document).scrollTop(0);
+    });
+
+    init();
+});
+
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     var resolve = {
@@ -89,21 +104,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 });
-app.controller('ScreenCtrl', function ($element, $timeout, State, $state) {
-
-    var init = function init() {
-        $timeout(function () {
-            return $element.find('[screen]').addClass('active');
-        }, 50);
-    };
-
-    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-        $(document).scrollTop(0);
-    });
-
-    init();
-});
-
 app.service('Alert', function () {
     var visible = false,
         content = "";
@@ -559,7 +559,7 @@ app.directive('authorPreviewItem', function () {
 
                 if (!_this.small) {
                     API.getPostsByAuthor(_this.authorId).then(function (response) {
-                        articles = _.sampleSize(response, 5);
+                        articles = _.sampleSize(response, 3);
 
                         console.log('author articles', articles);
                     });
@@ -1075,50 +1075,6 @@ app.controller('ArticleScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
-
-    var author, articles;
-
-    var load = function load() {
-        API.getAuthor($stateParams.author_id).then(function (response) {
-            console.log('author details', response);
-            author = response;
-            Loading.setActive(false);
-            $element.find('[screen]').addClass('active');
-
-            document.title = author.name + ' | The Platform Online';
-        });
-
-        API.getPostsByAuthor($stateParams.author_id).then(function (response) {
-            articles = response;
-
-            console.log('author articles', articles);
-        });
-    };
-
-    var getNextPage = function getNextPage(amount) {};
-
-    var init = function init() {
-        load();
-    };
-
-    init();
-
-    _.extend($scope, {
-        getAuthor: function getAuthor() {
-            return author;
-        },
-        getArticles: function getArticles() {
-            return articles;
-        },
-        getArticleIds: function getArticleIds() {
-            return articles.map(function (article) {
-                return article.id;
-            });
-        }
-    });
-});
-
 app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
 
     var authors,
@@ -1159,6 +1115,50 @@ app.controller('AuthorsScreen', function ($element, $timeout, API, $scope, $stat
         getAuthorIds: function getAuthorIds() {
             return authors.map(function (author) {
                 return author.id;
+            });
+        }
+    });
+});
+
+app.controller('AuthorScreen', function ($element, $timeout, API, $scope, $stateParams, $state, Loading) {
+
+    var author, articles;
+
+    var load = function load() {
+        API.getAuthor($stateParams.author_id).then(function (response) {
+            console.log('author details', response);
+            author = response;
+            Loading.setActive(false);
+            $element.find('[screen]').addClass('active');
+
+            document.title = author.name + ' | The Platform Online';
+        });
+
+        API.getPostsByAuthor($stateParams.author_id).then(function (response) {
+            articles = response;
+
+            console.log('author articles', articles);
+        });
+    };
+
+    var getNextPage = function getNextPage(amount) {};
+
+    var init = function init() {
+        load();
+    };
+
+    init();
+
+    _.extend($scope, {
+        getAuthor: function getAuthor() {
+            return author;
+        },
+        getArticles: function getArticles() {
+            return articles;
+        },
+        getArticleIds: function getArticleIds() {
+            return articles.map(function (article) {
+                return article.id;
             });
         }
     });
@@ -1399,43 +1399,6 @@ app.controller('TagListScreen', function ($element, $timeout, API, $scope, $stat
     });
 });
 
-app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
-
-    var content;
-
-    var getContentHalf = function getContentHalf(index) {
-        if (!content) return;
-        return _.chunk(_.tail(content), content.length / 4)[index];
-    };
-
-    var init = function init() {
-        API.getPostsByCat($stateParams.cat).then(function (response) {
-            content = response;
-            console.log('content', content);
-            $element.find('[screen]').addClass('active');
-
-            document.title = $stateParams.cat + ' | The Platform Online';
-            ga('set', 'page', window.location.pathname);
-            ga('send', 'pageview');
-        });
-    };
-
-    init();
-
-    _.extend($scope, {
-        getArticle: function getArticle(index) {
-            return content[index];
-        },
-        getContent: function getContent() {
-            return content;
-        },
-        getFeaturedArticles: function getFeaturedArticles() {
-            return content;
-        },
-        getContentHalf: getContentHalf
-    });
-});
-
 app.controller('TeamScreen', function ($scope, $element, Loading, API, $stateParams) {
 
     var content;
@@ -1460,5 +1423,45 @@ app.controller('TeamScreen', function ($scope, $element, Loading, API, $statePar
         getContent: function getContent() {
             return content;
         }
+    });
+});
+
+app.controller('TopicScreen', function ($element, $timeout, API, $scope, $stateParams) {
+
+    var content;
+
+    var getContentHalf = function getContentHalf(index) {
+        if (!content) return;
+        return _.chunk(_.tail(content), content.length / 4)[index];
+    };
+
+    var init = function init() {
+        API.getPostsByCat($stateParams.cat).then(function (response) {
+            content = response;
+            console.log('content', content);
+            $element.find('[screen]').addClass('active');
+
+            document.title = $stateParams.cat + ' | The Platform Online';
+            ga('set', 'page', window.location.pathname);
+            ga('send', 'pageview');
+        });
+    };
+
+    init();
+
+    _.extend($scope, {
+        getArticles: function getArticles() {
+            return content;
+        },
+        getArticle: function getArticle(index) {
+            return content[index];
+        },
+        getContent: function getContent() {
+            return content;
+        },
+        getFeaturedArticles: function getFeaturedArticles() {
+            return content;
+        },
+        getContentHalf: getContentHalf
     });
 });

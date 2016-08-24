@@ -1,0 +1,16 @@
+[screen="topic"] {
+  flex-item {
+    hero-item {
+      flex: 1 0 300px;
+      margin: 0 10px;
+
+      &:nth-child(1) {
+        flex: 1 0 600px;
+      }
+
+      &:nth-child(6n + 1) {
+        flex: 1 0 600px;
+      }
+    }
+  }
+}

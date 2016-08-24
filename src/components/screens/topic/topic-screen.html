@@ -1,42 +1,49 @@
 <script type="text/ng-template" id="topic-screen.html">
-    <div screen style="background: #f7f7f7">
+    <div screen="topic" style="background: #f7f7f7">
+
 
         <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <hero-item
-                            ng-if="getContent()"
-                            id="{{getArticle(0).id}}"
-                            height="350"
-                    ></hero-item>
-                </div>
-                <div class="col-xs-12">
-                    <div class="row">
+            <flex-item row="true" wrap="true" style="margin:0 -10px">
+                <hero-item ng-repeat="article in getArticles()"
+                           id="{{article.id}}"
+                ></hero-item>
+            </flex-item>
 
-                        <div class="col-md-4 col-sm-7 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(0) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-5 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(1) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                        <div class="col-md-4 col-sm-12 col-xs-12">
-                            <hero-item
-                                    ng-repeat="article in getContentHalf(2) track by $index"
-                                    id="{{article.id}}"
-                                    height="200"
-                            ></hero-item>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!--<div class="row">-->
+                <!--<div class="col-xs-12">-->
+                    <!--<hero-item-->
+                            <!--ng-if="getContent()"-->
+                            <!--id="{{getArticle(0).id}}"-->
+                            <!--height="350"-->
+                    <!--&gt;</hero-item>-->
+                <!--</div>-->
+                <!--<div class="col-xs-12">-->
+                    <!--<div class="row">-->
+
+                        <!--<div class="col-md-4 col-sm-7 col-xs-12">-->
+                            <!--<hero-item-->
+                                    <!--ng-repeat="article in getContentHalf(0) track by $index"-->
+                                    <!--id="{{article.id}}"-->
+                                    <!--height="200"-->
+                            <!--&gt;</hero-item>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4 col-sm-5 col-xs-12">-->
+                            <!--<hero-item-->
+                                    <!--ng-repeat="article in getContentHalf(1) track by $index"-->
+                                    <!--id="{{article.id}}"-->
+                                    <!--height="200"-->
+                            <!--&gt;</hero-item>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4 col-sm-12 col-xs-12">-->
+                            <!--<hero-item-->
+                                    <!--ng-repeat="article in getContentHalf(2) track by $index"-->
+                                    <!--id="{{article.id}}"-->
+                                    <!--height="200"-->
+                            <!--&gt;</hero-item>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
 
         </div>
 

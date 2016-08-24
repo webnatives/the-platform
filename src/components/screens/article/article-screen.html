@@ -41,8 +41,10 @@
 
                         <div class="article-content">
 
-                            <p ng-if="getContent().acf.summary">
-                                <strong ng-bind-html="$root.html(getContent().acf.summary)"></strong></p>
+                            <p ng-if="getContent().acf.summary"
+                               ng-bind-html="$root.html(getContent().acf.summary)"
+                               style="font-size: 20px;font-weight: 100;"
+                            ></p>
 
                             <div ng-bind-html="$root.html(getContent().content.rendered)"></div>
                         </div>
@@ -145,18 +147,18 @@
                 </div>
 
 
-                <div class="col-xs-12">
-                    <div class="section-title">#paris</div>
-                </div>
-                <div class="col-sm-4 col-xs-12"
-                     ng-repeat="article in getTags() track by $index"
-                     ng-if="$index < 3"
-                >
-                    <hero-item
-                            id="{{article.id}}"
-                            height="250"
-                    ></hero-item>
-                </div>
+                <!--<div class="col-xs-12">-->
+                    <!--<div class="section-title">#paris</div>-->
+                <!--</div>-->
+                <!--<div class="col-sm-4 col-xs-12"-->
+                     <!--ng-repeat="article in getTags() track by $index"-->
+                     <!--ng-if="$index < 3"-->
+                <!--&gt;-->
+                    <!--<hero-item-->
+                            <!--id="{{article.id}}"-->
+                            <!--height="250"-->
+                    <!--&gt;</hero-item>-->
+                <!--</div>-->
             </div>
 
         </div>

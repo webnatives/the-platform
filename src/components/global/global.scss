@@ -133,6 +133,11 @@ hr {
     }
   }
 
+  .box-content {
+    display: block;
+    margin: -20px;
+  }
+
   &:active {
     transform: translateY(-5px);
 
@@ -303,6 +308,7 @@ p, ul, ol {
 
     a {
       color: $red;
+      font-weight: inherit;
     }
   }
 }

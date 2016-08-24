@@ -5,26 +5,23 @@
 
                 <h2 class="box-header">{{heading()}}</h2>
 
-                <div>
-                    <div class="latest-preview" ng-repeat="article in getArticles()">
-                        <a class="row" ng-href="{{getDateString(article)}}">
-                            <div class="col-xs-4">
-                                <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+                <div class="box-content">
+                    <a class="latest-preview" ng-repeat="article in getArticles()" ng-href="{{getDateString(article)}}">
 
-                                    <span class="when-posted">{{$root.getWhen(article)}}</span>
-                                </div>
+                        <flex-item row="true">
+                            <div class="preview-image" style="background-image: url('{{$root.getImage(article)}}')">
+
+                                <span class="when-posted">{{$root.getWhen(article)}}</span>
                             </div>
-                            <div class="col-xs-8">
-                                <div>
-                                    <div class="tag">{{article.terms.category[0].name}}</div>
-                                    <h3>{{$root.getTitle(article)}}</h3>
-                                    <p ng-show="article"
-                                       ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
-                                       class="author-name">{{$root.getAuthor(article).name}}</p>
-                                </div>
+                            <div class="preview-content">
+                                <div class="tag">{{article.terms.category[0].name}}</div>
+                                <h3>{{$root.getTitle(article)}}</h3>
+                                <p ng-show="article"
+                                   ui-sref="author({'author_id':$root.getAuthor(article).id, 'authorSlug':$root.getAuthor(article).slug})"
+                                   class="author-name">{{$root.getAuthor(article).name}}</p>
                             </div>
-                        </a>
-                    </div>
+                        </flex-item>
+                    </a>
                 </div>
 
 

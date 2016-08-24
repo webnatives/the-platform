@@ -5,7 +5,7 @@ app.controller('TopicScreen', ($element, $timeout, API, $scope, $stateParams) =>
     var getContentHalf = (index) => {
         if (!content) return;
         return _.chunk(_.tail(content), content.length / 4)[index]
-    }
+    };
 
     var init = () => {
         API.getPostsByCat($stateParams.cat).then((response) => {
@@ -23,6 +23,7 @@ app.controller('TopicScreen', ($element, $timeout, API, $scope, $stateParams) =>
     init();
 
     _.extend($scope, {
+        getArticles: () => content,
         getArticle: (index) => content[index],
         getContent: () => content,
         getFeaturedArticles: () => content,

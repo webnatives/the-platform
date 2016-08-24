@@ -53,7 +53,7 @@ module.exports = {
 
             var data = {
                 title: body[0].title.rendered + " | The Platform",
-                content: body[0].content.rendered + " | The Platform",
+                content: body[0].content.rendered,
                 ogTitle: body[0].title.rendered + " | The Platform",
                 ogSiteName: "The Platform",
                 ogUrl: "http://platformonline.uk" + getDateString(body[0]),
