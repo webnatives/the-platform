@@ -9,9 +9,9 @@ app.directive('share', ($timeout, Helper) => ({
 
     link(scope, element, attrs) {
 
-        console.log('sc', scope.summary);
-        console.log('sc', scope);
-        console.log('sc', attrs);
+        //console.log('sc', scope.summary);
+        //console.log('sc', scope);
+        //console.log('sc', attrs);
 
         var random = _.random(0, 500);
 

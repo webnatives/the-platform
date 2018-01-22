@@ -8,7 +8,7 @@ app.directive('authorPreviewItem', () => ({
         small: '='
     },
     controller($scope, $element, State, API) {
-        //console.log('authorId', this);
+        ////console.log('authorId', this);
 
         var author, articles;
 
@@ -17,7 +17,7 @@ app.directive('authorPreviewItem', () => ({
                 API.getAuthor(this.authorId).then((response) => {
                     author = response;
 
-                    console.log('author response', response);
+                    //console.log('author response', response);
                 });
             } else {
                 author = this.author;
@@ -27,7 +27,7 @@ app.directive('authorPreviewItem', () => ({
                 API.getPostsByAuthor(this.authorId).then((response) => {
                     articles = _.sampleSize(response, 3);
 
-                    console.log('author articles', articles);
+                    //console.log('author articles', articles);
                 });
             }
 

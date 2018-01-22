@@ -16,7 +16,7 @@ app.directive('latestItem', (State, API, Helper) => {
             var init = () => {
                 API.getPosts().then((response) => {
                     articles = response;
-                    console.log('latest (latest)', response);
+                    //console.log('latest (latest)', response);
                     //element.find('.fi').addClass('active');
                 });
             };

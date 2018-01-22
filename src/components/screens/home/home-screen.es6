@@ -11,7 +11,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert, S
         content.acf.featuredCategories.forEach(cat => {
             API.getPostsByCat(cat.slug).then(posts => {
                 catPosts.push(posts);
-                console.log('catPosts', catPosts)
+                //console.log('catPosts', catPosts)
             })
         })
     };
@@ -20,7 +20,7 @@ app.controller('HomeScreen', ($element, $timeout, API, $scope, Loading, Alert, S
         Loading.setActive(true);
         API.getHome().then((response) => {
             content = response;
-            console.log('content', content);
+            //console.log('content', content);
             $element.find('[screen]').addClass('active');
             getTagPosts();
 

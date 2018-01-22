@@ -10,11 +10,11 @@ app.controller('ImageListScreen', ($element, $timeout, API, $scope, $stateParams
             .then((response) => {
 
                 Loading.setActive(false);
-                console.log(response)
+                //console.log(response)
                 terms = JSON.parse(response.data.replace('<!-- ngg_resource_manager_marker -->', ''));
-                console.log(terms)
+                //console.log(terms)
             }, (response) => {
-                console.log(response)
+                //console.log(response)
             });
     };
 

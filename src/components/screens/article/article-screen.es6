@@ -3,33 +3,33 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
     var content, featured, related, relatedIds, image, tags;
 
     var loadRelated = (string = "") => {
-        console.log('random z', content);
+        //console.log('random z', content);
         _.each($rootScope.getTags(content), (tag, index) => string += tag.slug + ',');
-        console.log('random a');
+        //console.log('random a');
 
         if (string != "") {
             API.getPostsByTag(string).then((response) => {
-                console.log('random 1', response);
+                //console.log('random 1', response);
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => {console.log('related ids', article); return article.id}), 3);
+                relatedIds = _.take(_.map(related, (article) => {//console.log('related ids', article); return article.id}), 3);
             });
         } else {
             API.getRandomPosts(string).then((response) => {
-                console.log('random 2', response);
+                //console.log('random 2', response);
                 related = _.shuffle(response);
-                relatedIds = _.take(_.map(related, (article) => {console.log('related ids', article); return article.id}), 3);
+                relatedIds = _.take(_.map(related, (article) => {//console.log('related ids', article); return article.id}), 3);
             });
         }
     };
 
     var getDate = () => {
-        //console.log('getDate: content',content)
+        ////console.log('getDate: content',content)
         if (content) return moment(content.date, "YYYY-MM-DD").format("ddd, DD MMM YYYY")
     };
 
 
     var getFeatured = () => {
-        //console.log('getFeatured: featured',featured)
+        ////console.log('getFeatured: featured',featured)
          if (featured) return featured.acf.featuredArticles;
     };
 
@@ -44,7 +44,7 @@ app.controller('ArticleScreen', ($element, $timeout, API, $scope, $stateParams, 
     var init = () => {
         API.getPostBySlug($stateParams.slug).then((response) => {
             content = response;
-            console.log('content', content);
+            //console.log('content', content);
             $element.find('[screen]').addClass('active');
             content.content.rendered = content.content.rendered.split("<p>&nbsp;</p>").join("");
 

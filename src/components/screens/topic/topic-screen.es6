@@ -10,7 +10,7 @@ app.controller('TopicScreen', ($element, $timeout, API, $scope, $stateParams) =>
     var init = () => {
         API.getPostsByCat($stateParams.cat).then((response) => {
             content = response;
-            console.log('content', content);
+            //console.log('content', content);
             $element.find('[screen]').addClass('active');
 
             document.title = `${$stateParams.cat} | The Platform`;

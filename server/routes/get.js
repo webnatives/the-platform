@@ -28,6 +28,7 @@ var standardData = {
 };
 
 var API = "http://admin.platformonline.uk/wp-json/wp/v2/";
+// var API = "http://admin.platformonline.uk/wp-json/wp/v2/";
 //var API = "http://platform.jamahielhosting.com/wp-json/wp/v2/";
 //var API = "http://www.the-platform.org.uk";
 

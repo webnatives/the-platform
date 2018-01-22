@@ -5,7 +5,7 @@ app.controller('TagScreen', ($element, $timeout, API, $scope, $stateParams, $htt
     var init = () => {
         API.getPostsByTag($stateParams.tag).then((response) => {
             content = response;
-            console.log('content', content);
+            //console.log('content', content);
             $element.find('[screen]').addClass('active');
 
             document.title = `#${$stateParams.tag} | The Platform`;

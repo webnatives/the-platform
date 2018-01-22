@@ -13,7 +13,7 @@ app.controller('PageScreen', ($scope, $element, Loading, API, $stateParams) => {
             ga('send', 'pageview');
 
             Loading.setActive(false);
-            console.log(`PAGE: ${$stateParams.pageSlug}`, response);
+            //console.log(`PAGE: ${$stateParams.pageSlug}`, response);
 
             content = response;
         });

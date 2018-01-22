@@ -11,7 +11,7 @@ app.controller('TeamScreen', ($scope, $element, Loading, API, $stateParams) => {
 
         API.getPageByName('about').then(response => {
             Loading.setActive(false);
-            console.log('about', response);
+            //console.log('about', response);
             content = response;
         });
     };

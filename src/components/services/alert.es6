@@ -2,7 +2,7 @@ app.service('Alert', () => {
     var visible = false, content = "";
 
     var show = (text) => {
-        console.log('showing');
+        //console.log('showing');
         visible = true;
         content = text;
     };

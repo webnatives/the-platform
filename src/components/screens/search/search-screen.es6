@@ -16,7 +16,7 @@ app.controller('SearchScreen', ($element, $timeout, API, $scope, $stateParams, $
 
         API.getPostsBySearch($stateParams.query).then((response) => {
             content = response;
-            console.log('content', content);
+            //console.log('content', content);
             $element.find('[screen]').addClass('active');
             Loading.setActive(false);
         });

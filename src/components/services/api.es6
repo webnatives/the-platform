@@ -6,7 +6,7 @@ app.factory('API', function ($rootScope, $http) {
 
     var req = (url, single) => {
         return $http.get(url).then(response => {
-            console.log('req response', response)
+            //console.log('req response', response)
             return single ? response.data[0] : response.data;
         });
     };

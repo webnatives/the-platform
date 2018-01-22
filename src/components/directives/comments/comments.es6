@@ -6,7 +6,7 @@ app.directive('commentsItem', ($timeout, Helper) => ({
     link(scope, element, attrs) {
 
         var init = () => {
-            console.log('comment:', scope.article);
+            //console.log('comment:', scope.article);
             var disqus_config = function () {
                 this.page.url = `http://www.platformonline.uk/${Helper.getDateString(article)}/${scope.article.slug}`;  // Replace PAGE_URL with your page's canonical URL variable
                 this.page.identifier = scope.article.id; // Replace PAGE_IDENTIFIER with your page's unique identifier variable

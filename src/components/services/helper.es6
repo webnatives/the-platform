@@ -3,7 +3,7 @@
 app.service('Helper', function ($rootScope, $http, $sce) {
 
     let getDateString = (article) => {
-        //console.log('getDateString', article)
+        ////console.log('getDateString', article)
         if (!article) return "/";
 
         return "/" + moment(article.date).format('YYYY')

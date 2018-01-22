@@ -24,7 +24,7 @@ app.factory('State', function ($rootScope, $sce, API, $timeout) {
         events();
         API.getHome().then(response => {
             customData = response.acf;
-            console.log('customData', customData);
+            //console.log('customData', customData);
         });
 
     };
